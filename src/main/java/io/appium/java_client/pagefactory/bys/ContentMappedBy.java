@@ -18,6 +18,7 @@ package io.appium.java_client.pagefactory.bys;
 
 import lombok.EqualsAndHashCode;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -33,7 +34,9 @@ import static java.util.Objects.requireNonNull;
 @EqualsAndHashCode(callSuper = true)
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
-    private ContentType currentContent = NATIVE_MOBILE_SPECIFIC;
+    @EqualsAndHashCode.Exclude
+    @Nullable
+    private ContentType currentContent;
 
     /**
      * Creates a new locator.
@@ -56,20 +59,23 @@ public class ContentMappedBy extends By {
         return this;
     }
 
+    private ContentType resolveContentType(SearchContext context) {
+        return currentContent != null ? currentContent : getCurrentContentType(context);
+    }
+
     @Override
     public WebElement findElement(SearchContext context) {
-        useContent(getCurrentContentType(context));
-        return context.findElement(map.get(currentContent));
+        return context.findElement(map.get(resolveContentType(context)));
     }
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        useContent(getCurrentContentType(context));
-        return context.findElements(map.get(currentContent));
+        return context.findElements(map.get(resolveContentType(context)));
     }
 
     @Override
     public String toString() {
-        return map.get(currentContent).toString();
+        ContentType contentType = currentContent != null ? currentContent : NATIVE_MOBILE_SPECIFIC;
+        return map.get(contentType).toString();
     }
 }

@@ -48,8 +48,11 @@ import org.openqa.selenium.WebElement;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
+import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static io.appium.java_client.support.PageFactory.initElements;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -231,6 +234,11 @@ public class ByFieldDecorationTest {
 
         private ContentMappedBy unannotatedContentMappedBy;
 
+        private ContentMappedBy preInitializedContentMappedBy = new ContentMappedBy(Map.of(
+                HTML_OR_DEFAULT, By.id("preset_mapped_web"),
+                NATIVE_MOBILE_SPECIFIC, AppiumBy.id("preset_mapped_native")
+        ));
+
         @CacheLookup
         @WithTimeout(time = 5, chronoUnit = ChronoUnit.SECONDS)
         @FindBy(id = "cached_web")
@@ -247,8 +255,7 @@ public class ByFieldDecorationTest {
         @FindBy(id = "ignored_static")
         private static By staticAnnotatedBy = By.id("static_id");
 
-        @FindBy(id = "ignored_preinit")
-        private By preInitializedAnnotatedBy = By.id("preserved_id");
+        private By preInitializedBy = By.id("preserved_id");
 
         private By unannotatedNullBy;
     }
@@ -304,7 +311,6 @@ public class ByFieldDecorationTest {
         assertInstanceOf(ContentMappedBy.class, page.hybridBy);
         assertInstanceOf(ContentMappedBy.class, page.webFallbackBy);
         assertInstanceOf(ContentMappedBy.class, page.contentMappedBy);
-        assertInstanceOf(ContentMappedBy.class, page.unannotatedContentMappedBy);
         assertInstanceOf(ContentMappedBy.class, page.cachedAndTimedBy);
 
         assertEquals(AppiumBy.id("appium_android"), page.somethingAppiumBy);
@@ -314,11 +320,18 @@ public class ByFieldDecorationTest {
         assertInstanceOf(ByAll.class, page.findAllField);
         assertEquals(AppiumBy.accessibilityId("inner_android"), page.widget.getInnerAppiumBy());
 
-        // Pre-initialized, final, static, and unannotated By fields are left untouched
+        // Pre-initialized, final, static, and unannotated By / ContentMappedBy fields are left untouched
         assertEquals(By.id("constant_id"), page.finalAnnotatedBy);
         assertEquals(By.id("static_id"), CrossPlatformByPage.staticAnnotatedBy);
-        assertEquals(By.id("preserved_id"), page.preInitializedAnnotatedBy);
+        assertEquals(By.id("preserved_id"), page.preInitializedBy);
         assertNull(page.unannotatedNullBy);
+        assertNull(page.unannotatedContentMappedBy);
+        assertEquals(
+                AppiumBy.id("preset_mapped_native"),
+                lastRecordedBy(driver, () -> driver.findElement(page.preInitializedContentMappedBy))
+        );
+
+        final int initialHashCode = page.hybridBy.hashCode();
 
         // In NATIVE_APP context, hybridBy and somethingBy resolve to native locators
         assertEquals(
@@ -328,10 +341,6 @@ public class ByFieldDecorationTest {
         assertEquals(
                 new ByChained(new By[]{AppiumBy.id("something_android")}).toString(),
                 lastRecordedBy(driver, () -> driver.findElement(page.somethingBy)).toString()
-        );
-        assertEquals(
-                By.id("unannotatedContentMappedBy"),
-                lastRecordedBy(driver, () -> driver.findElement(page.unannotatedContentMappedBy))
         );
 
         // Switching to WEBVIEW_1 updates the same By and ContentMappedBy fields lazily
@@ -353,17 +362,37 @@ public class ByFieldDecorationTest {
                 new ByIdOrName("somethingBy").toString(),
                 lastRecordedBy(driver, () -> driver.findElement(page.somethingBy)).toString()
         );
-        assertEquals(
-                new ByIdOrName("unannotatedContentMappedBy").toString(),
-                lastRecordedBy(driver, () -> driver.findElement(page.unannotatedContentMappedBy)).toString()
-        );
 
-        // Switching back to NATIVE_APP restores native locators
+        // Switching back to NATIVE_APP restores native locators, and hashCode remains stable
         driver.context("NATIVE_APP");
         assertEquals(
                 new ByChained(new By[]{AppiumBy.id("native_android")}).toString(),
                 lastRecordedBy(driver, () -> driver.findElements(page.hybridBy)).toString()
         );
+        assertEquals(initialHashCode, page.hybridBy.hashCode());
+    }
+
+    @Test
+    public void explicitUseContentIsHonoredWithoutExtraContextChecksOrHashCodeMutation() {
+        ContextSwitchingAndroidDriver driver = new ContextSwitchingAndroidDriver();
+        ContentMappedBy mappedBy = new ContentMappedBy(Map.of(
+                HTML_OR_DEFAULT, By.id("web_target"),
+                NATIVE_MOBILE_SPECIFIC, AppiumBy.id("native_target")
+        ));
+        final int hashBefore = mappedBy.hashCode();
+
+        // Explicitly select native content even when driver is in WEBVIEW_1
+        driver.context("WEBVIEW_1");
+        mappedBy.useContent(NATIVE_MOBILE_SPECIFIC);
+        assertEquals(hashBefore, mappedBy.hashCode());
+
+        final int checksBefore = driver.getContextCheckCount();
+        assertEquals(
+                AppiumBy.id("native_target"),
+                lastRecordedBy(driver, () -> driver.findElement(mappedBy))
+        );
+        assertEquals(checksBefore, driver.getContextCheckCount());
+        assertEquals(hashBefore, mappedBy.hashCode());
     }
 
     @Test
@@ -391,8 +420,9 @@ public class ByFieldDecorationTest {
         assertInstanceOf(ByAll.class, page.findAllField);
         assertEquals(AppiumBy.iOSNsPredicateString("name == 'inner_ios'"), page.widget.getInnerAppiumBy());
         assertEquals(By.id("constant_id"), page.finalAnnotatedBy);
-        assertEquals(By.id("preserved_id"), page.preInitializedAnnotatedBy);
+        assertEquals(By.id("preserved_id"), page.preInitializedBy);
         assertNull(page.unannotatedNullBy);
+        assertNull(page.unannotatedContentMappedBy);
     }
 
     @Test

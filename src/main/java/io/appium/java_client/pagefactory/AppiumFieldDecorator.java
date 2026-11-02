@@ -23,10 +23,6 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.CapabilityType;
-import io.appium.java_client.support.FindAll;
-import io.appium.java_client.support.FindBy;
-import io.appium.java_client.support.FindBys;
-import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
@@ -85,7 +81,6 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private final WeakReference<WebDriver> webDriverReference;
     private final DefaultFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
-    private final DefaultElementByBuilder elementByBuilder;
     private final String platform;
     private final String automation;
     private final Duration duration;
@@ -134,10 +129,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 defaultLocatorGroupStrategy,
                 "Default locator group strategy must not be null"
         );
-        this.elementByBuilder = new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy);
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
-                context, duration, this.elementByBuilder
+                context, duration, new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         ));
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 context, duration, new WidgetByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
@@ -191,12 +185,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 defaultLocatorGroupStrategy,
                 "Default locator group strategy must not be null"
         );
-        this.elementByBuilder = new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy);
 
         defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
                 contextReference,
                 duration,
-                this.elementByBuilder
+                new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         ));
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 contextReference,
@@ -298,57 +291,27 @@ public class AppiumFieldDecorator implements FieldDecorator {
         int modifiers = field.getModifiers();
         if (!By.class.isAssignableFrom(type)
                 || Modifier.isStatic(modifiers)
-                || Modifier.isFinal(modifiers)
-                || isFieldAlreadyInitialized(field)) {
+                || Modifier.isFinal(modifiers)) {
             return null;
         }
 
-        elementByBuilder.setAnnotated(field);
-        try {
-            if (ContentMappedBy.class.isAssignableFrom(type)) {
-                return elementByBuilder.buildBy();
-            }
-            if (!hasLocatorAnnotations(field)) {
-                return null;
-            }
-            if (type.isAssignableFrom(ContentMappedBy.class)) {
-                return elementByBuilder.buildBy();
-            }
-
-            elementByBuilder.assertValidAnnotations();
-            By result = coerceToType(type, elementByBuilder.buildMobileNativeBy());
-            if (result == null) {
-                result = coerceToType(type, elementByBuilder.buildDefaultBy());
-            }
-            return result;
-        } finally {
-            elementByBuilder.setAnnotated(null);
+        DefaultElementByBuilder builder = new DefaultElementByBuilder(
+                platform, automation, defaultLocatorGroupStrategy
+        );
+        builder.setAnnotated(field);
+        if (!builder.hasLocatorAnnotations()) {
+            return null;
         }
-    }
-
-    private static boolean isFieldAlreadyInitialized(Field field) {
-        Object currentPage = PageFactory.getCurrentPage();
-        if (currentPage == null || !field.getDeclaringClass().isInstance(currentPage)) {
-            return false;
+        if (type.isAssignableFrom(ContentMappedBy.class)) {
+            return builder.buildBy();
         }
-        try {
-            field.setAccessible(true);
-            return field.get(currentPage) != null;
-        } catch (IllegalAccessException | RuntimeException e) {
-            return false;
-        }
-    }
 
-    private static boolean hasLocatorAnnotations(Field field) {
-        return SeleniumAnnotationsCompat.isPresent(field, FindBy.class)
-                || SeleniumAnnotationsCompat.isPresent(field, FindBys.class)
-                || SeleniumAnnotationsCompat.isPresent(field, FindAll.class)
-                || field.getAnnotationsByType(AndroidFindBy.class).length > 0
-                || field.getAnnotationsByType(AndroidFindBys.class).length > 0
-                || field.getAnnotationsByType(AndroidFindAll.class).length > 0
-                || field.getAnnotationsByType(iOSXCUITFindBy.class).length > 0
-                || field.getAnnotationsByType(iOSXCUITFindBys.class).length > 0
-                || field.getAnnotationsByType(iOSXCUITFindAll.class).length > 0;
+        builder.assertValidAnnotations();
+        By result = coerceToType(type, builder.buildMobileNativeBy());
+        if (result == null) {
+            result = coerceToType(type, builder.buildDefaultBy());
+        }
+        return result;
     }
 
     @Nullable
@@ -366,19 +329,19 @@ public class AppiumFieldDecorator implements FieldDecorator {
     @Nullable
     private static By unwrapSingleBy(@Nullable By by) {
         By current = by;
-        while (current instanceof ByChained || current instanceof ByAll) {
-            Class<?> holderClass = current instanceof ByAll ? ByAll.class : ByChained.class;
-            try {
-                Field bysField = holderClass.getDeclaredField("bys");
-                bysField.setAccessible(true);
-                By[] bys = (By[]) bysField.get(current);
-                if (bys == null || bys.length != 1) {
-                    break;
-                }
-                current = bys[0];
-            } catch (ReflectiveOperationException e) {
+        while (true) {
+            By[] bys;
+            if (current instanceof ByChained) {
+                bys = ((ByChained) current).getBys();
+            } else if (current instanceof ByAll) {
+                bys = ((ByAll) current).getBys();
+            } else {
                 break;
             }
+            if (bys.length != 1) {
+                break;
+            }
+            current = bys[0];
         }
         return current;
     }
