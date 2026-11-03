@@ -50,6 +50,15 @@ public class ByChained extends By implements Serializable {
         this.bys = bys;
     }
 
+    /**
+     * Returns the locators applied by this chain, in order.
+     *
+     * @return a copy of the locators
+     */
+    public By[] getBys() {
+        return bys.clone();
+    }
+
     @Override
     public WebElement findElement(SearchContext context) {
         List<WebElement> elements = findElements(context);

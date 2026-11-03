@@ -55,6 +55,15 @@ public class ContentMappedBy extends By {
         return this;
     }
 
+    /**
+     * Returns the locator selected for the current content type.
+     *
+     * @return the locator selected by {@link #useContent(ContentType)}
+     */
+    public By getCurrentLocator() {
+        return map.get(currentContent);
+    }
+
     @Override
     public WebElement findElement(SearchContext context) {
         return context.findElement(map.get(currentContent));

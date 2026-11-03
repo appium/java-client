@@ -21,6 +21,7 @@ import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElemen
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.support.PageFactory;
 import org.jspecify.annotations.Nullable;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -30,6 +31,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -90,34 +92,71 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override
     protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
-        WebElement cachedElement = cachedElementReference == null ? null : cachedElementReference.get();
-        if (cachedElement == null || !cachedInstances.containsKey(type)
-            || locator != null && !((CacheableLocator) locator).isLookUpCached()
-        ) {
-            cachedElementReference = new WeakReference<>(element);
+        if (isCached(type)) {
+            return invoke(cachedInstances.get(type), method, args);
+        }
 
-            Constructor<? extends Widget> constructor = instantiationMap.get(type);
-            Class<? extends Widget> clazz = constructor.getDeclaringClass();
-
-            if (Modifier.isAbstract(clazz.getModifiers())) {
-                throw new InstantiationException(
-                        String.format("%s is abstract so it cannot be instantiated", clazz.getName())
-                );
+        rejectAbstractWidget(type);
+        try {
+            return bindAndInvoke(type, element, method, args);
+        } catch (NoSuchElementException firstMiss) {
+            // The first ALL_POSSIBLE root matched, but the nested lookup did not.
+            // Try each later root with the same nested locators.
+            NoSuchElementException lastMiss = firstMiss;
+            for (WebElement root : furtherRoots(element)) {
+                try {
+                    return bindAndInvoke(type, root, method, args);
+                } catch (NoSuchElementException laterMiss) {
+                    lastMiss = laterMiss;
+                }
             }
+            throw lastMiss;
+        }
+    }
 
-            Widget widget = constructor.newInstance(element);
-            cachedInstances.put(type, widget);
-            PageFactory.initElements(
-                    new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
-                    widget
+    private boolean isCached(ContentType type) {
+        WebElement cachedElement = cachedElementReference == null ? null : cachedElementReference.get();
+        if (cachedElement == null || !cachedInstances.containsKey(type)) {
+            return false;
+        }
+        return locator == null || ((CacheableLocator) locator).isLookUpCached();
+    }
+
+    private void rejectAbstractWidget(ContentType type) throws InstantiationException {
+        Class<? extends Widget> clazz = instantiationMap.get(type).getDeclaringClass();
+        if (Modifier.isAbstract(clazz.getModifiers())) {
+            throw new InstantiationException(
+                    String.format("%s is abstract so it cannot be instantiated", clazz.getName())
             );
         }
+    }
+
+    private Object bindAndInvoke(ContentType type, WebElement root, Method method, Object[] args) throws Throwable {
+        Widget widget = instantiationMap.get(type).newInstance(root);
+        PageFactory.initElements(
+                new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
+                widget
+        );
+        Object result = invoke(widget, method, args);
+        cachedElementReference = new WeakReference<>(root);
+        cachedInstances.put(type, widget);
+        return result;
+    }
+
+    private static Object invoke(Widget widget, Method method, Object[] args) throws Throwable {
         try {
             method.setAccessible(true);
-            return method.invoke(cachedInstances.get(type), args);
-        } catch (Throwable t) {
-            throw extractReadableException(t);
+            return method.invoke(widget, args);
+        } catch (Throwable thrown) {
+            throw extractReadableException(thrown);
         }
+    }
+
+    private List<WebElement> furtherRoots(WebElement resolvedRoot) {
+        if (!(locator instanceof AppiumElementLocator)) {
+            return List.of();
+        }
+        return ((AppiumElementLocator) locator).findFurtherRoots(resolvedRoot);
     }
 
     @Override

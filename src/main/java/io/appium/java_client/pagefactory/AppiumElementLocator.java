@@ -18,6 +18,8 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.support.pagefactory.ByAll;
+import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.ui.FluentWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -195,6 +197,74 @@ class AppiumElementLocator implements CacheableLocator {
             cachedElementList = result;
         }
         return result;
+    }
+
+    /**
+     * First element of each alternative locator after the one that produced {@code resolvedRoot}.
+     * A widget annotated with {@link LocatorGroupStrategy#ALL_POSSIBLE} is that set of locators.
+     * Chained locators stay one root: a miss there is not a signal to try another chain.
+     *
+     * @param resolvedRoot the root already searched for a nested element
+     * @return later roots, or an empty list when this locator has no further alternatives
+     */
+    List<WebElement> findFurtherRoots(WebElement resolvedRoot) {
+        SearchContext context = getSearchContext().orElse(null);
+        if (resolvedRoot == null || context == null) {
+            return List.of();
+        }
+
+        By[] alternatives = alternativeLocators(mappedLocator(context));
+        if (alternatives == null) {
+            return List.of();
+        }
+
+        List<WebElement> furtherRoots = new ArrayList<>();
+        boolean skippedResolvedLocator = false;
+        for (By candidate : alternatives) {
+            List<WebElement> matches = context.findElements(candidate);
+            if (matches.isEmpty()) {
+                continue;
+            }
+            if (!skippedResolvedLocator) {
+                skippedResolvedLocator = true;
+                continue;
+            }
+            furtherRoots.add(matches.get(0));
+        }
+        return furtherRoots;
+    }
+
+    private By mappedLocator(SearchContext context) {
+        By effective = getBy(by, context);
+        if (effective instanceof ContentMappedBy) {
+            return ((ContentMappedBy) effective).getCurrentLocator();
+        }
+        return effective;
+    }
+
+    /**
+     * Locators that are alternatives for one another, or null when {@code by} is a single
+     * locator or a chain. A chain of one locator is unwrapped so {@code @AndroidFindAll}
+     * is treated the same way as repeated {@code @AndroidFindBy} annotations.
+     */
+    private static By[] alternativeLocators(By by) {
+        if (by instanceof ByAll) {
+            By[] nested = ((ByAll) by).getBys();
+            if (nested.length == 1) {
+                By[] unwrapped = alternativeLocators(nested[0]);
+                if (unwrapped != null) {
+                    return unwrapped;
+                }
+            }
+            return nested.length > 1 ? nested : null;
+        }
+        if (by instanceof ByChained) {
+            By[] nested = ((ByChained) by).getBys();
+            if (nested.length == 1) {
+                return alternativeLocators(nested[0]);
+            }
+        }
+        return null;
     }
 
     @Override public boolean isLookUpCached() {
