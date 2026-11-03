@@ -49,7 +49,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * {@code /wd/hub} is not added.
      */
     default void startLogcatBroadcast() {
-        URL serverUrl = remoteServerUrl();
+        URL serverUrl = getRemoteServerUrl();
         startLogcatBroadcast(serverUrl.getHost(), serverUrl.getPort());
     }
 
@@ -75,7 +75,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      */
     default void startLogcatBroadcast(String host, int port) {
         var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URI endpoint = logcatEndpoint(remoteServerUrl(), host, port,
+        URI endpoint = buildLogcatEndpoint(getRemoteServerUrl(), host, port,
                 String.valueOf(remoteWebDriver.getSessionId()));
         CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
         getLogcatClient().connect(endpoint);
@@ -86,7 +86,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *
      * @return the remote server URL
      */
-    private URL remoteServerUrl() {
+    private URL getRemoteServerUrl() {
         var remoteWebDriver = (AppiumRemoteWebDriver) this;
         URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
         if (serverUrl == null) {
@@ -105,16 +105,16 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param sessionId the current session id
      * @return the absolute web socket URI
      */
-    private static URI logcatEndpoint(URL serverUrl, String host, int port, String sessionId) {
+    private static URI buildLogcatEndpoint(URL serverUrl, String host, int port, String sessionId) {
         try {
-            return new URI(websocketScheme(serverUrl.getProtocol()), null, requireNonNull(host, "Host"), port,
+            return new URI(getWebsocketScheme(serverUrl.getProtocol()), null, requireNonNull(host, "Host"), port,
                     "/ws/session/" + sessionId + "/appium/device/logcat", null, null);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException("Cannot build the logcat web socket endpoint", e);
         }
     }
 
-    private static String websocketScheme(String protocol) {
+    private static String getWebsocketScheme(String protocol) {
         return "https".equalsIgnoreCase(protocol) || "wss".equalsIgnoreCase(protocol) ? "wss" : "ws";
     }
 
