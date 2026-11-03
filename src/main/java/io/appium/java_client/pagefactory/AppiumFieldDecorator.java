@@ -23,6 +23,7 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.CapabilityType;
+import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
@@ -36,6 +37,8 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -63,12 +66,17 @@ import static java.util.Objects.requireNonNull;
  * WebElement fields, 2) List of WebElement that have
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
- * elements using the passed in ElementLocatorFactory, and 3) {@link By} / {@link AppiumBy}
- * fields annotated with Appium or Selenium locator annotations.
+ * elements using the passed in ElementLocatorFactory, and 3) non-static, non-final,
+ * uninitialized {@link By} / {@link AppiumBy} fields annotated with Appium or Selenium
+ * locator annotations. When a field is declared with a narrow {@link By} subtype
+ * (such as {@link AppiumBy}) and the built locator cannot be coerced to that subtype,
+ * a warning is logged and the field is left {@code null}.
  * Please pay attention: fields of {@link WebElement}, {@link AppiumWebElement},
  * {@link By}, or {@link AppiumBy} are supported by this decorator.
  */
 public class AppiumFieldDecorator implements FieldDecorator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AppiumFieldDecorator.class);
 
     private static final List<Class<? extends WebElement>> AVAILABLE_ELEMENT_CLASSES = List.of(
             WebElement.class,
@@ -291,7 +299,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
         int modifiers = field.getModifiers();
         if (!By.class.isAssignableFrom(type)
                 || Modifier.isStatic(modifiers)
-                || Modifier.isFinal(modifiers)) {
+                || Modifier.isFinal(modifiers)
+                || PageFactory.isCurrentPageFieldInitialized(field)) {
             return null;
         }
 
@@ -299,17 +308,32 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 platform, automation, defaultLocatorGroupStrategy
         );
         builder.setAnnotated(field);
-        if (!builder.hasLocatorAnnotations()) {
+        builder.assertValidAnnotations();
+
+        By mobileNativeBy = builder.buildMobileNativeBy();
+        By defaultBy = builder.buildDefaultBy();
+        if (mobileNativeBy == null && defaultBy == null) {
             return null;
         }
         if (type.isAssignableFrom(ContentMappedBy.class)) {
-            return builder.buildBy();
+            return builder.buildMappedBy(defaultBy, mobileNativeBy);
         }
 
-        builder.assertValidAnnotations();
-        By result = coerceToType(type, builder.buildMobileNativeBy());
+        By result = coerceToType(type, mobileNativeBy);
         if (result == null) {
-            result = coerceToType(type, builder.buildDefaultBy());
+            result = coerceToType(type, defaultBy);
+        }
+        if (result == null) {
+            By built = mobileNativeBy != null ? unwrapSingleBy(mobileNativeBy) : unwrapSingleBy(defaultBy);
+            LOG.warn(
+                    "Cannot decorate field '{}.{}' of narrow type {}: built locator {} ({}) is not assignable to {}",
+                    field.getDeclaringClass().getName(),
+                    field.getName(),
+                    type.getName(),
+                    built,
+                    built != null ? built.getClass().getName() : "null",
+                    type.getName()
+            );
         }
         return result;
     }

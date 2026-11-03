@@ -25,16 +25,30 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.util.Objects.requireNonNull;
 
-/** Locator which selects the underlying locator by the current content type. */
+/**
+ * Locator which selects the underlying locator by the active {@link ContentType}.
+ *
+ * <p>When a content type is explicitly pinned via {@link #useContent(ContentType)},
+ * {@link #findElement(SearchContext)}, {@link #findElements(SearchContext)}, and
+ * {@link #toString()} use that pinned entry. When no content type has been set,
+ * {@link #findElement(SearchContext)} and {@link #findElements(SearchContext)}
+ * auto-detect the content type from the target {@link SearchContext} via
+ * {@link io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility#getCurrentContentType(SearchContext)}
+ * (resolving to {@link ContentType#NATIVE_MOBILE_SPECIFIC} for native mobile contexts and
+ * {@link ContentType#HTML_OR_DEFAULT} for web/browser contexts or plain {@link SearchContext}
+ * implementations that implement neither {@link io.appium.java_client.HasBrowserCheck} nor
+ * {@link io.appium.java_client.remote.SupportsContextSwitching}).
+ */
 @EqualsAndHashCode(callSuper = true)
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
-    @EqualsAndHashCode.Exclude
     @Nullable
     private ContentType currentContent;
 
@@ -75,7 +89,18 @@ public class ContentMappedBy extends By {
 
     @Override
     public String toString() {
-        ContentType contentType = currentContent != null ? currentContent : NATIVE_MOBILE_SPECIFIC;
-        return map.get(contentType).toString();
+        if (currentContent != null) {
+            return map.get(currentContent).toString();
+        }
+        By defaultBy = map.get(HTML_OR_DEFAULT);
+        By nativeBy = map.get(NATIVE_MOBILE_SPECIFIC);
+        if (Objects.equals(defaultBy, nativeBy) && nativeBy != null) {
+            return nativeBy.toString();
+        }
+        return String.format(
+                "ContentMappedBy(%s=%s, %s=%s)",
+                HTML_OR_DEFAULT, defaultBy,
+                NATIVE_MOBILE_SPECIFIC, nativeBy
+        );
     }
 }

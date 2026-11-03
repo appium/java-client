@@ -56,8 +56,10 @@ import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SP
 import static io.appium.java_client.support.PageFactory.initElements;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ByFieldDecorationTest {
 
@@ -234,6 +236,8 @@ public class ByFieldDecorationTest {
 
         private ContentMappedBy unannotatedContentMappedBy;
 
+        @FindBy(id = "ignored_mapped_web")
+        @AndroidFindBy(id = "ignored_mapped_native")
         private ContentMappedBy preInitializedContentMappedBy = new ContentMappedBy(Map.of(
                 HTML_OR_DEFAULT, By.id("preset_mapped_web"),
                 NATIVE_MOBILE_SPECIFIC, AppiumBy.id("preset_mapped_native")
@@ -255,6 +259,9 @@ public class ByFieldDecorationTest {
         @FindBy(id = "ignored_static")
         private static By staticAnnotatedBy = By.id("static_id");
 
+        @FindBy(id = "ignored_pre_initialized")
+        @AndroidFindBy(id = "ignored_pre_initialized_android")
+        @iOSXCUITFindBy(accessibility = "ignored_pre_initialized_ios")
         private By preInitializedBy = By.id("preserved_id");
 
         private By unannotatedNullBy;
@@ -374,25 +381,32 @@ public class ByFieldDecorationTest {
 
     @Test
     public void explicitUseContentIsHonoredWithoutExtraContextChecksOrHashCodeMutation() {
-        ContextSwitchingAndroidDriver driver = new ContextSwitchingAndroidDriver();
-        ContentMappedBy mappedBy = new ContentMappedBy(Map.of(
+        Map<io.appium.java_client.pagefactory.bys.ContentType, By> locatorMap = Map.of(
                 HTML_OR_DEFAULT, By.id("web_target"),
                 NATIVE_MOBILE_SPECIFIC, AppiumBy.id("native_target")
-        ));
-        final int hashBefore = mappedBy.hashCode();
+        );
+        ContentMappedBy mappedBy = new ContentMappedBy(locatorMap);
+        ContentMappedBy webPinnedBy = new ContentMappedBy(locatorMap);
+        webPinnedBy.useContent(HTML_OR_DEFAULT);
+
+        assertTrue(mappedBy.toString().contains("HTML_OR_DEFAULT="));
+        assertTrue(mappedBy.toString().contains("NATIVE_MOBILE_SPECIFIC="));
 
         // Explicitly select native content even when driver is in WEBVIEW_1
+        ContextSwitchingAndroidDriver driver = new ContextSwitchingAndroidDriver();
         driver.context("WEBVIEW_1");
         mappedBy.useContent(NATIVE_MOBILE_SPECIFIC);
-        assertEquals(hashBefore, mappedBy.hashCode());
+        assertEquals(AppiumBy.id("native_target").toString(), mappedBy.toString());
+        assertNotEquals(webPinnedBy, mappedBy);
 
+        final int pinnedHash = mappedBy.hashCode();
         final int checksBefore = driver.getContextCheckCount();
         assertEquals(
                 AppiumBy.id("native_target"),
                 lastRecordedBy(driver, () -> driver.findElement(mappedBy))
         );
         assertEquals(checksBefore, driver.getContextCheckCount());
-        assertEquals(hashBefore, mappedBy.hashCode());
+        assertEquals(pinnedHash, mappedBy.hashCode());
     }
 
     @Test

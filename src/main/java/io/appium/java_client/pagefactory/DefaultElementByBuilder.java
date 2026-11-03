@@ -322,22 +322,6 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return SeleniumAnnotationsCompat.isPresent(annotatedElement, CacheLookup.class);
     }
 
-    boolean hasLocatorAnnotations() {
-        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        if (annotatedElement == null) {
-            return false;
-        }
-        return SeleniumAnnotationsCompat.isPresent(annotatedElement, FindBy.class)
-                || SeleniumAnnotationsCompat.isPresent(annotatedElement, FindBys.class)
-                || SeleniumAnnotationsCompat.isPresent(annotatedElement, FindAll.class)
-                || annotatedElement.getAnnotationsByType(AndroidFindBy.class).length > 0
-                || annotatedElement.getAnnotationsByType(AndroidFindBys.class).length > 0
-                || annotatedElement.getAnnotationsByType(AndroidFindAll.class).length > 0
-                || annotatedElement.getAnnotationsByType(iOSXCUITFindBy.class).length > 0
-                || annotatedElement.getAnnotationsByType(iOSXCUITFindBys.class).length > 0
-                || annotatedElement.getAnnotationsByType(iOSXCUITFindAll.class).length > 0;
-    }
-
     private By returnMappedBy(By byDefault, By nativeAppBy) {
         Map<ContentType, By> contentMap = new HashMap<>();
         contentMap.put(ContentType.HTML_OR_DEFAULT, byDefault);
@@ -345,32 +329,28 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return new ContentMappedBy(contentMap);
     }
 
-    @Override
-    public By buildBy() {
-        assertValidAnnotations();
-
-        By defaultBy = buildDefaultBy();
-        By mobileNativeBy = buildMobileNativeBy();
-
+    By buildMappedBy(@Nullable By defaultBy, @Nullable By mobileNativeBy) {
         String idOrName = ((Field) annotatedElementContainer.getAnnotated()).getName();
 
         if (defaultBy == null && mobileNativeBy == null) {
-            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
-            mobileNativeBy = new By.ById(idOrName);
-            return returnMappedBy(defaultBy, mobileNativeBy);
+            return returnMappedBy(new ByIdOrName(idOrName), new By.ById(idOrName));
         }
 
         if (defaultBy == null) {
-            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
-            return returnMappedBy(defaultBy, mobileNativeBy);
+            return returnMappedBy(new ByIdOrName(idOrName), mobileNativeBy);
         }
 
         if (mobileNativeBy == null) {
-            mobileNativeBy = defaultBy;
-            return returnMappedBy(defaultBy, mobileNativeBy);
+            return returnMappedBy(defaultBy, defaultBy);
         }
 
         return returnMappedBy(defaultBy, mobileNativeBy);
+    }
+
+    @Override
+    public By buildBy() {
+        assertValidAnnotations();
+        return buildMappedBy(buildDefaultBy(), buildMobileNativeBy());
     }
 
     private static class AnnotationComparator implements Comparator<Annotation> {
