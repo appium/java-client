@@ -68,7 +68,8 @@ import static java.util.Objects.requireNonNull;
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
  * elements using the passed in ElementLocatorFactory, and 3) non-static, non-final,
  * uninitialized {@link By} / {@link AppiumBy} fields annotated with Appium or Selenium
- * locator annotations. When a field is declared with a narrow {@link By} subtype
+ * locator annotations (pre-initialized {@link By} fields are preserved when initialized via
+ * {@link PageFactory#initElements}). When a field is declared with a narrow {@link By} subtype
  * (such as {@link AppiumBy}) and the built locator cannot be coerced to that subtype,
  * a warning is logged and the field is left {@code null}.
  * Please pay attention: fields of {@link WebElement}, {@link AppiumWebElement},

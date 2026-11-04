@@ -73,10 +73,6 @@ public class ContentMappedBy extends By {
         return this;
     }
 
-    private ContentType resolveContentType(SearchContext context) {
-        return currentContent != null ? currentContent : getCurrentContentType(context);
-    }
-
     @Override
     public WebElement findElement(SearchContext context) {
         return context.findElement(map.get(resolveContentType(context)));
@@ -98,9 +94,14 @@ public class ContentMappedBy extends By {
             return nativeBy.toString();
         }
         return String.format(
-                "ContentMappedBy(%s=%s, %s=%s)",
+                "%s(%s=%s, %s=%s)",
+                getClass().getSimpleName(),
                 HTML_OR_DEFAULT, defaultBy,
                 NATIVE_MOBILE_SPECIFIC, nativeBy
         );
+    }
+
+    private ContentType resolveContentType(SearchContext context) {
+        return currentContent != null ? currentContent : getCurrentContentType(context);
     }
 }

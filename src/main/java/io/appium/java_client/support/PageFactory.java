@@ -56,8 +56,8 @@ public final class PageFactory {
      * current thread.
      *
      * @param field the field to inspect
-     * @return {@code true} if the field is already initialized (or cannot be inspected
-     *         reflectively) on the active page object; {@code false} otherwise
+     * @return {@code true} if the field can be inspected and already holds a non-null value
+     *         on the active page object; {@code false} otherwise
      */
     public static boolean isCurrentPageFieldInitialized(Field field) {
         for (Object page : PAGE_OBJECT_STACK.get()) {
@@ -66,7 +66,7 @@ public final class PageFactory {
                     field.setAccessible(true);
                     return field.get(page) != null;
                 } catch (IllegalAccessException | RuntimeException e) {
-                    return true;
+                    return false;
                 }
             }
         }
