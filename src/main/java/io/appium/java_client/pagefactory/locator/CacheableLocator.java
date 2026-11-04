@@ -17,6 +17,10 @@
 package io.appium.java_client.pagefactory.locator;
 
 import io.appium.java_client.support.pagefactory.ElementLocator;
+import org.openqa.selenium.WebElement;
+
+import java.util.Collections;
+import java.util.Iterator;
 
 /** Element locator whose lookup results may be cached. */
 public interface CacheableLocator extends ElementLocator {
@@ -26,4 +30,21 @@ public interface CacheableLocator extends ElementLocator {
      * @return true if the lookup result is cached
      */
     boolean isLookUpCached();
+
+    /**
+     * Later roots to search when a nested lookup misses inside {@code resolvedRoot}.
+     * The iterator is lazy, so a root that is never asked for does not cause a remote query.
+     *
+     * <p>Each alternative locator contributes only its first match, the same element
+     * {@link #findElement()} would use for that locator. Further matches of one locator
+     * are not separate roots. {@code resolvedRoot} itself is not returned. The default
+     * is an empty iterator, so a custom locator opts in by overriding this method.
+     * The widget method is not run again for each root.
+     *
+     * @param resolvedRoot the root that was already searched
+     * @return later roots, none by default
+     */
+    default Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
+        return Collections.emptyIterator();
+    }
 }

@@ -21,7 +21,6 @@ import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElemen
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.support.PageFactory;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -30,8 +29,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -39,7 +39,18 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
 import static java.util.Optional.ofNullable;
 
-/** Proxy interceptor class for widgets. */
+/**
+ * Proxy interceptor class for widgets.
+ *
+ * <p>When a nested {@code findElement} or {@code findElements} misses inside the first
+ * matching root, the same lookup is repeated against later roots supplied by
+ * {@link CacheableLocator#furtherRoots(WebElement)}. The widget method is invoked once.
+ * A click or any other action that already ran is not repeated, and a
+ * {@code NoSuchElementException} thrown by the method itself is not treated as a missed
+ * root. The wrapped element stays the first match; later roots are used only for those
+ * nested lookups. A value returned without being looked up, such as a lazy proxy, tries
+ * the later roots when that value is actually searched.
+ */
 public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private final Map<ContentType, Constructor<? extends Widget>> instantiationMap;
@@ -92,26 +103,11 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     @Override
     protected Object getObject(WebElement element, Method method, Object[] args) throws Throwable {
         ContentType type = getCurrentContentType(element);
-        if (isCached(type)) {
-            return invoke(cachedInstances.get(type), method, args);
+        if (!isCached(type)) {
+            rejectAbstractWidget(type);
+            bind(type, element);
         }
-
-        rejectAbstractWidget(type);
-        try {
-            return bindAndInvoke(type, element, method, args);
-        } catch (NoSuchElementException firstMiss) {
-            // The first ALL_POSSIBLE root matched, but the nested lookup did not.
-            // Try each later root with the same nested locators.
-            NoSuchElementException lastMiss = firstMiss;
-            for (WebElement root : furtherRoots(element)) {
-                try {
-                    return bindAndInvoke(type, root, method, args);
-                } catch (NoSuchElementException laterMiss) {
-                    lastMiss = laterMiss;
-                }
-            }
-            throw lastMiss;
-        }
+        return invoke(cachedInstances.get(type), method, args);
     }
 
     private boolean isCached(ContentType type) {
@@ -131,16 +127,15 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
         }
     }
 
-    private Object bindAndInvoke(ContentType type, WebElement root, Method method, Object[] args) throws Throwable {
-        Widget widget = instantiationMap.get(type).newInstance(root);
+    private void bind(ContentType type, WebElement root) throws Throwable {
+        WebElement searchingRoot = new SearchingWidgetRoot(root, () -> furtherRoots(root));
+        Widget widget = instantiationMap.get(type).newInstance(searchingRoot);
         PageFactory.initElements(
                 new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
                 widget
         );
-        Object result = invoke(widget, method, args);
         cachedElementReference = new WeakReference<>(root);
         cachedInstances.put(type, widget);
-        return result;
     }
 
     private static Object invoke(Widget widget, Method method, Object[] args) throws Throwable {
@@ -152,11 +147,11 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
         }
     }
 
-    private List<WebElement> furtherRoots(WebElement resolvedRoot) {
-        if (!(locator instanceof AppiumElementLocator)) {
-            return List.of();
+    private Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
+        if (!(locator instanceof CacheableLocator)) {
+            return Collections.emptyIterator();
         }
-        return ((AppiumElementLocator) locator).findFurtherRoots(resolvedRoot);
+        return ((CacheableLocator) locator).furtherRoots(resolvedRoot);
     }
 
     @Override

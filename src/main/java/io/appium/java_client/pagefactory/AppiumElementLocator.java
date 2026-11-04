@@ -18,6 +18,7 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.ui.FluentWait;
@@ -32,7 +33,10 @@ import org.openqa.selenium.WebElement;
 import java.lang.ref.WeakReference;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -200,38 +204,24 @@ class AppiumElementLocator implements CacheableLocator {
     }
 
     /**
-     * First element of each alternative locator after the one that produced {@code resolvedRoot}.
-     * A widget annotated with {@link LocatorGroupStrategy#ALL_POSSIBLE} is that set of locators.
-     * Chained locators stay one root: a miss there is not a signal to try another chain.
+     * {@inheritDoc}
      *
-     * @param resolvedRoot the root already searched for a nested element
-     * @return later roots, or an empty list when this locator has no further alternatives
+     * <p>A group of alternative locators, including {@link LocatorGroupStrategy#ALL_POSSIBLE}
+     * and a single {@code FindAll} annotation, is walked one locator at a time. A chain of
+     * more than one locator is one root, not a set of alternatives. Only the first match of
+     * each locator is a candidate, and it is skipped when it is {@code resolvedRoot}.
      */
-    List<WebElement> findFurtherRoots(WebElement resolvedRoot) {
+    @Override
+    public Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
         SearchContext context = getSearchContext().orElse(null);
         if (resolvedRoot == null || context == null) {
-            return List.of();
+            return Collections.emptyIterator();
         }
-
         By[] alternatives = alternativeLocators(mappedLocator(context));
         if (alternatives == null) {
-            return List.of();
+            return Collections.emptyIterator();
         }
-
-        List<WebElement> furtherRoots = new ArrayList<>();
-        boolean skippedResolvedLocator = false;
-        for (By candidate : alternatives) {
-            List<WebElement> matches = context.findElements(candidate);
-            if (matches.isEmpty()) {
-                continue;
-            }
-            if (!skippedResolvedLocator) {
-                skippedResolvedLocator = true;
-                continue;
-            }
-            furtherRoots.add(matches.get(0));
-        }
-        return furtherRoots;
+        return new LazyAlternateRoots(context, alternatives, resolvedRoot);
     }
 
     private By mappedLocator(SearchContext context) {
@@ -265,6 +255,72 @@ class AppiumElementLocator implements CacheableLocator {
             }
         }
         return null;
+    }
+
+    private static boolean sameRoot(WebElement left, WebElement right) {
+        if (left == right) {
+            return true;
+        }
+        if (left instanceof AppiumWebElement && right instanceof AppiumWebElement) {
+            return Objects.equals(((AppiumWebElement) left).getId(), ((AppiumWebElement) right).getId());
+        }
+        return left.equals(right);
+    }
+
+    /**
+     * Queries the next alternative locator only when another root is requested.
+     * The locator that produced {@code resolvedRoot} is recognized by element equality,
+     * not by being the first one that currently matches.
+     */
+    private static final class LazyAlternateRoots implements Iterator<WebElement> {
+        private final SearchContext context;
+        private final By[] alternatives;
+        private final WebElement resolvedRoot;
+        private int index;
+        private WebElement pending;
+        private boolean pendingReady;
+
+        private LazyAlternateRoots(SearchContext context, By[] alternatives, WebElement resolvedRoot) {
+            this.context = context;
+            this.alternatives = alternatives;
+            this.resolvedRoot = resolvedRoot;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (!pendingReady) {
+                pending = pull();
+                pendingReady = true;
+            }
+            return pending != null;
+        }
+
+        @Override
+        public WebElement next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException("No further widget roots");
+            }
+            WebElement result = pending;
+            pending = null;
+            pendingReady = false;
+            return result;
+        }
+
+        private WebElement pull() {
+            while (index < alternatives.length) {
+                By candidate = alternatives[index];
+                index++;
+                List<WebElement> matches = context.findElements(candidate);
+                if (matches.isEmpty()) {
+                    continue;
+                }
+                WebElement firstMatch = matches.get(0);
+                if (!sameRoot(firstMatch, resolvedRoot)) {
+                    return firstMatch;
+                }
+            }
+            return null;
+        }
     }
 
     @Override public boolean isLookUpCached() {
