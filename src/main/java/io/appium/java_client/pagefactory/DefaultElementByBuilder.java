@@ -329,32 +329,28 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return new ContentMappedBy(contentMap);
     }
 
-    @Override
-    public By buildBy() {
-        assertValidAnnotations();
-
-        By defaultBy = buildDefaultBy();
-        By mobileNativeBy = buildMobileNativeBy();
-
+    By buildMappedBy(@Nullable By defaultBy, @Nullable By mobileNativeBy) {
         String idOrName = ((Field) annotatedElementContainer.getAnnotated()).getName();
 
         if (defaultBy == null && mobileNativeBy == null) {
-            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
-            mobileNativeBy = new By.ById(idOrName);
-            return returnMappedBy(defaultBy, mobileNativeBy);
+            return returnMappedBy(new ByIdOrName(idOrName), new By.ById(idOrName));
         }
 
         if (defaultBy == null) {
-            defaultBy = new ByIdOrName(((Field) annotatedElementContainer.getAnnotated()).getName());
-            return returnMappedBy(defaultBy, mobileNativeBy);
+            return returnMappedBy(new ByIdOrName(idOrName), mobileNativeBy);
         }
 
         if (mobileNativeBy == null) {
-            mobileNativeBy = defaultBy;
-            return returnMappedBy(defaultBy, mobileNativeBy);
+            return returnMappedBy(defaultBy, defaultBy);
         }
 
         return returnMappedBy(defaultBy, mobileNativeBy);
+    }
+
+    @Override
+    public By buildBy() {
+        assertValidAnnotations();
+        return buildMappedBy(buildDefaultBy(), buildMobileNativeBy());
     }
 
     private static class AnnotationComparator implements Comparator<Annotation> {

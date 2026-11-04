@@ -50,6 +50,15 @@ public class ByChained extends By implements Serializable {
         this.bys = bys;
     }
 
+    /**
+     * Returns the locators that form this chain.
+     *
+     * @return a copy of the underlying locator array
+     */
+    public By[] getBys() {
+        return bys == null ? new By[0] : bys.clone();
+    }
+
     @Override
     public WebElement findElement(SearchContext context) {
         List<WebElement> elements = findElements(context);

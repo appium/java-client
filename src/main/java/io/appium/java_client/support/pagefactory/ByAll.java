@@ -49,6 +49,15 @@ public class ByAll extends By implements Serializable {
         this.bys = bys;
     }
 
+    /**
+     * Returns the locators searched by this composite locator.
+     *
+     * @return a copy of the underlying locator array
+     */
+    public By[] getBys() {
+        return bys == null ? new By[0] : bys.clone();
+    }
+
     @Override
     public WebElement findElement(SearchContext context) {
         for (By by : bys) {
