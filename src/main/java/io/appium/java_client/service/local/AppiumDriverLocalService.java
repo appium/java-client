@@ -83,7 +83,9 @@ public final class AppiumDriverLocalService implements Closeable {
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
-        this.url = new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
+        // IPv6 literals must be enclosed in square brackets to be a valid URL host
+        String host = ipAddress.contains(":") && !ipAddress.startsWith("[") ? "[" + ipAddress + "]" : ipAddress;
+        this.url = new URL(String.format(URL_MASK, host, nodeJSPort));
     }
 
     /**
@@ -168,7 +170,8 @@ public final class AppiumDriverLocalService implements Closeable {
     }
 
     private URL fixBroadcastAddresses(URL url) {
-        var host = url.getHost();
+        // IPv6 hosts are returned in square brackets
+        var host = url.getHost().replaceAll("^\\[(.*)]$", "$1");
         // The operating system will block direct access to the universal broadcast IP address
         if (host.equals(BROADCAST_IP4_ADDRESS)) {
             return replaceHost(url, BROADCAST_IP4_ADDRESS, "127.0.0.1");

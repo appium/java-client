@@ -53,6 +53,23 @@ class AppiumServiceBuilderTest {
     }
 
     @Test
+    void buildsServiceWithIpv6Address() throws IOException {
+        var builder = newBuilder().usingPort(4777).withIPAddress("::1");
+
+        assertEquals(List.of(tempDir.resolve("main.js").toString(), "--port", "4777", "--address", "::1"),
+                builder.createArgs());
+        assertEquals("http://[::1]:4777/", builder.build().getUrl().toString());
+    }
+
+    @Test
+    void buildsServiceWithIpv6BroadcastAddress() throws IOException {
+        var service = newBuilder().usingPort(4777)
+                .withIPAddress(AppiumServiceBuilder.BROADCAST_IP6_ADDRESS).build();
+
+        assertEquals("http://[::]:4777/", service.getUrl().toString());
+    }
+
+    @Test
     void appliesBasePath() throws IOException {
         var service = newBuilder().usingPort(4777).withIPAddress("127.0.0.1")
                 .withArgument(io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH, "/wd/hub")
