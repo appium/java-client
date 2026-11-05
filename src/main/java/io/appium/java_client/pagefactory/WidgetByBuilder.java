@@ -20,10 +20,8 @@ import org.openqa.selenium.By;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
 
+import static io.appium.java_client.pagefactory.AppiumFieldDecorator.extractWidgetClass;
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultOrHTMLWidgetClass;
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 import static java.util.Optional.ofNullable;
@@ -56,42 +54,25 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
         super(platform, automation, defaultLocatorGroupStrategy);
     }
 
-    private static Class<?> getClassFromAListField(Field field) {
-        Type genericType = field.getGenericType();
-        if (!(genericType instanceof ParameterizedType)) {
-            return null;
-        }
-
-        Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-        if (ParameterizedType.class.isAssignableFrom(listType.getClass())) {
-            listType = ((ParameterizedType) listType).getRawType();
-        }
-
-        return (Class<?>) listType;
-    }
-
-    @SuppressWarnings("unchecked")
     private By getByFromDeclaredClass(WhatIsNeeded whatIsNeeded) {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         Field field = (Field) annotatedElement;
-        Class<?> declaredClass;
 
         By result = null;
         try {
-            if (List.class.isAssignableFrom(field.getType())) {
-                declaredClass = getClassFromAListField(field);
-            } else {
-                declaredClass = field.getType();
+            Class<? extends Widget> declaredClass = extractWidgetClass(field);
+            if (declaredClass == null) {
+                return null;
             }
 
             Class<?> convenientClass;
 
             if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
                 convenientClass =
-                    getDefaultOrHTMLWidgetClass((Class<? extends Widget>) declaredClass, field);
+                    getDefaultOrHTMLWidgetClass(declaredClass, field);
             } else {
                 convenientClass =
-                    getMobileNativeWidgetClass((Class<? extends Widget>) declaredClass, field,
+                    getMobileNativeWidgetClass(declaredClass, field,
                         platform);
             }
 

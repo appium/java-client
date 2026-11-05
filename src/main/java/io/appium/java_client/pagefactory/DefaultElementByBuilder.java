@@ -36,8 +36,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -46,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static io.appium.java_client.pagefactory.AppiumFieldDecorator.extractWidgetClass;
 import static java.lang.Integer.signum;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
@@ -122,23 +121,24 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        Field field = annotatedElement instanceof Field ? (Field) annotatedElement : null;
         By defaultBy = null;
         FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
         if (findBy != null) {
-            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, (Field) annotatedElement);
+            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, field);
         }
 
         if (defaultBy == null) {
             FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
             if (findBys != null) {
-                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, (Field) annotatedElement);
+                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, field);
             }
         }
 
         if (defaultBy == null) {
             FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
             if (findAll != null) {
-                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, (Field) annotatedElement);
+                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, field);
             }
         }
         return defaultBy;
@@ -259,33 +259,6 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
             if (parentAnnotation != null) {
                 return parentAnnotation;
             }
-        }
-        return null;
-    }
-
-    @Nullable
-    private static Class<?> extractWidgetClass(Field field) {
-        Class<?> fieldType = field.getType();
-        if (Widget.class.isAssignableFrom(fieldType)) {
-            return fieldType;
-        }
-        if (!List.class.isAssignableFrom(fieldType)) {
-            return null;
-        }
-        Type genericType = field.getGenericType();
-        if (!(genericType instanceof ParameterizedType)) {
-            return null;
-        }
-        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
-        if (typeArguments.length == 0) {
-            return null;
-        }
-        Type listType = typeArguments[0];
-        if (listType instanceof ParameterizedType) {
-            listType = ((ParameterizedType) listType).getRawType();
-        }
-        if (listType instanceof Class<?> && Widget.class.isAssignableFrom((Class<?>) listType)) {
-            return (Class<?>) listType;
         }
         return null;
     }

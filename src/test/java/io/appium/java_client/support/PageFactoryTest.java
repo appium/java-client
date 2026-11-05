@@ -48,12 +48,18 @@ class PageFactoryTest {
         @FindBy(css = ".many")
         List<WebElement> elements;
 
+        @FindBy(css = ".many-wildcard")
+        List<? extends WebElement> wildcardElements;
+
         String untouched = "untouched";
 
         WebElement notAnnotatedElement;
 
         @FindBy(id = "list-of-strings")
         List<String> notAnElementList;
+
+        @FindBy(id = "list-of-lower-bounded")
+        List<? super WebElement> lowerBoundedElementList;
     }
 
     private static ElementLocator locatorOf(String text) {
@@ -80,6 +86,9 @@ class PageFactoryTest {
         assertEquals("baseElement", page.baseElement.getText());
         assertEquals(2, page.elements.size());
         assertEquals("elements-2", page.elements.get(1).getText());
+        assertEquals(2, page.wildcardElements.size());
+        assertEquals("wildcardElements-1", page.wildcardElements.get(0).getText());
+        assertNull(page.lowerBoundedElementList);
     }
 
     @Test

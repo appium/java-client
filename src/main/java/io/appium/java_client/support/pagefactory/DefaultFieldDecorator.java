@@ -31,7 +31,11 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all the WebElement fields and 2)
@@ -92,15 +96,40 @@ public class DefaultFieldDecorator implements FieldDecorator {
             return false;
         }
 
-        Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-
-        if (!WebElement.class.equals(listType)) {
+        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+        if (typeArguments.length == 0 || !isWebElementType(typeArguments[0], new HashSet<>())) {
             return false;
         }
 
         return field.getAnnotation(FindBy.class) != null
                 || field.getAnnotation(FindBys.class) != null
                 || field.getAnnotation(FindAll.class) != null;
+    }
+
+    private static boolean isWebElementType(Type type, Set<Type> visited) {
+        if (!visited.add(type)) {
+            return false;
+        }
+        if (WebElement.class.equals(type)) {
+            return true;
+        }
+        if (type instanceof WildcardType) {
+            WildcardType wildcardType = (WildcardType) type;
+            if (wildcardType.getLowerBounds().length == 0) {
+                for (Type bound : wildcardType.getUpperBounds()) {
+                    if (isWebElementType(bound, visited)) {
+                        return true;
+                    }
+                }
+            }
+        } else if (type instanceof TypeVariable<?>) {
+            for (Type bound : ((TypeVariable<?>) type).getBounds()) {
+                if (isWebElementType(bound, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

@@ -33,10 +33,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AppiumFieldDecoratorTest {
 
     private static final class FoundElement extends AppiumWebElement {
+        private final WebDriver parent;
+
+        private FoundElement(WebDriver parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public WebDriver getWrappedDriver() {
+            return parent;
+        }
+
         @Override
         public String getText() {
             return "text";
@@ -52,10 +65,10 @@ class AppiumFieldDecoratorTest {
                     switch (method.getName()) {
                         case "findElement":
                             locators.add(args[0].toString());
-                            return new FoundElement();
+                            return new FoundElement((WebDriver) proxy);
                         case "findElements":
                             locators.add(args[0].toString());
-                            return List.of(new FoundElement(), new FoundElement());
+                            return List.of(new FoundElement((WebDriver) proxy), new FoundElement((WebDriver) proxy));
                         case "getCapabilities":
                             return new MutableCapabilities();
                         default:
@@ -76,8 +89,60 @@ class AppiumFieldDecoratorTest {
         @FindBy(css = ".many")
         List<WebElement> many;
 
+        @FindBy(css = ".kotlin-web-elements")
+        List<? extends WebElement> wildcardWebElements;
+
+        @FindBy(css = ".kotlin-appium-elements")
+        List<? extends AppiumWebElement> wildcardAppiumElements;
+
+        @FindBy(css = ".kotlin-widgets")
+        List<? extends SampleWidget> wildcardWidgets;
+
+        List<? extends SampleWidget> unannotatedWildcardWidgets;
+
+        @FindBy(css = ".kotlin-generic-widgets")
+        List<? extends GenericSampleWidget<String>> wildcardGenericWidgets;
+
+        @FindBy(css = ".unbounded-wildcard")
+        List<?> unboundedWildcardList;
+
+        @FindBy(css = ".lower-bounded-wildcard")
+        List<? super WebElement> lowerBoundedWildcardList;
+
+        @FindBy(css = ".string-wildcard")
+        List<? extends String> stringWildcardList;
+
         @CacheLookup
         WebElement nameOrIdFallback;
+    }
+
+    @FindBy(css = ".widget-root")
+    public static class SampleWidget extends Widget {
+        protected SampleWidget(WebElement element) {
+            super(element);
+        }
+    }
+
+    @FindBy(css = ".generic-widget-root")
+    public static class GenericSampleWidget<T> extends Widget {
+        protected GenericSampleWidget(WebElement element) {
+            super(element);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private static class GenericPage<T extends WebElement, W extends SampleWidget> {
+        @FindBy(css = ".type-var-elements")
+        List<T> typeVarElements;
+
+        @FindBy(css = ".wildcard-type-var-elements")
+        List<? extends T> wildcardTypeVarElements;
+
+        @FindBy(css = ".type-var-widgets")
+        List<W> typeVarWidgets;
+
+        @FindBy(css = ".wildcard-type-var-widgets")
+        List<? extends W> wildcardTypeVarWidgets;
     }
 
     private static Page initialized(RecordingDriver recorder) {
@@ -125,5 +190,49 @@ class AppiumFieldDecoratorTest {
         page.nameOrIdFallback.getText();
 
         assertEquals(1, recorder.locators.size());
+    }
+
+    @Test
+    void decoratesUpperBoundedWildcardAndTypeVariableListsForKotlinCompatibility() {
+        RecordingDriver recorder = new RecordingDriver();
+        Page page = initialized(recorder);
+
+        assertNotNull(page.wildcardWebElements);
+        assertEquals(2, page.wildcardWebElements.size());
+        assertEquals("text", page.wildcardWebElements.get(0).getText());
+        List<String> iteratedTexts = new ArrayList<>();
+        for (WebElement item : page.wildcardWebElements) {
+            iteratedTexts.add(item.getText());
+        }
+        assertEquals(List.of("text", "text"), iteratedTexts);
+
+        assertNotNull(page.wildcardAppiumElements);
+        assertEquals(2, page.wildcardAppiumElements.size());
+
+        assertNotNull(page.wildcardWidgets);
+        assertEquals(2, page.wildcardWidgets.size());
+        assertEquals("text", page.wildcardWidgets.get(0).getWrappedElement().getText());
+
+        assertNotNull(page.unannotatedWildcardWidgets);
+        assertEquals(2, page.unannotatedWildcardWidgets.size());
+
+        assertNotNull(page.wildcardGenericWidgets);
+        assertEquals(2, page.wildcardGenericWidgets.size());
+
+        assertNull(page.unboundedWildcardList);
+        assertNull(page.lowerBoundedWildcardList);
+        assertNull(page.stringWildcardList);
+
+        GenericPage<AppiumWebElement, SampleWidget> genericPage = new GenericPage<>();
+        PageFactory.initElements(new AppiumFieldDecorator(recorder.driver, Duration.ofMillis(100)), genericPage);
+
+        assertNotNull(genericPage.typeVarElements);
+        assertEquals(2, genericPage.typeVarElements.size());
+        assertNotNull(genericPage.wildcardTypeVarElements);
+        assertEquals(2, genericPage.wildcardTypeVarElements.size());
+        assertNotNull(genericPage.typeVarWidgets);
+        assertEquals(2, genericPage.typeVarWidgets.size());
+        assertNotNull(genericPage.wildcardTypeVarWidgets);
+        assertEquals(2, genericPage.wildcardTypeVarWidgets.size());
     }
 }

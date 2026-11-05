@@ -38,12 +38,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
@@ -234,23 +235,70 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
             @Override
             protected boolean isDecoratableList(Field field) {
-                if (!List.class.isAssignableFrom(field.getType())) {
-                    return false;
-                }
-
-                Type genericType = field.getGenericType();
-                if (!(genericType instanceof ParameterizedType)) {
-                    return false;
-                }
-
-                Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-                List<Type> bounds = (listType instanceof TypeVariable)
-                        ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
-                        : Collections.emptyList();
-                return AVAILABLE_ELEMENT_CLASSES.stream()
-                        .anyMatch(webElClass -> webElClass.equals(listType) || bounds.contains(webElClass));
+                return resolveListElementClasses(field).stream()
+                        .anyMatch(AVAILABLE_ELEMENT_CLASSES::contains);
             }
         };
+    }
+
+    static List<Class<?>> resolveListElementClasses(Field field) {
+        if (!List.class.isAssignableFrom(field.getType())) {
+            return List.of();
+        }
+
+        Type genericType = field.getGenericType();
+        if (!(genericType instanceof ParameterizedType)) {
+            return List.of();
+        }
+
+        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+        if (typeArguments.length == 0) {
+            return List.of();
+        }
+
+        List<Class<?>> resolved = new ArrayList<>();
+        collectElementClasses(typeArguments[0], resolved, new HashSet<>());
+        return resolved;
+    }
+
+    private static void collectElementClasses(Type type, List<Class<?>> resolved, Set<Type> visited) {
+        if (!visited.add(type)) {
+            return;
+        }
+        if (type instanceof Class<?>) {
+            resolved.add((Class<?>) type);
+        } else if (type instanceof ParameterizedType) {
+            Type rawType = ((ParameterizedType) type).getRawType();
+            if (rawType instanceof Class<?>) {
+                resolved.add((Class<?>) rawType);
+            }
+        } else if (type instanceof WildcardType) {
+            WildcardType wildcardType = (WildcardType) type;
+            if (wildcardType.getLowerBounds().length == 0) {
+                for (Type bound : wildcardType.getUpperBounds()) {
+                    collectElementClasses(bound, resolved, visited);
+                }
+            }
+        } else if (type instanceof TypeVariable<?>) {
+            for (Type bound : ((TypeVariable<?>) type).getBounds()) {
+                collectElementClasses(bound, resolved, visited);
+            }
+        }
+    }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    static Class<? extends Widget> extractWidgetClass(Field field) {
+        Class<?> fieldType = field.getType();
+        if (Widget.class.isAssignableFrom(fieldType)) {
+            return (Class<? extends Widget>) fieldType;
+        }
+        for (Class<?> candidate : resolveListElementClasses(field)) {
+            if (Widget.class.isAssignableFrom(candidate)) {
+                return (Class<? extends Widget>) candidate;
+            }
+        }
+        return null;
     }
 
     /**
@@ -277,40 +325,11 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
     @Nullable
     private Object decorateWidget(Field field) {
-        Class<?> type = field.getType();
-        if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
+        Class<? extends Widget> widgetType = extractWidgetClass(field);
+        if (widgetType == null) {
             return null;
         }
-
-        Class<? extends Widget> widgetType;
-        boolean isAlist = false;
-        if (List.class.isAssignableFrom(type)) {
-            isAlist = true;
-            Type genericType = field.getGenericType();
-            if (!(genericType instanceof ParameterizedType)) {
-                return null;
-            }
-
-            Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-
-            if (ParameterizedType.class.isAssignableFrom(listType.getClass())) {
-                listType = ((ParameterizedType) listType).getRawType();
-            }
-
-            if (listType instanceof Class) {
-                if (!Widget.class.isAssignableFrom((Class<?>) listType)) {
-                    return null;
-                }
-                //noinspection unchecked
-                widgetType = (Class<? extends Widget>) listType;
-            } else {
-                return null;
-            }
-
-        } else {
-            //noinspection unchecked
-            widgetType = (Class<? extends Widget>) field.getType();
-        }
+        boolean isAlist = List.class.isAssignableFrom(field.getType());
 
         CacheableLocator locator = widgetLocatorFactory.createLocator(field);
         Map<ContentType, Constructor<? extends Widget>> map = OverrideWidgetReader.read(widgetType, field, platform);
