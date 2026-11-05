@@ -19,6 +19,7 @@ package io.appium.java_client.pagefactory;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.pagefactory.locator.FurtherRoots;
 import io.appium.java_client.support.PageFactory;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
@@ -29,9 +30,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -129,11 +128,12 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     }
 
     private void bind(ContentType type, WebElement root) throws Throwable {
-        WebElement widgetRoot = root;
-        if (locator instanceof CacheableLocator
-                && ((CacheableLocator) locator).searchesFurtherRoots(root)) {
-            widgetRoot = SearchingWidgetRoot.wrap(root, () -> furtherRoots(root));
-        }
+        FurtherRoots later = locator instanceof CacheableLocator
+                ? ((CacheableLocator) locator).furtherRoots(root)
+                : FurtherRoots.none();
+        WebElement widgetRoot = later.isPresent()
+                ? SearchingWidgetRoot.wrap(root, later::iterator)
+                : root;
         Widget widget = instantiationMap.get(type).newInstance(widgetRoot);
         PageFactory.initElements(
                 new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
@@ -150,13 +150,6 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
         } catch (Throwable thrown) {
             throw extractReadableException(thrown);
         }
-    }
-
-    private Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
-        if (!(locator instanceof CacheableLocator)) {
-            return Collections.emptyIterator();
-        }
-        return ((CacheableLocator) locator).furtherRoots(resolvedRoot);
     }
 
     @Override

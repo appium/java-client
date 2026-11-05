@@ -28,6 +28,16 @@ public abstract class AbstractStubWebDriver implements
         HasBrowserCheck,
         HasCapabilities {
     private Duration implicitWait = Duration.ZERO;
+    private int implicitWaitClears;
+
+    /**
+     * How many times the implicit wait was set to zero.
+     *
+     * @return the number of clears
+     */
+    public int implicitWaitClears() {
+        return implicitWaitClears;
+    }
 
     @Override
     public Response execute(String driverCommand, Map<String, ?> parameters) {
@@ -157,7 +167,10 @@ public abstract class AbstractStubWebDriver implements
             public Timeouts timeouts() {
                 return new Timeouts() {
                     public Timeouts implicitlyWait(Duration duration) {
-                        implicitWait = duration;
+                        if (duration == null || duration.isZero()) {
+                            implicitWaitClears++;
+                        }
+                        implicitWait = duration == null ? Duration.ZERO : duration;
                         return this;
                     }
 

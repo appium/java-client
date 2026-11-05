@@ -19,9 +19,6 @@ package io.appium.java_client.pagefactory.locator;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.openqa.selenium.WebElement;
 
-import java.util.Collections;
-import java.util.Iterator;
-
 /** Element locator whose lookup results may be cached. */
 public interface CacheableLocator extends ElementLocator {
     /**
@@ -32,32 +29,16 @@ public interface CacheableLocator extends ElementLocator {
     boolean isLookUpCached();
 
     /**
-     * Later roots to search when a nested lookup misses inside {@code resolvedRoot}.
-     * The iterator is lazy, so a root that is never asked for does not cause a remote query.
-     *
-     * <p>Each alternative locator contributes only its first match, the same element
-     * {@link #findElement()} would use for that locator. Further matches of one locator
-     * are not separate roots. {@code resolvedRoot} itself is not returned. The default
-     * is an empty iterator, so a custom locator opts in by overriding this method.
-     * The widget method is not run again for each root.
+     * Captures later roots for nested lookups under {@code resolvedRoot}.
+     * The snapshot is taken once, when the widget is bound. Later misses reuse it
+     * and do not read the driver context again. Each alternative locator still
+     * contributes only its first match, and {@code resolvedRoot} is omitted.
+     * The default has no further roots, so a single-locator widget keeps the real element.
      *
      * @param resolvedRoot the root that was already searched
-     * @return later roots, none by default
+     * @return alternate roots, none by default
      */
-    default Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
-        return Collections.emptyIterator();
-    }
-
-    /**
-     * Whether this locator declares another root besides {@code resolvedRoot}.
-     * This follows the locator, not whether that root is on screen yet.
-     * Override it together with {@link #furtherRoots(WebElement)}; the default is false,
-     * so a single-locator widget keeps the real element.
-     *
-     * @param resolvedRoot the root already found
-     * @return true when a nested miss should search further roots
-     */
-    default boolean searchesFurtherRoots(WebElement resolvedRoot) {
-        return false;
+    default FurtherRoots furtherRoots(WebElement resolvedRoot) {
+        return FurtherRoots.none();
     }
 }

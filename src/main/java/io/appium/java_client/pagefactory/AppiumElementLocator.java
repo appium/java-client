@@ -18,6 +18,7 @@ package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.pagefactory.locator.FurtherRoots;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
@@ -27,15 +28,12 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.UnsupportedCommandException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import java.lang.ref.WeakReference;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +45,6 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {
@@ -214,27 +211,23 @@ class AppiumElementLocator implements CacheableLocator {
      * more than one locator is one root, not a set of alternatives. Only the first match of
      * each locator is a candidate, and it is skipped when it is {@code resolvedRoot}.
      */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The content type and the alternative locators are read once here.
+     * Iterating the result only calls {@code findElements} for those locators.
+     */
     @Override
-    public boolean searchesFurtherRoots(WebElement resolvedRoot) {
-        return alternativeBys(resolvedRoot) != null;
-    }
-
-    @Override
-    public Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
-        SearchContext context = getSearchContext().orElse(null);
-        By[] alternatives = alternativeBys(resolvedRoot);
-        if (context == null || alternatives == null) {
-            return Collections.emptyIterator();
-        }
-        return new LazyAlternateRoots(context, alternatives, resolvedRoot);
-    }
-
-    private By[] alternativeBys(WebElement resolvedRoot) {
+    public FurtherRoots furtherRoots(WebElement resolvedRoot) {
         SearchContext context = getSearchContext().orElse(null);
         if (resolvedRoot == null || context == null) {
-            return null;
+            return FurtherRoots.none();
         }
-        return alternativeLocators(mappedLocator(context));
+        By[] alternatives = alternativeLocators(mappedLocator(context));
+        if (alternatives == null) {
+            return FurtherRoots.none();
+        }
+        return new ResolvedFurtherRoots(context, alternatives, resolvedRoot);
     }
 
     /**
@@ -284,9 +277,35 @@ class AppiumElementLocator implements CacheableLocator {
     }
 
     /**
+     * Alternate locators captured for one content type.
+     */
+    private static final class ResolvedFurtherRoots implements FurtherRoots {
+        private final SearchContext context;
+        private final By[] alternatives;
+        private final WebElement resolvedRoot;
+
+        private ResolvedFurtherRoots(SearchContext context, By[] alternatives, WebElement resolvedRoot) {
+            this.context = context;
+            this.alternatives = alternatives;
+            this.resolvedRoot = resolvedRoot;
+        }
+
+        @Override
+        public boolean isPresent() {
+            return true;
+        }
+
+        @Override
+        public Iterator<WebElement> iterator() {
+            return new LazyAlternateRoots(context, alternatives, resolvedRoot);
+        }
+    }
+
+    /**
      * Queries the next alternative locator only when another root is requested.
      * The locator that produced {@code resolvedRoot} is recognized by element equality,
-     * not by being the first one that currently matches.
+     * not by being the first one that currently matches. This uses ordinary
+     * {@code findElements} and does not change the session implicit wait.
      */
     private static final class LazyAlternateRoots implements Iterator<WebElement> {
         private final SearchContext context;
@@ -326,7 +345,7 @@ class AppiumElementLocator implements CacheableLocator {
             while (index < alternatives.length) {
                 By candidate = alternatives[index];
                 index++;
-                List<WebElement> matches = findWithoutImplicitWait(context, candidate);
+                List<WebElement> matches = context.findElements(candidate);
                 if (matches.isEmpty()) {
                     continue;
                 }
@@ -336,34 +355,6 @@ class AppiumElementLocator implements CacheableLocator {
                 }
             }
             return null;
-        }
-
-        /**
-         * Alternate roots are polled by the page-object wait already. A driver's implicit
-         * wait would be paid again for every empty alternative, so it is cleared here
-         * and restored afterwards.
-         */
-        private static List<WebElement> findWithoutImplicitWait(SearchContext context, By candidate) {
-            WebDriver driver = unpackWebDriverFromSearchContext(context);
-            if (driver == null) {
-                return context.findElements(candidate);
-            }
-            WebDriver.Timeouts timeouts = driver.manage().timeouts();
-            Duration previous;
-            try {
-                previous = timeouts.getImplicitWaitTimeout();
-            } catch (UnsupportedCommandException ignored) {
-                return context.findElements(candidate);
-            }
-            if (previous == null || previous.isZero()) {
-                return context.findElements(candidate);
-            }
-            try {
-                timeouts.implicitlyWait(Duration.ZERO);
-                return context.findElements(candidate);
-            } finally {
-                timeouts.implicitlyWait(previous);
-            }
         }
     }
 

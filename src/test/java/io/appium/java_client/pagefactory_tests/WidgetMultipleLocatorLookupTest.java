@@ -28,9 +28,11 @@ import io.appium.java_client.pagefactory.WidgetInterceptor;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
+import io.appium.java_client.pagefactory.locator.FurtherRoots;
 import io.appium.java_client.pagefactory.utils.ProxyFactory;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.StubWebElement;
+import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.support.CacheLookup;
 import io.appium.java_client.support.pagefactory.ByAll;
 import org.junit.jupiter.api.Test;
@@ -46,7 +48,6 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -336,16 +337,49 @@ public class WidgetMultipleLocatorLookupTest {
     }
 
     @Test
-    public void alternateRootQueryClearsTheImplicitWait() {
+    public void alternateRootQueryLeavesTheImplicitWaitAlone() throws InterruptedException {
         SelectiveDriver driver = new SelectiveDriver(WIDGET_1, WIDGET_2);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        SamplePage page = new SamplePage();
-        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
+        SamplePage success = new SamplePage();
+        SamplePage shared = new SamplePage();
+        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), success);
+        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), shared);
 
-        assertEquals(FOUND_TEXT, page.readNestedElement());
-        assertTrue(driver.rootQueryWaits.size() > 1);
-        assertEquals(Duration.ofSeconds(10), driver.rootQueryWaits.get(0));
-        assertTrue(driver.rootQueryWaits.stream().skip(1).allMatch(Duration.ZERO::equals));
+        assertEquals(FOUND_TEXT, success.readNestedElement());
+        assertEquals(0, driver.implicitWaitClears());
+        assertEquals(Duration.ofSeconds(10), driver.manage().timeouts().getImplicitWaitTimeout());
+        assertTrue(driver.rootQueryWaits.stream().allMatch(Duration.ofSeconds(10)::equals));
+
+        SelectiveDriver missing = new SelectiveDriver(WIDGET_1, null);
+        missing.defineRoot(WIDGET_2);
+        missing.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        SamplePage failure = new SamplePage();
+        initElements(new AppiumFieldDecorator(missing, Duration.ZERO), failure);
+        assertThrows(NoSuchElementException.class, failure::readNestedElement);
+        assertEquals(0, missing.implicitWaitClears());
+        assertEquals(Duration.ofSeconds(10), missing.manage().timeouts().getImplicitWaitTimeout());
+
+        Thread other = new Thread(shared::readNestedElement);
+        other.start();
+        other.join();
+        assertEquals(0, driver.implicitWaitClears());
+        assertEquals(Duration.ofSeconds(10), driver.manage().timeouts().getImplicitWaitTimeout());
+    }
+
+    @Test
+    public void alternateLocatorsAreResolvedOncePerBind() {
+        ContextDriver multi = new ContextDriver(WIDGET_1, WIDGET_2);
+        SamplePage multiPage = new SamplePage();
+        initElements(new AppiumFieldDecorator(multi, Duration.ZERO), multiPage);
+        assertEquals(FOUND_TEXT, multiPage.readNestedElement());
+
+        ContextDriver single = new ContextDriver(null, null);
+        single.defineRoot(WIDGET_1, ELEMENT_2);
+        SinglePage singlePage = new SinglePage();
+        initElements(new AppiumFieldDecorator(single, Duration.ZERO), singlePage);
+        assertEquals(FOUND_TEXT, singlePage.readNestedElement());
+
+        assertEquals(single.contextReads, multi.contextReads);
     }
 
     @Test
@@ -483,6 +517,34 @@ public class WidgetMultipleLocatorLookupTest {
          */
         public String rootDom() {
             return getWrappedElement().getDomAttribute("text");
+        }
+    }
+
+    public static class SingleWidget extends Widget {
+        @AndroidFindBy(id = ELEMENT_2)
+        private WebElement element;
+
+        protected SingleWidget(WebElement element) {
+            super(element);
+        }
+
+        /**
+         * Reads the only nested element.
+         *
+         * @return the nested element text
+         */
+        public String read() {
+            return element.getText();
+        }
+    }
+
+    public static class SinglePage implements Readable {
+        @AndroidFindBy(id = WIDGET_1)
+        private SingleWidget widget;
+
+        @Override
+        public String readNestedElement() {
+            return widget.read();
         }
     }
 
@@ -818,17 +880,22 @@ public class WidgetMultipleLocatorLookupTest {
         }
 
         @Override
-        public boolean searchesFurtherRoots(WebElement resolvedRoot) {
-            return second != null;
-        }
-
-        @Override
-        public Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
+        public FurtherRoots furtherRoots(WebElement resolvedRoot) {
             seenResolved = resolvedRoot;
             if (second == null) {
-                return Collections.emptyIterator();
+                return FurtherRoots.none();
             }
-            return List.of(second).iterator();
+            return new FurtherRoots() {
+                @Override
+                public boolean isPresent() {
+                    return true;
+                }
+
+                @Override
+                public Iterator<WebElement> iterator() {
+                    return List.of(second).iterator();
+                }
+            };
         }
     }
 
@@ -852,7 +919,26 @@ public class WidgetMultipleLocatorLookupTest {
      * Driver whose roots are present or absent by id. A root listed with the target
      * contains {@code element2}. {@code element1} never matches unless configured.
      */
-    private static final class SelectiveDriver extends AbstractStubWebDriver.StubAndroidDriver {
+    private static final class ContextDriver extends SelectiveDriver implements SupportsContextSwitching {
+        private int contextReads;
+
+        private ContextDriver(String presentWithoutTarget, String presentWithTarget) {
+            super(presentWithoutTarget, presentWithTarget);
+        }
+
+        @Override
+        public boolean isBrowser() {
+            return true;
+        }
+
+        @Override
+        public String getContext() {
+            contextReads++;
+            return "NATIVE_APP";
+        }
+    }
+
+    private static class SelectiveDriver extends AbstractStubWebDriver.StubAndroidDriver {
         private final Map<String, Set<String>> roots = new HashMap<>();
         private final Map<String, RootElement> elements = new HashMap<>();
         private final List<String> lookups = new ArrayList<>();
@@ -867,7 +953,7 @@ public class WidgetMultipleLocatorLookupTest {
             }
         }
 
-        private void defineRoot(String id, String... children) {
+        void defineRoot(String id, String... children) {
             roots.put(id, Set.of(children));
             elements.remove(id);
         }
