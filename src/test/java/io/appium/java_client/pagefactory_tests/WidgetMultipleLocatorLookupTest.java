@@ -380,6 +380,9 @@ public class WidgetMultipleLocatorLookupTest {
         assertEquals(FOUND_TEXT, singlePage.readNestedElement());
 
         assertEquals(single.contextReads, multi.contextReads);
+        // Widget lookup, the found root's content type, and the nested lookup.
+        // Resolving alternate roots must not add another getContext call.
+        assertEquals(3, single.contextReads);
     }
 
     @Test

@@ -129,7 +129,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     private void bind(ContentType type, WebElement root) throws Throwable {
         FurtherRoots later = locator instanceof CacheableLocator
-                ? ((CacheableLocator) locator).furtherRoots(root)
+                ? ((CacheableLocator) locator).furtherRoots(root, type)
                 : FurtherRoots.none();
         WebElement widgetRoot = later.isPresent()
                 ? SearchingWidgetRoot.wrap(root, later::iterator)

@@ -17,6 +17,7 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
+import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.locator.FurtherRoots;
 import io.appium.java_client.remote.AppiumWebElement;
@@ -206,39 +207,29 @@ class AppiumElementLocator implements CacheableLocator {
     /**
      * {@inheritDoc}
      *
-     * <p>A group of alternative locators, including {@link LocatorGroupStrategy#ALL_POSSIBLE}
+     * <p>Uses {@code contentType} from the caller and does not call {@code getContext}.
+     * A group of alternative locators, including {@link LocatorGroupStrategy#ALL_POSSIBLE}
      * and a single {@code FindAll} annotation, is walked one locator at a time. A chain of
      * more than one locator is one root, not a set of alternatives. Only the first match of
      * each locator is a candidate, and it is skipped when it is {@code resolvedRoot}.
-     */
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The content type and the alternative locators are read once here.
-     * Iterating the result only calls {@code findElements} for those locators.
+     * A single locator returns no alternatives. Iterating the result only calls
+     * {@code findElements} for those locators.
      */
     @Override
-    public FurtherRoots furtherRoots(WebElement resolvedRoot) {
-        SearchContext context = getSearchContext().orElse(null);
-        if (resolvedRoot == null || context == null) {
+    public FurtherRoots furtherRoots(WebElement resolvedRoot, ContentType contentType) {
+        if (resolvedRoot == null || contentType == null) {
             return FurtherRoots.none();
         }
-        By[] alternatives = alternativeLocators(mappedLocator(context));
+        By mapped = by instanceof ContentMappedBy ? ((ContentMappedBy) by).locatorFor(contentType) : by;
+        By[] alternatives = alternativeLocators(mapped);
         if (alternatives == null) {
             return FurtherRoots.none();
         }
-        return new ResolvedFurtherRoots(context, alternatives, resolvedRoot);
-    }
-
-    /**
-     * Reads the locator for the context's content type without changing the shared
-     * {@link ContentMappedBy} selection.
-     */
-    private By mappedLocator(SearchContext context) {
-        if (by instanceof ContentMappedBy) {
-            return ((ContentMappedBy) by).locatorFor(getCurrentContentType(context));
+        SearchContext context = getSearchContext().orElse(null);
+        if (context == null) {
+            return FurtherRoots.none();
         }
-        return by;
+        return new ResolvedFurtherRoots(context, alternatives, resolvedRoot);
     }
 
     /**

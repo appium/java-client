@@ -16,6 +16,7 @@
 
 package io.appium.java_client.pagefactory.locator;
 
+import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.openqa.selenium.WebElement;
 
@@ -40,5 +41,17 @@ public interface CacheableLocator extends ElementLocator {
      */
     default FurtherRoots furtherRoots(WebElement resolvedRoot) {
         return FurtherRoots.none();
+    }
+
+    /**
+     * Captures later roots using a content type that the caller already knows.
+     * The default ignores {@code contentType} and calls {@link #furtherRoots(WebElement)}.
+     *
+     * @param resolvedRoot the root that was already searched
+     * @param contentType the content type already determined for this root
+     * @return alternate roots, none by default
+     */
+    default FurtherRoots furtherRoots(WebElement resolvedRoot, ContentType contentType) {
+        return furtherRoots(resolvedRoot);
     }
 }
