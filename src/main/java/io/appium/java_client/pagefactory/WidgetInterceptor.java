@@ -47,9 +47,10 @@ import static java.util.Optional.ofNullable;
  * {@link CacheableLocator#furtherRoots(WebElement)}. The widget method is invoked once.
  * A click or any other action that already ran is not repeated, and a
  * {@code NoSuchElementException} thrown by the method itself is not treated as a missed
- * root. The wrapped element stays the first match; later roots are used only for those
- * nested lookups. A value returned without being looked up, such as a lazy proxy, tries
- * the later roots when that value is actually searched.
+ * root. The wrapped element stays the real located element unless the locator declares
+ * further roots. In that case nested lookups still apply the whole {@code By} to one
+ * root before the next. A value returned without being looked up, such as a lazy proxy,
+ * tries the later roots when that value is actually searched.
  */
 public class WidgetInterceptor extends InterceptorOfASingleElement {
 
@@ -128,8 +129,12 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     }
 
     private void bind(ContentType type, WebElement root) throws Throwable {
-        WebElement searchingRoot = new SearchingWidgetRoot(root, () -> furtherRoots(root));
-        Widget widget = instantiationMap.get(type).newInstance(searchingRoot);
+        WebElement widgetRoot = root;
+        if (locator instanceof CacheableLocator
+                && ((CacheableLocator) locator).searchesFurtherRoots(root)) {
+            widgetRoot = SearchingWidgetRoot.wrap(root, () -> furtherRoots(root));
+        }
+        Widget widget = instantiationMap.get(type).newInstance(widgetRoot);
         PageFactory.initElements(
                 new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
                 widget

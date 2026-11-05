@@ -22,20 +22,25 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.LocatorGroupStrategy;
+import io.appium.java_client.pagefactory.SearchingWidgetRoot;
 import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.WidgetInterceptor;
+import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.utils.ProxyFactory;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.StubWebElement;
 import io.appium.java_client.support.CacheLookup;
+import io.appium.java_client.support.pagefactory.ByAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.interactions.Coordinates;
+import org.openqa.selenium.interactions.Locatable;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
@@ -47,11 +52,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.appium.java_client.pagefactory.LocatorGroupStrategy.ALL_POSSIBLE;
+import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
+import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static io.appium.java_client.support.PageFactory.initElements;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -270,6 +279,134 @@ public class WidgetMultipleLocatorLookupTest {
         assertSame(first, locator.seenResolved);
     }
 
+    @Test
+    public void singleLocatorWidgetKeepsTheRealElement() {
+        AbstractStubWebDriver.StubAndroidDriver driver = new AbstractStubWebDriver.StubAndroidDriver();
+        RichElement real = new RichElement(driver, "dom-text");
+        PlainWidget widget = plain(new PairLocator(real, null, false));
+
+        WebElement wrapped = widget.root();
+        assertSame(real, wrapped);
+        assertTrue(wrapped instanceof Locatable);
+        assertFalse(wrapped instanceof SearchingWidgetRoot);
+        assertEquals("dom-text", widget.dom());
+        assertTrue(wrapped.equals(real));
+    }
+
+    @Test
+    public void searchingRootStillDelegatesDomAttribute() {
+        SelectiveDriver driver = new SelectiveDriver(WIDGET_1, WIDGET_2);
+        SamplePage page = new SamplePage();
+        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
+
+        assertEquals(WIDGET_1, page.rootDom());
+        assertTrue(page.widgetRoot() instanceof SearchingWidgetRoot);
+    }
+
+    @Test
+    public void byAllPrefersTheFirstRootBeforeLaterLocatorsOnTheNextRoot() {
+        SelectiveDriver driver = new SelectiveDriver(null, null);
+        driver.defineRoot(WIDGET_1, ELEMENT_2);
+        driver.defineRoot(WIDGET_2, ELEMENT_1);
+        SamplePage page = new SamplePage();
+        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
+
+        assertEquals(FOUND_TEXT, page.readNestedElement());
+        assertEquals(List.of(
+                lookup(WIDGET_1, ELEMENT_1),
+                lookup(WIDGET_1, ELEMENT_2)
+        ), driver.lookups);
+    }
+
+    @Test
+    public void directByAllDoesNotPreferALaterRoot() {
+        AbstractStubWebDriver.StubAndroidDriver driver = new AbstractStubWebDriver.StubAndroidDriver();
+        List<String> lookups = new ArrayList<>();
+        RootElement root1 = new RootElement(driver, "r1", Set.of(ELEMENT_2), lookups);
+        RootElement root2 = new RootElement(driver, "r2", Set.of(ELEMENT_1), lookups);
+        WebElement proxy = SearchingWidgetRoot.wrap(root1, () -> List.<WebElement>of(root2).iterator());
+
+        WebElement found = proxy.findElement(new ByAll(By.id(ELEMENT_1), By.id(ELEMENT_2)));
+
+        assertEquals(FOUND_TEXT, found.getText());
+        assertEquals(List.of(
+                lookup("r1", ELEMENT_1),
+                lookup("r1", ELEMENT_2)
+        ), lookups);
+    }
+
+    @Test
+    public void alternateRootQueryClearsTheImplicitWait() {
+        SelectiveDriver driver = new SelectiveDriver(WIDGET_1, WIDGET_2);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        SamplePage page = new SamplePage();
+        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
+
+        assertEquals(FOUND_TEXT, page.readNestedElement());
+        assertTrue(driver.rootQueryWaits.size() > 1);
+        assertEquals(Duration.ofSeconds(10), driver.rootQueryWaits.get(0));
+        assertTrue(driver.rootQueryWaits.stream().skip(1).allMatch(Duration.ZERO::equals));
+    }
+
+    @Test
+    public void contentTypeSelectionDoesNotLeakAcrossThreads() throws InterruptedException {
+        ContentMappedBy mapped = new ContentMappedBy(Map.of(
+                HTML_OR_DEFAULT, By.id("html"),
+                NATIVE_MOBILE_SPECIFIC, By.id("native")
+        ));
+        mapped.useContent(HTML_OR_DEFAULT);
+        assertTrue(mapped.locatorFor(NATIVE_MOBILE_SPECIFIC).toString().contains("native"));
+        assertTrue(mapped.getCurrentLocator().toString().contains("html"));
+
+        AtomicBoolean failed = new AtomicBoolean();
+        Thread html = contentReader(mapped, HTML_OR_DEFAULT, "html", failed);
+        Thread nativeThread = contentReader(mapped, NATIVE_MOBILE_SPECIFIC, "native", failed);
+        html.start();
+        nativeThread.start();
+        html.join();
+        nativeThread.join();
+        assertFalse(failed.get());
+    }
+
+    private static Thread contentReader(ContentMappedBy mapped, ContentType type, String expected,
+                                        AtomicBoolean failed) {
+        return new Thread(() -> {
+            for (int i = 0; i < 2000; i++) {
+                mapped.useContent(type);
+                By selected = mapped.getCurrentLocator();
+                if (selected == null || !selected.toString().contains(expected)) {
+                    failed.set(true);
+                }
+            }
+        });
+    }
+
+    private static PlainWidget plain(CacheableLocator locator) {
+        try {
+            Constructor<PlainWidget> constructor = PlainWidget.class.getDeclaredConstructor(WebElement.class);
+            constructor.setAccessible(true);
+            Map<ContentType, Constructor<? extends Widget>> map = new HashMap<>();
+            map.put(ContentType.NATIVE_MOBILE_SPECIFIC, constructor);
+            map.put(ContentType.HTML_OR_DEFAULT, constructor);
+            WebElement primary = locator.findElement();
+            WidgetInterceptor interceptor = new WidgetInterceptor(
+                    locator,
+                    new WeakReference<>(((WrapsDriver) primary).getWrappedDriver()),
+                    null,
+                    map,
+                    Duration.ZERO
+            );
+            return ProxyFactory.getEnhancedProxy(
+                    PlainWidget.class,
+                    new Class<?>[] {WebElement.class},
+                    new Object[] {primary},
+                    interceptor
+            );
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     private static HandBuiltWidget handBuilt(CacheableLocator locator) {
         HandBuiltWidget.VISITS.set(0);
         try {
@@ -338,6 +475,15 @@ public class WidgetMultipleLocatorLookupTest {
         public String read() {
             return element.getText();
         }
+
+        /**
+         * Reads a DOM attribute from the widget root.
+         *
+         * @return the attribute value
+         */
+        public String rootDom() {
+            return getWrappedElement().getDomAttribute("text");
+        }
     }
 
     public static class SamplePage implements Readable {
@@ -350,6 +496,47 @@ public class WidgetMultipleLocatorLookupTest {
         @Override
         public String readNestedElement() {
             return widget.read();
+        }
+
+        public String rootDom() {
+            return widget.rootDom();
+        }
+
+        public WebElement widgetRoot() {
+            return widget.getWrappedElement();
+        }
+    }
+
+    public static class PlainWidget extends Widget {
+        protected PlainWidget(WebElement element) {
+            super(element);
+        }
+
+        public WebElement root() {
+            return getWrappedElement();
+        }
+
+        public String dom() {
+            return getWrappedElement().getDomAttribute("text");
+        }
+    }
+
+    private static final class RichElement extends StubWebElement implements Locatable {
+        private final String domText;
+
+        private RichElement(WebDriver driver, String domText) {
+            super(driver, By.id("rich"));
+            this.domText = domText;
+        }
+
+        @Override
+        public String getDomAttribute(String name) {
+            return "text".equals(name) ? domText : null;
+        }
+
+        @Override
+        public Coordinates getCoordinates() {
+            return null;
         }
     }
 
@@ -563,7 +750,7 @@ public class WidgetMultipleLocatorLookupTest {
 
         protected ExplodingWidget(WebElement element) {
             super(element);
-            if ("SearchingWidgetRoot".equals(element.getClass().getSimpleName())) {
+            if (element instanceof SearchingWidgetRoot) {
                 BUILDS.incrementAndGet();
             }
         }
@@ -631,6 +818,11 @@ public class WidgetMultipleLocatorLookupTest {
         }
 
         @Override
+        public boolean searchesFurtherRoots(WebElement resolvedRoot) {
+            return second != null;
+        }
+
+        @Override
         public Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
             seenResolved = resolvedRoot;
             if (second == null) {
@@ -664,6 +856,7 @@ public class WidgetMultipleLocatorLookupTest {
         private final Map<String, Set<String>> roots = new HashMap<>();
         private final Map<String, RootElement> elements = new HashMap<>();
         private final List<String> lookups = new ArrayList<>();
+        private final List<Duration> rootQueryWaits = new ArrayList<>();
 
         private SelectiveDriver(String presentWithoutTarget, String presentWithTarget) {
             if (presentWithoutTarget != null) {
@@ -681,6 +874,7 @@ public class WidgetMultipleLocatorLookupTest {
 
         @Override
         public List<WebElement> findElements(By by) {
+            rootQueryWaits.add(manage().timeouts().getImplicitWaitTimeout());
             return rootsFor(idOf(by));
         }
 
@@ -744,6 +938,11 @@ public class WidgetMultipleLocatorLookupTest {
         @Override
         public String getTagName() {
             return id;
+        }
+
+        @Override
+        public String getDomAttribute(String name) {
+            return "text".equals(name) ? id : null;
         }
 
         @Override

@@ -17,159 +17,173 @@
 package io.appium.java_client.pagefactory;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
- * Widget root whose nested lookups try later alternative roots.
- * Actions other than finding elements stay on the first matching root, and the
- * widget method that triggered the lookup is not invoked again.
+ * Widget root that repeats a nested lookup on later alternative roots.
+ * The proxy delegates every other call, including {@code getDomAttribute} and
+ * {@code getShadowRoot}, to the first matching element.
+ *
+ * <p>The whole {@link By} is applied to one root before the next. A {@code ByAll}
+ * or {@code ByChained} therefore finishes on the first root before any later root
+ * is considered, and a chain does not take its steps from different roots.
  */
-class SearchingWidgetRoot implements WebElement, WrapsDriver, WrapsElement {
+public interface SearchingWidgetRoot extends WebElement, WrapsDriver, WrapsElement {
 
-    private final WebElement resolved;
-    private final Supplier<Iterator<WebElement>> furtherRoots;
-
-    SearchingWidgetRoot(WebElement resolved, Supplier<Iterator<WebElement>> furtherRoots) {
-        this.resolved = resolved;
-        this.furtherRoots = furtherRoots;
+    /**
+     * Returns a root that searches {@code furtherRoots} after {@code resolved} misses.
+     * {@link #getWrappedElement()} is {@code resolved}.
+     *
+     * @param resolved the first matching root
+     * @param furtherRoots later roots, queried again on each lookup
+     * @return a proxy around {@code resolved}
+     */
+    static WebElement wrap(WebElement resolved, Supplier<Iterator<WebElement>> furtherRoots) {
+        Class<?>[] interfaces = Handler.proxyInterfaces(resolved);
+        return (WebElement) Proxy.newProxyInstance(
+                SearchingWidgetRoot.class.getClassLoader(),
+                interfaces,
+                new Handler(resolved, furtherRoots)
+        );
     }
 
-    @Override
-    public WebElement findElement(By by) {
-        try {
-            return resolved.findElement(by);
-        } catch (NoSuchElementException missed) {
-            NoSuchElementException firstMiss = missed;
+    /**
+     * Forwards calls to the real root and overrides only element lookup.
+     */
+    class Handler implements InvocationHandler {
+        private final WebElement resolved;
+        private final Supplier<Iterator<WebElement>> furtherRoots;
+
+        Handler(WebElement resolved, Supplier<Iterator<WebElement>> furtherRoots) {
+            this.resolved = resolved;
+            this.furtherRoots = furtherRoots;
+        }
+
+        /**
+         * Delegates to the real root, except element lookup.
+         *
+         * @param proxy the searching root
+         * @param method the called method
+         * @param args the arguments, or null when there are none
+         * @return the call result
+         * @throws Throwable when the real call fails
+         */
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            if (isLookup(method, args, "findElement")) {
+                return findElement((By) args[0]);
+            }
+            if (isLookup(method, args, "findElements")) {
+                return findElements((By) args[0]);
+            }
+            if ("getWrappedElement".equals(method.getName()) && (args == null || args.length == 0)) {
+                return resolved;
+            }
+            if ("getWrappedDriver".equals(method.getName()) && (args == null || args.length == 0)) {
+                return unpackWebDriverFromSearchContext(resolved);
+            }
+            if ("toString".equals(method.getName()) && (args == null || args.length == 0)) {
+                return resolved.toString();
+            }
+            if ("hashCode".equals(method.getName()) && (args == null || args.length == 0)) {
+                return resolved.hashCode();
+            }
+            if ("equals".equals(method.getName()) && args != null && args.length == 1) {
+                return same(proxy, args[0]);
+            }
+            try {
+                return method.invoke(resolved, args);
+            } catch (InvocationTargetException thrown) {
+                throw thrown.getCause() == null ? thrown : thrown.getCause();
+            }
+        }
+
+        private WebElement findElement(By by) {
+            try {
+                return resolved.findElement(by);
+            } catch (NoSuchElementException missed) {
+                NoSuchElementException firstMiss = missed;
+                Iterator<WebElement> laterRoots = furtherRoots.get();
+                while (laterRoots.hasNext()) {
+                    try {
+                        return laterRoots.next().findElement(by);
+                    } catch (NoSuchElementException laterMiss) {
+                        firstMiss.addSuppressed(laterMiss);
+                    }
+                }
+                throw firstMiss;
+            }
+        }
+
+        private List<WebElement> findElements(By by) {
+            List<WebElement> found = resolved.findElements(by);
+            if (!found.isEmpty()) {
+                return found;
+            }
             Iterator<WebElement> laterRoots = furtherRoots.get();
             while (laterRoots.hasNext()) {
-                try {
-                    return laterRoots.next().findElement(by);
-                } catch (NoSuchElementException laterMiss) {
-                    firstMiss.addSuppressed(laterMiss);
+                List<WebElement> later = laterRoots.next().findElements(by);
+                if (!later.isEmpty()) {
+                    return later;
                 }
             }
-            throw firstMiss;
-        }
-    }
-
-    @Override
-    public List<WebElement> findElements(By by) {
-        List<WebElement> found = resolved.findElements(by);
-        if (!found.isEmpty()) {
             return found;
         }
-        Iterator<WebElement> laterRoots = furtherRoots.get();
-        while (laterRoots.hasNext()) {
-            List<WebElement> later = laterRoots.next().findElements(by);
-            if (!later.isEmpty()) {
-                return later;
+
+        private boolean same(Object proxy, Object other) {
+            if (proxy == other) {
+                return true;
             }
+            if (other instanceof WrapsElement) {
+                other = ((WrapsElement) other).getWrappedElement();
+            }
+            return resolved == other || resolved.equals(other);
         }
-        return found;
-    }
 
-    @Override
-    public WebElement getWrappedElement() {
-        return resolved;
-    }
+        private static boolean isLookup(Method method, Object[] args, String name) {
+            return name.equals(method.getName())
+                    && args != null
+                    && args.length == 1
+                    && args[0] instanceof By;
+        }
 
-    @Override
-    public WebDriver getWrappedDriver() {
-        return unpackWebDriverFromSearchContext(resolved);
-    }
+        private static Class<?>[] proxyInterfaces(WebElement resolved) {
+            Set<Class<?>> interfaces = new LinkedHashSet<>();
+            collect(resolved.getClass(), interfaces);
+            interfaces.add(WebElement.class);
+            interfaces.add(WrapsDriver.class);
+            interfaces.add(WrapsElement.class);
+            interfaces.add(SearchingWidgetRoot.class);
+            interfaces.removeIf(type -> !Modifier.isPublic(type.getModifiers()));
+            return interfaces.toArray(Class<?>[]::new);
+        }
 
-    @Override
-    public void click() {
-        resolved.click();
-    }
-
-    @Override
-    public void submit() {
-        resolved.submit();
-    }
-
-    @Override
-    public void sendKeys(CharSequence... keysToSend) {
-        resolved.sendKeys(keysToSend);
-    }
-
-    @Override
-    public void clear() {
-        resolved.clear();
-    }
-
-    @Override
-    public String getTagName() {
-        return resolved.getTagName();
-    }
-
-    @Override
-    public String getAttribute(String name) {
-        return resolved.getAttribute(name);
-    }
-
-    @Override
-    public boolean isSelected() {
-        return resolved.isSelected();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return resolved.isEnabled();
-    }
-
-    @Override
-    public String getText() {
-        return resolved.getText();
-    }
-
-    @Override
-    public boolean isDisplayed() {
-        return resolved.isDisplayed();
-    }
-
-    @Override
-    public Point getLocation() {
-        return resolved.getLocation();
-    }
-
-    @Override
-    public Dimension getSize() {
-        return resolved.getSize();
-    }
-
-    @Override
-    public Rectangle getRect() {
-        return resolved.getRect();
-    }
-
-    @Override
-    public String getCssValue(String propertyName) {
-        return resolved.getCssValue(propertyName);
-    }
-
-    @Override
-    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
-        return resolved.getScreenshotAs(target);
-    }
-
-    @Override
-    public String toString() {
-        return resolved.toString();
+        private static void collect(Class<?> type, Set<Class<?>> interfaces) {
+            if (type == null || Object.class.equals(type)) {
+                return;
+            }
+            for (Class<?> iface : type.getInterfaces()) {
+                if (interfaces.add(iface)) {
+                    collect(iface, interfaces);
+                }
+            }
+            collect(type.getSuperclass(), interfaces);
+        }
     }
 }

@@ -27,6 +27,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.UnsupportedCommandException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
@@ -45,6 +47,7 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {
@@ -212,24 +215,37 @@ class AppiumElementLocator implements CacheableLocator {
      * each locator is a candidate, and it is skipped when it is {@code resolvedRoot}.
      */
     @Override
+    public boolean searchesFurtherRoots(WebElement resolvedRoot) {
+        return alternativeBys(resolvedRoot) != null;
+    }
+
+    @Override
     public Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
         SearchContext context = getSearchContext().orElse(null);
-        if (resolvedRoot == null || context == null) {
-            return Collections.emptyIterator();
-        }
-        By[] alternatives = alternativeLocators(mappedLocator(context));
-        if (alternatives == null) {
+        By[] alternatives = alternativeBys(resolvedRoot);
+        if (context == null || alternatives == null) {
             return Collections.emptyIterator();
         }
         return new LazyAlternateRoots(context, alternatives, resolvedRoot);
     }
 
-    private By mappedLocator(SearchContext context) {
-        By effective = getBy(by, context);
-        if (effective instanceof ContentMappedBy) {
-            return ((ContentMappedBy) effective).getCurrentLocator();
+    private By[] alternativeBys(WebElement resolvedRoot) {
+        SearchContext context = getSearchContext().orElse(null);
+        if (resolvedRoot == null || context == null) {
+            return null;
         }
-        return effective;
+        return alternativeLocators(mappedLocator(context));
+    }
+
+    /**
+     * Reads the locator for the context's content type without changing the shared
+     * {@link ContentMappedBy} selection.
+     */
+    private By mappedLocator(SearchContext context) {
+        if (by instanceof ContentMappedBy) {
+            return ((ContentMappedBy) by).locatorFor(getCurrentContentType(context));
+        }
+        return by;
     }
 
     /**
@@ -310,7 +326,7 @@ class AppiumElementLocator implements CacheableLocator {
             while (index < alternatives.length) {
                 By candidate = alternatives[index];
                 index++;
-                List<WebElement> matches = context.findElements(candidate);
+                List<WebElement> matches = findWithoutImplicitWait(context, candidate);
                 if (matches.isEmpty()) {
                     continue;
                 }
@@ -320,6 +336,34 @@ class AppiumElementLocator implements CacheableLocator {
                 }
             }
             return null;
+        }
+
+        /**
+         * Alternate roots are polled by the page-object wait already. A driver's implicit
+         * wait would be paid again for every empty alternative, so it is cleared here
+         * and restored afterwards.
+         */
+        private static List<WebElement> findWithoutImplicitWait(SearchContext context, By candidate) {
+            WebDriver driver = unpackWebDriverFromSearchContext(context);
+            if (driver == null) {
+                return context.findElements(candidate);
+            }
+            WebDriver.Timeouts timeouts = driver.manage().timeouts();
+            Duration previous;
+            try {
+                previous = timeouts.getImplicitWaitTimeout();
+            } catch (UnsupportedCommandException ignored) {
+                return context.findElements(candidate);
+            }
+            if (previous == null || previous.isZero()) {
+                return context.findElements(candidate);
+            }
+            try {
+                timeouts.implicitlyWait(Duration.ZERO);
+                return context.findElements(candidate);
+            } finally {
+                timeouts.implicitlyWait(previous);
+            }
         }
     }
 

@@ -47,4 +47,17 @@ public interface CacheableLocator extends ElementLocator {
     default Iterator<WebElement> furtherRoots(WebElement resolvedRoot) {
         return Collections.emptyIterator();
     }
+
+    /**
+     * Whether this locator declares another root besides {@code resolvedRoot}.
+     * This follows the locator, not whether that root is on screen yet.
+     * Override it together with {@link #furtherRoots(WebElement)}; the default is false,
+     * so a single-locator widget keeps the real element.
+     *
+     * @param resolvedRoot the root already found
+     * @return true when a nested miss should search further roots
+     */
+    default boolean searchesFurtherRoots(WebElement resolvedRoot) {
+        return false;
+    }
 }
