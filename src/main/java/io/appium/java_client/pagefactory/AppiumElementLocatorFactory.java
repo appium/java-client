@@ -78,14 +78,40 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
     @Nullable
     @Override
     public CacheableLocator createLocator(Field field) {
-        return this.createLocator((AnnotatedElement) field);
+        Class<?> pageClass = PageFactory.getCurrentPageClass();
+        return createLocator(field, pageClass, extractWidgetClass(field, pageClass));
+    }
+
+    @Nullable
+    CacheableLocator createLocator(
+            Field field,
+            @Nullable Class<?> pageClass,
+            @Nullable Class<? extends Widget> widgetClass
+    ) {
+        return createLocator((AnnotatedElement) field, pageClass, widgetClass);
     }
 
     @Nullable
     @Override
     public CacheableLocator createLocator(AnnotatedElement annotatedElement) {
-        Duration customDuration = resolveCustomDuration(annotatedElement);
+        Class<?> pageClass = PageFactory.getCurrentPageClass();
+        Class<? extends Widget> widgetClass = annotatedElement instanceof Field
+                ? extractWidgetClass((Field) annotatedElement, pageClass)
+                : null;
+        return createLocator(annotatedElement, pageClass, widgetClass);
+    }
+
+    @Nullable
+    private CacheableLocator createLocator(
+            AnnotatedElement annotatedElement,
+            @Nullable Class<?> pageClass,
+            @Nullable Class<? extends Widget> widgetClass
+    ) {
+        Duration customDuration = resolveCustomDuration(annotatedElement, pageClass, widgetClass);
         builder.setAnnotated(annotatedElement);
+        if (builder instanceof DefaultElementByBuilder) {
+            ((DefaultElementByBuilder) builder).setDecorationContext(pageClass, widgetClass);
+        }
         try {
             return ofNullable(builder.buildBy())
                     .map(by -> {
@@ -96,28 +122,33 @@ public class AppiumElementLocatorFactory implements CacheableElementLocatorFacto
                     })
                     .orElse(null);
         } finally {
+            if (builder instanceof DefaultElementByBuilder) {
+                ((DefaultElementByBuilder) builder).setDecorationContext(null, null);
+            }
             // unleak element reference after the locator is built
             builder.setAnnotated(null);
         }
     }
 
-    private Duration resolveCustomDuration(AnnotatedElement annotatedElement) {
+    private Duration resolveCustomDuration(
+            AnnotatedElement annotatedElement,
+            @Nullable Class<?> pageClass,
+            @Nullable Class<? extends Widget> widgetClass
+    ) {
         if (annotatedElement.isAnnotationPresent(WithTimeout.class)) {
             return build(annotatedElement.getAnnotation(WithTimeout.class));
         }
 
         if (annotatedElement instanceof Field) {
             Field field = (Field) annotatedElement;
-            Class<?> widgetClass = extractWidgetClass(field);
             if (widgetClass != null) {
                 WithTimeout widgetTimeout = findClassTimeout(widgetClass);
                 if (widgetTimeout != null) {
                     return build(widgetTimeout);
                 }
             }
-            Class<?> currentPageClass = PageFactory.getCurrentPageClass();
-            if (currentPageClass != null && field.getDeclaringClass().isAssignableFrom(currentPageClass)) {
-                WithTimeout pageTimeout = findClassTimeout(currentPageClass);
+            if (pageClass != null && field.getDeclaringClass().isAssignableFrom(pageClass)) {
+                WithTimeout pageTimeout = findClassTimeout(pageClass);
                 if (pageTimeout != null) {
                     return build(pageTimeout);
                 }

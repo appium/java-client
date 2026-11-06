@@ -57,6 +57,10 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     private static final Class<?>[] ANNOTATION_ARGUMENTS = new Class[]{};
     private static final Object[] ANNOTATION_PARAMETERS = new Object[]{};
     private final LocatorGroupStrategy defaultLocatorGroupStrategy;
+    @Nullable
+    private Class<?> currentPageClass;
+    @Nullable
+    private Class<? extends Widget> currentWidgetClass;
 
     /**
      * Creates a new builder.
@@ -187,7 +191,21 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return result.toArray(new By[0]);
     }
 
-    private static Optional<HowToUseLocators> findHowToUseLocators(AnnotatedElement annotatedElement) {
+    void setDecorationContext(@Nullable Class<?> pageClass, @Nullable Class<? extends Widget> widgetClass) {
+        this.currentPageClass = pageClass;
+        this.currentWidgetClass = widgetClass;
+    }
+
+    @Nullable
+    Class<? extends Widget> resolveWidgetClassForField(Field field) {
+        if (currentWidgetClass != null) {
+            return currentWidgetClass;
+        }
+        Class<?> pageClass = currentPageClass != null ? currentPageClass : PageFactory.getCurrentPageClass();
+        return extractWidgetClass(field, pageClass);
+    }
+
+    private Optional<HowToUseLocators> findHowToUseLocators(AnnotatedElement annotatedElement) {
         if (annotatedElement == null) {
             return Optional.empty();
         }
@@ -197,16 +215,16 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         }
         if (annotatedElement instanceof Field) {
             Field field = (Field) annotatedElement;
-            Class<?> widgetClass = extractWidgetClass(field);
+            Class<?> widgetClass = resolveWidgetClassForField(field);
             if (widgetClass != null) {
                 HowToUseLocators widgetAnnotation = findClassHowToUseLocators(widgetClass);
                 if (widgetAnnotation != null) {
                     return Optional.of(widgetAnnotation);
                 }
             }
-            Class<?> currentPageClass = PageFactory.getCurrentPageClass();
-            if (currentPageClass != null && field.getDeclaringClass().isAssignableFrom(currentPageClass)) {
-                HowToUseLocators pageAnnotation = findClassHowToUseLocators(currentPageClass);
+            Class<?> pageClass = currentPageClass != null ? currentPageClass : PageFactory.getCurrentPageClass();
+            if (pageClass != null && field.getDeclaringClass().isAssignableFrom(pageClass)) {
+                HowToUseLocators pageAnnotation = findClassHowToUseLocators(pageClass);
                 if (pageAnnotation != null) {
                     return Optional.of(pageAnnotation);
                 }

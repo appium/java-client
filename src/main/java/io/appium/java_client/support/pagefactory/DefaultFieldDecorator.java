@@ -61,7 +61,9 @@ public class DefaultFieldDecorator implements FieldDecorator {
     @Nullable
     @Override
     public Object decorate(ClassLoader loader, Field field) {
-        if (!(WebElement.class.isAssignableFrom(field.getType()) || isDecoratableList(field))) {
+        Class<?> pageClass = PageFactory.getCurrentPageClass();
+        boolean isElement = isDecoratableElement(field, pageClass);
+        if (!(isElement || isDecoratableList(field, pageClass))) {
             return null;
         }
 
@@ -70,13 +72,23 @@ public class DefaultFieldDecorator implements FieldDecorator {
             return null;
         }
 
-        if (WebElement.class.isAssignableFrom(field.getType())) {
+        if (isElement) {
             return proxyForLocator(loader, locator);
         } else if (List.class.isAssignableFrom(field.getType())) {
             return proxyForListLocator(loader, locator);
         } else {
             return null;
         }
+    }
+
+    private boolean isDecoratableElement(Field field, @Nullable Class<?> pageClass) {
+        if (List.class.isAssignableFrom(field.getType())) {
+            return false;
+        }
+        if (WebElement.class.isAssignableFrom(field.getType())) {
+            return true;
+        }
+        return resolveFieldClasses(field, pageClass).contains(WebElement.class);
     }
 
     /**
@@ -86,31 +98,44 @@ public class DefaultFieldDecorator implements FieldDecorator {
      * @return true if the field can be decorated
      */
     protected boolean isDecoratableList(Field field) {
-        if (!resolveListElementClasses(field).contains(WebElement.class)) {
+        return isDecoratableList(field, PageFactory.getCurrentPageClass());
+    }
+
+    private boolean isDecoratableList(Field field, @Nullable Class<?> pageClass) {
+        if (!resolveListElementClasses(field, pageClass).contains(WebElement.class)) {
             return false;
         }
 
+        return hasStandardLocatorAnnotation(field);
+    }
+
+    private static boolean hasStandardLocatorAnnotation(Field field) {
         return field.getAnnotation(FindBy.class) != null
                 || field.getAnnotation(FindBys.class) != null
                 || field.getAnnotation(FindAll.class) != null;
     }
 
     /**
-     * Resolves the candidate element classes for a {@link List} field, unwrapping parameterized
-     * types, upper- and lower-bounded wildcards ({@code ? extends T} and {@code ? super T}),
-     * and type variables ({@code T}).
-     *
-     * <p>When a type variable is declared on a generic superclass of the page currently being
-     * initialized via {@link PageFactory#initElements(FieldDecorator, Object)}, the concrete
-     * type argument supplied by the runtime page subclass ({@link PageFactory#getCurrentPageClass()})
-     * is resolved. If the generic page class is instantiated directly with erased type parameters
-     * or outside {@link PageFactory#initElements(FieldDecorator, Object)}, resolution falls back
-     * to the type variable's declared upper bounds.
+     * Resolves the candidate classes for a non-list field against {@code pageClass} and declared bounds.
      *
      * @param field the field to inspect
-     * @return the resolved candidate element classes, or an empty list if the field is not a parameterized list
+     * @param pageClass the runtime page class, or {@code null}
+     * @return the resolved candidate classes
      */
-    public static List<Class<?>> resolveListElementClasses(Field field) {
+    protected static List<Class<?>> resolveFieldClasses(Field field, @Nullable Class<?> pageClass) {
+        List<Class<?>> resolved = new ArrayList<>(2);
+        collectElementClasses(field.getGenericType(), pageClass, resolved);
+        return resolved;
+    }
+
+    /**
+     * Resolves the candidate element classes for a {@link List} field against {@code pageClass} and bounds.
+     *
+     * @param field the field to inspect
+     * @param pageClass the runtime page class, or {@code null}
+     * @return the resolved candidate element classes
+     */
+    protected static List<Class<?>> resolveListElementClasses(Field field, @Nullable Class<?> pageClass) {
         if (!List.class.isAssignableFrom(field.getType())) {
             return List.of();
         }
@@ -125,8 +150,8 @@ public class DefaultFieldDecorator implements FieldDecorator {
             return List.of();
         }
 
-        List<Class<?>> resolved = new ArrayList<>(1);
-        collectElementClasses(typeArguments[0], PageFactory.getCurrentPageClass(), resolved);
+        List<Class<?>> resolved = new ArrayList<>(2);
+        collectElementClasses(typeArguments[0], pageClass, resolved);
         return resolved;
     }
 
@@ -136,11 +161,17 @@ public class DefaultFieldDecorator implements FieldDecorator {
             List<Class<?>> resolved
     ) {
         if (type instanceof Class<?>) {
-            resolved.add((Class<?>) type);
+            Class<?> clazz = (Class<?>) type;
+            if (!resolved.contains(clazz)) {
+                resolved.add(clazz);
+            }
         } else if (type instanceof ParameterizedType) {
             Type rawType = ((ParameterizedType) type).getRawType();
             if (rawType instanceof Class<?>) {
-                resolved.add((Class<?>) rawType);
+                Class<?> rawClass = (Class<?>) rawType;
+                if (!resolved.contains(rawClass)) {
+                    resolved.add(rawClass);
+                }
             }
         } else if (type instanceof WildcardType) {
             WildcardType wildcardType = (WildcardType) type;
@@ -154,13 +185,12 @@ public class DefaultFieldDecorator implements FieldDecorator {
             Type resolvedArg = resolveTypeVariable(typeVariable, pageClass);
             if (resolvedArg != null && !(resolvedArg instanceof TypeVariable<?>)) {
                 collectElementClasses(resolvedArg, pageClass, resolved);
-            } else {
-                TypeVariable<?> targetVar = resolvedArg instanceof TypeVariable<?>
-                        ? (TypeVariable<?>) resolvedArg
-                        : typeVariable;
-                for (Type bound : targetVar.getBounds()) {
-                    collectElementClasses(bound, pageClass, resolved);
-                }
+            }
+            TypeVariable<?> targetVar = resolvedArg instanceof TypeVariable<?>
+                    ? (TypeVariable<?>) resolvedArg
+                    : typeVariable;
+            for (Type bound : targetVar.getBounds()) {
+                collectElementClasses(bound, pageClass, resolved);
             }
         }
     }

@@ -20,6 +20,7 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
+import io.appium.java_client.pagefactory.interceptors.InterceptorOfASingleElement;
 import io.appium.java_client.proxy.MethodCallListener;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.CapabilityType;
@@ -58,10 +59,6 @@ class AppiumFieldDecoratorTest {
         private final WebDriver parent;
 
         private FoundElement(WebDriver parent) {
-            // WidgetListInterceptor and WidgetInterceptor unpack the parent WebDriver from each
-            // root WebElement via WrapsDriver.getWrappedDriver(). Because RecordingDriver uses a
-            // JDK dynamic Proxy for WebDriver rather than AppiumRemoteWebDriver, we store the
-            // proxy reference and return it from getWrappedDriver().
             this.parent = parent;
         }
 
@@ -247,6 +244,12 @@ class AppiumFieldDecoratorTest {
         @FindBy(css = ".wildcard-type-var-elements")
         List<? extends T> wildcardTypeVarElements;
 
+        W singleTypeVarWidget;
+
+        @FindBy(css = ".overridden-single-type-var-widget")
+        @OverrideWidget(html = CustomFancyWidget.class)
+        W overriddenSingleTypeVarWidget;
+
         @FindBy(css = ".type-var-widgets")
         List<W> typeVarWidgets;
 
@@ -263,17 +266,23 @@ class AppiumFieldDecoratorTest {
     private static class ConcreteGenericPage extends GenericPage<AppiumWebElement, FancyWidget> {
     }
 
+    private static class SubtypeElementGenericPage extends GenericPage<FoundElement, FancyWidget> {
+    }
+
     private static Page initialized(RecordingDriver recorder) {
         Page page = new Page();
         PageFactory.initElements(new AppiumFieldDecorator(recorder.driver, Duration.ofMillis(100)), page);
         return page;
     }
 
-    private static Duration extractWaitingDuration(Object decoratedListProxy) throws Exception {
-        Field listenersField = decoratedListProxy.getClass().getDeclaredField("methodCallListeners");
+    private static Duration extractWaitingDuration(Object decoratedProxy) throws Exception {
+        Field listenersField = decoratedProxy.getClass().getDeclaredField("methodCallListeners");
         listenersField.setAccessible(true);
-        MethodCallListener[] listeners = (MethodCallListener[]) listenersField.get(decoratedListProxy);
-        Field locatorField = InterceptorOfAListOfElements.class.getDeclaredField("locator");
+        MethodCallListener[] listeners = (MethodCallListener[]) listenersField.get(decoratedProxy);
+        Class<?> interceptorBase = listeners[0] instanceof InterceptorOfAListOfElements
+                ? InterceptorOfAListOfElements.class
+                : InterceptorOfASingleElement.class;
+        Field locatorField = interceptorBase.getDeclaredField("locator");
         locatorField.setAccessible(true);
         AppiumElementLocator locator = (AppiumElementLocator) locatorField.get(listeners[0]);
         assertNotNull(locator);
@@ -440,8 +449,19 @@ class AppiumFieldDecoratorTest {
         for (FancyWidget widget : page.wildcardTypeVarWidgets) {
             assertInstanceOf(FancyWidget.class, widget);
         }
+        assertNotNull(page.singleTypeVarWidget);
+        assertInstanceOf(FancyWidget.class, page.singleTypeVarWidget);
+        assertEquals(Duration.ofMillis(75), extractWaitingDuration(page.singleTypeVarWidget));
         assertEquals(Duration.ofMillis(75), extractWaitingDuration(page.typeVarWidgets));
         assertEquals(Duration.ofMillis(75), extractWaitingDuration(page.wildcardTypeVarWidgets));
+
+        recorder.bys.clear();
+        recorder.locators.clear();
+        assertEquals("text", page.singleTypeVarWidget.getWrappedElement().getText());
+        assertEquals(
+                new ByAll(AppiumBy.id("fancy-a1"), AppiumBy.id("fancy-a2")).toString(),
+                recorder.locators.get(0)
+        );
 
         recorder.bys.clear();
         recorder.locators.clear();
@@ -456,12 +476,29 @@ class AppiumFieldDecoratorTest {
         RecordingDriver htmlRecorder = new RecordingDriver();
         ConcreteGenericPage htmlPage = new ConcreteGenericPage();
         PageFactory.initElements(new AppiumFieldDecorator(htmlRecorder.driver, Duration.ofSeconds(5)), htmlPage);
+        assertEquals("text", htmlPage.singleTypeVarWidget.getWrappedElement().getText());
         assertEquals(2, htmlPage.unannotatedTypeVarWidgets.size());
-        assertEquals(List.of(By.cssSelector(".fancy-widget-root").toString()), htmlRecorder.locators);
+        assertEquals(
+                List.of(
+                        By.cssSelector(".fancy-widget-root").toString(),
+                        By.cssSelector(".fancy-widget-root").toString()
+                ),
+                htmlRecorder.locators
+        );
+        assertInstanceOf(CustomFancyWidget.class, htmlPage.overriddenSingleTypeVarWidget.getSelfReference());
         assertInstanceOf(CustomFancyWidget.class, htmlPage.overriddenTypeVarWidgets.get(0).getSelfReference());
+
+        SubtypeElementGenericPage subtypePage = new SubtypeElementGenericPage();
+        PageFactory.initElements(new AppiumFieldDecorator(htmlRecorder.driver, Duration.ofMillis(100)), subtypePage);
+        assertNotNull(subtypePage.typeVarElements);
+        assertEquals(2, subtypePage.typeVarElements.size());
+        assertNotNull(subtypePage.wildcardTypeVarElements);
+        assertEquals(2, subtypePage.wildcardTypeVarElements.size());
 
         GenericPage<AppiumWebElement, FancyWidget> rawGenericPage = new GenericPage<>();
         PageFactory.initElements(new AppiumFieldDecorator(htmlRecorder.driver, Duration.ofMillis(100)), rawGenericPage);
+        assertNotNull(rawGenericPage.singleTypeVarWidget);
+        assertInstanceOf(SampleWidget.class, rawGenericPage.singleTypeVarWidget);
         assertNotNull(rawGenericPage.typeVarWidgets);
         assertInstanceOf(SampleWidget.class, ((List<?>) rawGenericPage.typeVarWidgets).get(0));
     }

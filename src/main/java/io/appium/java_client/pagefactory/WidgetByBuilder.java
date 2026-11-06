@@ -21,7 +21,6 @@ import org.openqa.selenium.By;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
-import static io.appium.java_client.pagefactory.AppiumFieldDecorator.extractWidgetClass;
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getDefaultOrHTMLWidgetClass;
 import static io.appium.java_client.pagefactory.OverrideWidgetReader.getMobileNativeWidgetClass;
 import static java.util.Optional.ofNullable;
@@ -60,7 +59,7 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
 
         By result = null;
         try {
-            Class<? extends Widget> declaredClass = extractWidgetClass(field);
+            Class<? extends Widget> declaredClass = resolveWidgetClassForField(field);
             if (declaredClass == null) {
                 return null;
             }

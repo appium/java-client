@@ -34,16 +34,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PageFactoryTest {
 
+    private interface CustomWebElement extends WebElement {
+    }
+
     @SuppressWarnings("unused")
     private static class BasePage<T extends WebElement> {
         @FindBy(id = "base")
         WebElement baseElement;
+
+        @FindBy(id = "generic-single")
+        T genericSingleElement;
 
         @FindBy(css = ".generic-elements")
         List<T> genericElements;
 
         @FindBy(css = ".generic-wildcard-elements")
         List<? extends T> genericWildcardElements;
+    }
+
+    private static class SubtypeElementPage extends BasePage<CustomWebElement> {
     }
 
     @SuppressWarnings("unused")
@@ -96,6 +105,7 @@ class PageFactoryTest {
 
         assertEquals("element", page.element.getText());
         assertEquals("baseElement", page.baseElement.getText());
+        assertEquals("genericSingleElement", page.genericSingleElement.getText());
         assertEquals(2, page.elements.size());
         assertEquals("elements-2", page.elements.get(1).getText());
         assertEquals(2, page.wildcardElements.size());
@@ -111,6 +121,13 @@ class PageFactoryTest {
         assertEquals("genericWildcardElements-2", page.genericWildcardElements.get(1).getText());
         assertNull(page.unboundedElementList);
         assertNull(page.objectSuperElementList);
+
+        SubtypeElementPage subtypePage = new SubtypeElementPage();
+        PageFactory.initElements(new DefaultFieldDecorator(field -> locatorOf(field.getName())), subtypePage);
+        assertNotNull(subtypePage.genericElements);
+        assertEquals(2, subtypePage.genericElements.size());
+        assertNotNull(subtypePage.genericWildcardElements);
+        assertEquals(2, subtypePage.genericWildcardElements.size());
     }
 
     @Test
