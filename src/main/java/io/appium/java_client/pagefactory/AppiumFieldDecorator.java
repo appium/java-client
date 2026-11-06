@@ -21,9 +21,9 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.CapabilityType;
+import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.support.pagefactory.ElementLocator;
-import io.appium.java_client.support.pagefactory.ElementLocatorFactory;
 import io.appium.java_client.support.pagefactory.FieldDecorator;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -35,13 +35,8 @@ import org.openqa.selenium.WebElement;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +67,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     private static final ThreadLocal<LocatorGroupStrategy> CURRENT_DEFAULT_STRATEGY =
             ThreadLocal.withInitial(() -> LocatorGroupStrategy.CHAIN);
     private final WeakReference<WebDriver> webDriverReference;
-    private final DefaultFieldDecorator defaultElementFieldDecorator;
+    private final ElementFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
     private final String platform;
     private final String automation;
@@ -123,9 +118,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 "Default locator group strategy must not be null"
         );
 
-        defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
-                context, duration, new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
-        ));
+        defaultElementFieldDecorator = new ElementFieldDecorator(
+                new AppiumElementLocatorFactory(
+                        context,
+                        duration,
+                        new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
+                ),
+                this.webDriverReference
+        );
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 context, duration, new WidgetByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
         );
@@ -179,11 +179,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 "Default locator group strategy must not be null"
         );
 
-        defaultElementFieldDecorator = createFieldDecorator(new AppiumElementLocatorFactory(
-                contextReference,
-                duration,
-                new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
-        ));
+        defaultElementFieldDecorator = new ElementFieldDecorator(
+                new AppiumElementLocatorFactory(
+                        contextReference,
+                        duration,
+                        new DefaultElementByBuilder(platform, automation, this.defaultLocatorGroupStrategy)
+                ),
+                this.webDriverReference
+        );
         widgetLocatorFactory = new AppiumElementLocatorFactory(
                 contextReference,
                 duration,
@@ -218,39 +221,103 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 .orElse(null);
     }
 
-    private DefaultFieldDecorator createFieldDecorator(ElementLocatorFactory factory) {
-        return new DefaultFieldDecorator(factory) {
-            @Override
-            protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
-                return proxyForAnElement(locator);
+    private static final class ElementFieldDecorator extends DefaultFieldDecorator {
+        private final AppiumElementLocatorFactory locatorFactory;
+        private final WeakReference<WebDriver> webDriverReference;
+
+        private ElementFieldDecorator(
+                AppiumElementLocatorFactory factory,
+                WeakReference<WebDriver> webDriverReference
+        ) {
+            super(factory);
+            this.locatorFactory = factory;
+            this.webDriverReference = webDriverReference;
+        }
+
+        private static List<Class<?>> resolveSingleFieldClasses(Field field, @Nullable Class<?> pageClass) {
+            return resolveFieldClasses(field, pageClass);
+        }
+
+        private static List<Class<?>> resolveListClasses(Field field, @Nullable Class<?> pageClass) {
+            return resolveListElementClasses(field, pageClass);
+        }
+
+        @Override
+        protected WebElement proxyForLocator(ClassLoader ignored, ElementLocator locator) {
+            return proxyForAnElement(locator, webDriverReference);
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
+            ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
+            return getEnhancedProxy(ArrayList.class, elementInterceptor);
+        }
+
+        @Override
+        protected boolean isDecoratableList(Field field) {
+            return resolveListClasses(field, PageFactory.getCurrentPageClass()).stream()
+                    .anyMatch(AVAILABLE_ELEMENT_CLASSES::contains);
+        }
+
+        @Nullable
+        private Object decorateElement(
+                Field field,
+                @Nullable Class<?> pageClass,
+                List<Class<?>> fieldClasses,
+                List<Class<?>> listElementClasses
+        ) {
+            boolean isElement = !List.class.isAssignableFrom(field.getType())
+                    && (WebElement.class.isAssignableFrom(field.getType())
+                            || fieldClasses.stream().anyMatch(AVAILABLE_ELEMENT_CLASSES::contains));
+            boolean isList = !isElement
+                    && listElementClasses.stream().anyMatch(AVAILABLE_ELEMENT_CLASSES::contains);
+            if (!(isElement || isList)) {
+                return null;
             }
 
-            @Override
-            protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
-                ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
-                //noinspection unchecked
-                return getEnhancedProxy(ArrayList.class, elementInterceptor);
+            ElementLocator locator = locatorFactory.createLocator(field, pageClass, null);
+            if (locator == null) {
+                return null;
             }
 
-            @Override
-            protected boolean isDecoratableList(Field field) {
-                if (!List.class.isAssignableFrom(field.getType())) {
-                    return false;
-                }
-
-                Type genericType = field.getGenericType();
-                if (!(genericType instanceof ParameterizedType)) {
-                    return false;
-                }
-
-                Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-                List<Type> bounds = (listType instanceof TypeVariable)
-                        ? Arrays.asList(((TypeVariable<?>) listType).getBounds())
-                        : Collections.emptyList();
-                return AVAILABLE_ELEMENT_CLASSES.stream()
-                        .anyMatch(webElClass -> webElClass.equals(listType) || bounds.contains(webElClass));
+            if (isElement) {
+                return proxyForLocator(null, locator);
             }
-        };
+            return proxyForListLocator(null, locator);
+        }
+    }
+
+    @Nullable
+    static Class<? extends Widget> extractWidgetClass(Field field) {
+        return extractWidgetClass(field, PageFactory.getCurrentPageClass());
+    }
+
+    @Nullable
+    static Class<? extends Widget> extractWidgetClass(Field field, @Nullable Class<?> pageClass) {
+        return resolveWidgetClass(
+                field,
+                ElementFieldDecorator.resolveSingleFieldClasses(field, pageClass),
+                ElementFieldDecorator.resolveListClasses(field, pageClass)
+        );
+    }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    private static Class<? extends Widget> resolveWidgetClass(
+            Field field,
+            List<Class<?>> fieldClasses,
+            List<Class<?>> listElementClasses
+    ) {
+        List<Class<?>> candidates = List.class.isAssignableFrom(field.getType())
+                ? listElementClasses
+                : fieldClasses;
+        for (Class<?> candidate : candidates) {
+            if (Widget.class.isAssignableFrom(candidate)) {
+                return (Class<? extends Widget>) candidate;
+            }
+        }
+        return null;
     }
 
     /**
@@ -264,8 +331,14 @@ public class AppiumFieldDecorator implements FieldDecorator {
         LocatorGroupStrategy previous = CURRENT_DEFAULT_STRATEGY.get();
         CURRENT_DEFAULT_STRATEGY.set(defaultLocatorGroupStrategy);
         try {
-            Object result = decorateWidget(field);
-            return result == null ? defaultElementFieldDecorator.decorate(ignored, field) : result;
+            Class<?> pageClass = PageFactory.getCurrentPageClass();
+            List<Class<?>> fieldClasses = ElementFieldDecorator.resolveSingleFieldClasses(field, pageClass);
+            List<Class<?>> listElementClasses = ElementFieldDecorator.resolveListClasses(field, pageClass);
+            Class<? extends Widget> widgetClass = resolveWidgetClass(field, fieldClasses, listElementClasses);
+            Object result = decorateWidget(field, widgetClass, pageClass);
+            return result == null
+                    ? defaultElementFieldDecorator.decorateElement(field, pageClass, fieldClasses, listElementClasses)
+                    : result;
         } finally {
             if (previous == LocatorGroupStrategy.CHAIN) {
                 CURRENT_DEFAULT_STRATEGY.remove();
@@ -276,43 +349,17 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     @Nullable
-    private Object decorateWidget(Field field) {
-        Class<?> type = field.getType();
-        if (!Widget.class.isAssignableFrom(type) && !List.class.isAssignableFrom(type)) {
+    private Object decorateWidget(
+            Field field,
+            @Nullable Class<? extends Widget> widgetType,
+            @Nullable Class<?> pageClass
+    ) {
+        if (widgetType == null) {
             return null;
         }
+        boolean isAlist = List.class.isAssignableFrom(field.getType());
 
-        Class<? extends Widget> widgetType;
-        boolean isAlist = false;
-        if (List.class.isAssignableFrom(type)) {
-            isAlist = true;
-            Type genericType = field.getGenericType();
-            if (!(genericType instanceof ParameterizedType)) {
-                return null;
-            }
-
-            Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
-
-            if (ParameterizedType.class.isAssignableFrom(listType.getClass())) {
-                listType = ((ParameterizedType) listType).getRawType();
-            }
-
-            if (listType instanceof Class) {
-                if (!Widget.class.isAssignableFrom((Class<?>) listType)) {
-                    return null;
-                }
-                //noinspection unchecked
-                widgetType = (Class<? extends Widget>) listType;
-            } else {
-                return null;
-            }
-
-        } else {
-            //noinspection unchecked
-            widgetType = (Class<? extends Widget>) field.getType();
-        }
-
-        CacheableLocator locator = widgetLocatorFactory.createLocator(field);
+        CacheableLocator locator = widgetLocatorFactory.createLocator(field, pageClass, widgetType);
         Map<ContentType, Constructor<? extends Widget>> map = OverrideWidgetReader.read(widgetType, field, platform);
 
         if (isAlist) {
@@ -333,7 +380,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
         return getEnhancedProxy(
                 widgetType,
                 new Class[]{constructor.getParameterTypes()[0]},
-                new Object[]{proxyForAnElement(locator)},
+                new Object[]{proxyForAnElement(locator, webDriverReference)},
                 new WidgetInterceptor(
                         locator,
                         webDriverReference,
@@ -345,7 +392,10 @@ public class AppiumFieldDecorator implements FieldDecorator {
         );
     }
 
-    private WebElement proxyForAnElement(ElementLocator locator) {
+    private static WebElement proxyForAnElement(
+            ElementLocator locator,
+            WeakReference<WebDriver> webDriverReference
+    ) {
         ElementInterceptor elementInterceptor = new ElementInterceptor(locator, webDriverReference);
         return getEnhancedProxy(AppiumWebElement.class, elementInterceptor);
     }

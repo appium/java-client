@@ -16,6 +16,7 @@
 
 package io.appium.java_client.support;
 
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.ElementType;
@@ -126,7 +127,7 @@ public @interface FindBy {
         }
 
         @Override
-        public By buildIt(FindBy findBy, Field field) {
+        public By buildIt(FindBy findBy, @Nullable Field field) {
             assertValidFindBy(findBy);
 
             By ans = buildByFromShortFindBy(findBy);
