@@ -28,11 +28,17 @@ import java.util.Map;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Objects.requireNonNull;
 
-/** Locator which selects the underlying locator by the current content type. */
+/**
+ * Locator which selects the underlying locator by content type.
+ * The selection is stored per thread, so two threads can search different content
+ * through one shared instance.
+ */
 @EqualsAndHashCode(callSuper = true)
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
-    private ContentType currentContent = NATIVE_MOBILE_SPECIFIC;
+    @EqualsAndHashCode.Exclude
+    private final ThreadLocal<ContentType> currentContent =
+            ThreadLocal.withInitial(() -> NATIVE_MOBILE_SPECIFIC);
 
     /**
      * Creates a new locator.
@@ -50,23 +56,41 @@ public class ContentMappedBy extends By {
      * @return self-reference.
      */
     public By useContent(@NonNull ContentType type) {
-        requireNonNull(type);
-        currentContent = type;
+        currentContent.set(requireNonNull(type));
         return this;
+    }
+
+    /**
+     * Returns the locator selected for this thread's content type.
+     *
+     * @return the locator selected by {@link #useContent(ContentType)}
+     */
+    public By getCurrentLocator() {
+        return locatorFor(currentContent.get());
+    }
+
+    /**
+     * Returns the locator for {@code type} without changing this thread's selection.
+     *
+     * @param type the content type to read
+     * @return the locator stored for {@code type}, or null when it is absent
+     */
+    public By locatorFor(@NonNull ContentType type) {
+        return map.get(requireNonNull(type));
     }
 
     @Override
     public WebElement findElement(SearchContext context) {
-        return context.findElement(map.get(currentContent));
+        return context.findElement(getCurrentLocator());
     }
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        return context.findElements(map.get(currentContent));
+        return context.findElements(getCurrentLocator());
     }
 
     @Override
     public String toString() {
-        return map.get(currentContent).toString();
+        return String.valueOf(getCurrentLocator());
     }
 }

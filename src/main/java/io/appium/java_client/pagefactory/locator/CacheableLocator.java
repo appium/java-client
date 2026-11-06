@@ -16,7 +16,9 @@
 
 package io.appium.java_client.pagefactory.locator;
 
+import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.support.pagefactory.ElementLocator;
+import org.openqa.selenium.WebElement;
 
 /** Element locator whose lookup results may be cached. */
 public interface CacheableLocator extends ElementLocator {
@@ -26,4 +28,19 @@ public interface CacheableLocator extends ElementLocator {
      * @return true if the lookup result is cached
      */
     boolean isLookUpCached();
+
+    /**
+     * Captures later roots for nested lookups under {@code resolvedRoot}.
+     * The snapshot is taken once, when the widget is bound. Later misses reuse it
+     * and do not read the driver context again. Each alternative locator still
+     * contributes only its first match, and {@code resolvedRoot} is omitted.
+     * The default has no further roots, so a single-locator widget keeps the real element.
+     *
+     * @param resolvedRoot the root that was already searched
+     * @param contentType the content type already determined for this root
+     * @return alternate roots, none by default
+     */
+    default FurtherRoots furtherRoots(WebElement resolvedRoot, ContentType contentType) {
+        return FurtherRoots.none();
+    }
 }
