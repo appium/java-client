@@ -35,16 +35,10 @@ import org.openqa.selenium.WebElement;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
@@ -72,6 +66,8 @@ public class AppiumFieldDecorator implements FieldDecorator {
     public static final Duration DEFAULT_WAITING_TIMEOUT = ofSeconds(1);
     private static final ThreadLocal<LocatorGroupStrategy> CURRENT_DEFAULT_STRATEGY =
             ThreadLocal.withInitial(() -> LocatorGroupStrategy.CHAIN);
+    private static final ThreadLocal<FieldDecorationContext> CURRENT_FIELD_CONTEXT =
+            new ThreadLocal<>();
     private final WeakReference<WebDriver> webDriverReference;
     private final DefaultFieldDecorator defaultElementFieldDecorator;
     private final AppiumElementLocatorFactory widgetLocatorFactory;
@@ -235,70 +231,55 @@ public class AppiumFieldDecorator implements FieldDecorator {
 
             @Override
             protected boolean isDecoratableList(Field field) {
-                return resolveListElementClasses(field).stream()
+                return listElementClassesFor(field).stream()
                         .anyMatch(AVAILABLE_ELEMENT_CLASSES::contains);
             }
         };
     }
 
-    static List<Class<?>> resolveListElementClasses(Field field) {
-        if (!List.class.isAssignableFrom(field.getType())) {
-            return List.of();
+    private static List<Class<?>> listElementClassesFor(Field field) {
+        FieldDecorationContext context = CURRENT_FIELD_CONTEXT.get();
+        if (context != null && context.field.equals(field)) {
+            return context.listElementClasses;
         }
-
-        Type genericType = field.getGenericType();
-        if (!(genericType instanceof ParameterizedType)) {
-            return List.of();
-        }
-
-        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
-        if (typeArguments.length == 0) {
-            return List.of();
-        }
-
-        List<Class<?>> resolved = new ArrayList<>();
-        collectElementClasses(typeArguments[0], resolved, new HashSet<>());
-        return resolved;
+        return DefaultFieldDecorator.resolveListElementClasses(field);
     }
 
-    private static void collectElementClasses(Type type, List<Class<?>> resolved, Set<Type> visited) {
-        if (!visited.add(type)) {
-            return;
+    @Nullable
+    static Class<? extends Widget> extractWidgetClass(Field field) {
+        FieldDecorationContext context = CURRENT_FIELD_CONTEXT.get();
+        if (context != null && context.field.equals(field)) {
+            return context.widgetClass;
         }
-        if (type instanceof Class<?>) {
-            resolved.add((Class<?>) type);
-        } else if (type instanceof ParameterizedType) {
-            Type rawType = ((ParameterizedType) type).getRawType();
-            if (rawType instanceof Class<?>) {
-                resolved.add((Class<?>) rawType);
-            }
-        } else if (type instanceof WildcardType) {
-            WildcardType wildcardType = (WildcardType) type;
-            if (wildcardType.getLowerBounds().length == 0) {
-                for (Type bound : wildcardType.getUpperBounds()) {
-                    collectElementClasses(bound, resolved, visited);
-                }
-            }
-        } else if (type instanceof TypeVariable<?>) {
-            for (Type bound : ((TypeVariable<?>) type).getBounds()) {
-                collectElementClasses(bound, resolved, visited);
-            }
-        }
+        return resolveWidgetClass(field, DefaultFieldDecorator.resolveListElementClasses(field));
     }
 
     @Nullable
     @SuppressWarnings("unchecked")
-    static Class<? extends Widget> extractWidgetClass(Field field) {
+    private static Class<? extends Widget> resolveWidgetClass(Field field, List<Class<?>> listElementClasses) {
         Class<?> fieldType = field.getType();
         if (Widget.class.isAssignableFrom(fieldType)) {
             return (Class<? extends Widget>) fieldType;
         }
-        for (Class<?> candidate : resolveListElementClasses(field)) {
+        for (Class<?> candidate : listElementClasses) {
             if (Widget.class.isAssignableFrom(candidate)) {
                 return (Class<? extends Widget>) candidate;
             }
         }
         return null;
+    }
+
+    private static final class FieldDecorationContext {
+        private final Field field;
+        private final List<Class<?>> listElementClasses;
+        @Nullable
+        private final Class<? extends Widget> widgetClass;
+
+        private FieldDecorationContext(Field field) {
+            this.field = field;
+            this.listElementClasses = DefaultFieldDecorator.resolveListElementClasses(field);
+            this.widgetClass = resolveWidgetClass(field, this.listElementClasses);
+        }
     }
 
     /**
@@ -310,11 +291,19 @@ public class AppiumFieldDecorator implements FieldDecorator {
      */
     public Object decorate(ClassLoader ignored, Field field) {
         LocatorGroupStrategy previous = CURRENT_DEFAULT_STRATEGY.get();
+        FieldDecorationContext previousFieldContext = CURRENT_FIELD_CONTEXT.get();
+        FieldDecorationContext fieldContext = new FieldDecorationContext(field);
         CURRENT_DEFAULT_STRATEGY.set(defaultLocatorGroupStrategy);
+        CURRENT_FIELD_CONTEXT.set(fieldContext);
         try {
-            Object result = decorateWidget(field);
+            Object result = decorateWidget(field, fieldContext.widgetClass);
             return result == null ? defaultElementFieldDecorator.decorate(ignored, field) : result;
         } finally {
+            if (previousFieldContext == null) {
+                CURRENT_FIELD_CONTEXT.remove();
+            } else {
+                CURRENT_FIELD_CONTEXT.set(previousFieldContext);
+            }
             if (previous == LocatorGroupStrategy.CHAIN) {
                 CURRENT_DEFAULT_STRATEGY.remove();
             } else {
@@ -324,8 +313,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     @Nullable
-    private Object decorateWidget(Field field) {
-        Class<? extends Widget> widgetType = extractWidgetClass(field);
+    private Object decorateWidget(Field field, @Nullable Class<? extends Widget> widgetType) {
         if (widgetType == null) {
             return null;
         }

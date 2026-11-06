@@ -19,6 +19,7 @@ package io.appium.java_client.support.pagefactory;
 import io.appium.java_client.support.FindAll;
 import io.appium.java_client.support.FindBy;
 import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.internal.LocatingElementHandler;
 import io.appium.java_client.support.pagefactory.internal.LocatingElementListHandler;
 import org.jspecify.annotations.Nullable;
@@ -33,9 +34,8 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all the WebElement fields and 2)
@@ -86,18 +86,7 @@ public class DefaultFieldDecorator implements FieldDecorator {
      * @return true if the field can be decorated
      */
     protected boolean isDecoratableList(Field field) {
-        if (!List.class.isAssignableFrom(field.getType())) {
-            return false;
-        }
-
-        // Type erasure in Java isn't complete. Attempt to discover the generic type of the list.
-        Type genericType = field.getGenericType();
-        if (!(genericType instanceof ParameterizedType)) {
-            return false;
-        }
-
-        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
-        if (typeArguments.length == 0 || !isWebElementType(typeArguments[0], new HashSet<>())) {
+        if (!resolveListElementClasses(field).contains(WebElement.class)) {
             return false;
         }
 
@@ -106,30 +95,111 @@ public class DefaultFieldDecorator implements FieldDecorator {
                 || field.getAnnotation(FindAll.class) != null;
     }
 
-    private static boolean isWebElementType(Type type, Set<Type> visited) {
-        if (!visited.add(type)) {
-            return false;
+    /**
+     * Resolves the candidate element classes for a {@link List} field, unwrapping parameterized
+     * types, upper- and lower-bounded wildcards ({@code ? extends T} and {@code ? super T}),
+     * and type variables ({@code T}).
+     *
+     * <p>When a type variable is declared on a generic superclass of the page currently being
+     * initialized via {@link PageFactory#initElements(FieldDecorator, Object)}, the concrete
+     * type argument supplied by the runtime page subclass ({@link PageFactory#getCurrentPageClass()})
+     * is resolved. If the generic page class is instantiated directly with erased type parameters
+     * or outside {@link PageFactory#initElements(FieldDecorator, Object)}, resolution falls back
+     * to the type variable's declared upper bounds.
+     *
+     * @param field the field to inspect
+     * @return the resolved candidate element classes, or an empty list if the field is not a parameterized list
+     */
+    public static List<Class<?>> resolveListElementClasses(Field field) {
+        if (!List.class.isAssignableFrom(field.getType())) {
+            return List.of();
         }
-        if (WebElement.class.equals(type)) {
-            return true;
+
+        Type genericType = field.getGenericType();
+        if (!(genericType instanceof ParameterizedType)) {
+            return List.of();
         }
-        if (type instanceof WildcardType) {
+
+        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+        if (typeArguments.length == 0) {
+            return List.of();
+        }
+
+        List<Class<?>> resolved = new ArrayList<>(1);
+        collectElementClasses(typeArguments[0], PageFactory.getCurrentPageClass(), resolved);
+        return resolved;
+    }
+
+    private static void collectElementClasses(
+            Type type,
+            @Nullable Class<?> pageClass,
+            List<Class<?>> resolved
+    ) {
+        if (type instanceof Class<?>) {
+            resolved.add((Class<?>) type);
+        } else if (type instanceof ParameterizedType) {
+            Type rawType = ((ParameterizedType) type).getRawType();
+            if (rawType instanceof Class<?>) {
+                resolved.add((Class<?>) rawType);
+            }
+        } else if (type instanceof WildcardType) {
             WildcardType wildcardType = (WildcardType) type;
-            if (wildcardType.getLowerBounds().length == 0) {
-                for (Type bound : wildcardType.getUpperBounds()) {
-                    if (isWebElementType(bound, visited)) {
-                        return true;
-                    }
-                }
+            Type[] lowerBounds = wildcardType.getLowerBounds();
+            Type[] bounds = lowerBounds.length > 0 ? lowerBounds : wildcardType.getUpperBounds();
+            for (Type bound : bounds) {
+                collectElementClasses(bound, pageClass, resolved);
             }
         } else if (type instanceof TypeVariable<?>) {
-            for (Type bound : ((TypeVariable<?>) type).getBounds()) {
-                if (isWebElementType(bound, visited)) {
-                    return true;
+            TypeVariable<?> typeVariable = (TypeVariable<?>) type;
+            Type resolvedArg = resolveTypeVariable(typeVariable, pageClass);
+            if (resolvedArg != null && !(resolvedArg instanceof TypeVariable<?>)) {
+                collectElementClasses(resolvedArg, pageClass, resolved);
+            } else {
+                TypeVariable<?> targetVar = resolvedArg instanceof TypeVariable<?>
+                        ? (TypeVariable<?>) resolvedArg
+                        : typeVariable;
+                for (Type bound : targetVar.getBounds()) {
+                    collectElementClasses(bound, pageClass, resolved);
                 }
             }
         }
-        return false;
+    }
+
+    @Nullable
+    private static Type resolveTypeVariable(TypeVariable<?> typeVariable, @Nullable Class<?> pageClass) {
+        if (!(typeVariable.getGenericDeclaration() instanceof Class<?>)) {
+            return null;
+        }
+        Class<?> declaringClass = (Class<?>) typeVariable.getGenericDeclaration();
+        if (pageClass == null || !declaringClass.isAssignableFrom(pageClass) || declaringClass.equals(pageClass)) {
+            return null;
+        }
+
+        Class<?> current = pageClass;
+        while (current != null && !declaringClass.equals(current)) {
+            Type genericSuper = current.getGenericSuperclass();
+            if (genericSuper instanceof ParameterizedType) {
+                ParameterizedType parameterizedSuper = (ParameterizedType) genericSuper;
+                Class<?> rawSuper = (Class<?>) parameterizedSuper.getRawType();
+                if (rawSuper.equals(declaringClass)) {
+                    TypeVariable<?>[] typeParams = rawSuper.getTypeParameters();
+                    Type[] actualArgs = parameterizedSuper.getActualTypeArguments();
+                    for (int i = 0; i < typeParams.length; i++) {
+                        if (typeParams[i].equals(typeVariable)) {
+                            Type arg = actualArgs[i];
+                            if (arg instanceof TypeVariable<?>) {
+                                Type resolvedFurther = resolveTypeVariable((TypeVariable<?>) arg, pageClass);
+                                return resolvedFurther != null ? resolvedFurther : arg;
+                            }
+                            return arg;
+                        }
+                    }
+                    return null;
+                }
+            }
+            current = current.getSuperclass();
+        }
+        return null;
     }
 
     /**

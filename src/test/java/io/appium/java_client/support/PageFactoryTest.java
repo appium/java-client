@@ -35,13 +35,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PageFactoryTest {
 
     @SuppressWarnings("unused")
-    private static class BasePage {
+    private static class BasePage<T extends WebElement> {
         @FindBy(id = "base")
         WebElement baseElement;
+
+        @FindBy(css = ".generic-elements")
+        List<T> genericElements;
+
+        @FindBy(css = ".generic-wildcard-elements")
+        List<? extends T> genericWildcardElements;
     }
 
     @SuppressWarnings("unused")
-    private static class Page extends BasePage {
+    private static class Page extends BasePage<WebElement> {
         @FindBy(id = "single")
         WebElement element;
 
@@ -60,6 +66,12 @@ class PageFactoryTest {
 
         @FindBy(id = "list-of-lower-bounded")
         List<? super WebElement> lowerBoundedElementList;
+
+        @FindBy(id = "list-of-unbounded")
+        List<?> unboundedElementList;
+
+        @FindBy(id = "list-of-object-super")
+        List<? super Object> objectSuperElementList;
     }
 
     private static ElementLocator locatorOf(String text) {
@@ -88,7 +100,17 @@ class PageFactoryTest {
         assertEquals("elements-2", page.elements.get(1).getText());
         assertEquals(2, page.wildcardElements.size());
         assertEquals("wildcardElements-1", page.wildcardElements.get(0).getText());
-        assertNull(page.lowerBoundedElementList);
+        assertEquals(2, page.lowerBoundedElementList.size());
+        assertEquals(
+                "lowerBoundedElementList-1",
+                assertInstanceOf(WebElement.class, page.lowerBoundedElementList.get(0)).getText()
+        );
+        assertEquals(2, page.genericElements.size());
+        assertEquals("genericElements-1", page.genericElements.get(0).getText());
+        assertEquals(2, page.genericWildcardElements.size());
+        assertEquals("genericWildcardElements-2", page.genericWildcardElements.get(1).getText());
+        assertNull(page.unboundedElementList);
+        assertNull(page.objectSuperElementList);
     }
 
     @Test
