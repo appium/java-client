@@ -18,6 +18,8 @@ package io.appium.java_client.service.local;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +69,51 @@ class AppiumServiceBuilderTest {
                 .withIPAddress(AppiumServiceBuilder.BROADCAST_IP6_ADDRESS).build();
 
         assertEquals("http://[::]:4777/", service.getUrl().toString());
+    }
+
+    @Test
+    void buildsServiceWithBracketedIpv6Address() throws IOException {
+        var builder = newBuilder().usingPort(4777).withIPAddress("[::1]");
+
+        assertEquals(List.of(tempDir.resolve("main.js").toString(), "--port", "4777", "--address", "::1"),
+                builder.createArgs());
+        assertEquals("http://[::1]:4777/", builder.build().getUrl().toString());
+    }
+
+    @Test
+    void buildsServiceWithIpv6AddressWithZoneId() throws IOException {
+        var builder = newBuilder().usingPort(4777).withIPAddress("fe80::1%en0");
+
+        assertEquals(List.of(tempDir.resolve("main.js").toString(), "--port", "4777", "--address", "fe80::1%en0"),
+                builder.createArgs());
+        assertEquals("http://[fe80::1%en0]:4777/", builder.build().getUrl().toString());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"::", "::0", "0:0:0:0:0:0:0:0"})
+    void pingsIpv6LoopbackForIpv6BroadcastAddress(String address) throws IOException {
+        var service = newBuilder().usingPort(4777).withIPAddress(address)
+                .withArgument(io.appium.java_client.service.local.flags.GeneralServerFlag.BASEPATH, "/wd/hub")
+                .build();
+
+        assertEquals("http://[::1]:4777/wd/hub/",
+                AppiumDriverLocalService.fixBroadcastAddresses(service.getUrl()).toString());
+    }
+
+    @Test
+    void pingsIpv4LoopbackForIpv4BroadcastAddress() throws IOException {
+        var service = newBuilder().usingPort(4777).withIPAddress(AppiumServiceBuilder.BROADCAST_IP4_ADDRESS).build();
+
+        assertEquals("http://127.0.0.1:4777/",
+                AppiumDriverLocalService.fixBroadcastAddresses(service.getUrl()).toString());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"::1", "127.0.0.1", "localhost"})
+    void pingsGivenAddressWhenItIsNotABroadcastAddress(String address) throws IOException {
+        var url = newBuilder().usingPort(4777).withIPAddress(address).build().getUrl();
+
+        assertEquals(url.toString(), AppiumDriverLocalService.fixBroadcastAddresses(url).toString());
     }
 
     @Test

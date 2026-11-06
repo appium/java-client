@@ -269,12 +269,13 @@ public final class AppiumServiceBuilder {
 
     /**
      * Sets the IP address the server listens on.
+     * An IPv6 address can be given with or without square brackets.
      *
      * @param ipAddress the IP address
      * @return the self-reference.
      */
     public AppiumServiceBuilder withIPAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
+        this.ipAddress = ipAddress == null ? null : AppiumDriverLocalService.stripBrackets(ipAddress);
         return this;
     }
 
