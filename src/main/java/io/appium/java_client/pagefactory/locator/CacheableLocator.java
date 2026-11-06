@@ -37,21 +37,10 @@ public interface CacheableLocator extends ElementLocator {
      * The default has no further roots, so a single-locator widget keeps the real element.
      *
      * @param resolvedRoot the root that was already searched
-     * @return alternate roots, none by default
-     */
-    default FurtherRoots furtherRoots(WebElement resolvedRoot) {
-        return FurtherRoots.none();
-    }
-
-    /**
-     * Captures later roots using a content type that the caller already knows.
-     * The default ignores {@code contentType} and calls {@link #furtherRoots(WebElement)}.
-     *
-     * @param resolvedRoot the root that was already searched
      * @param contentType the content type already determined for this root
      * @return alternate roots, none by default
      */
     default FurtherRoots furtherRoots(WebElement resolvedRoot, ContentType contentType) {
-        return furtherRoots(resolvedRoot);
+        return FurtherRoots.none();
     }
 }

@@ -43,7 +43,8 @@ import static java.util.Optional.ofNullable;
  *
  * <p>When a nested {@code findElement} or {@code findElements} misses inside the first
  * matching root, the same lookup is repeated against later roots supplied by
- * {@link CacheableLocator#furtherRoots(WebElement)}. The widget method is invoked once.
+ * {@link CacheableLocator#furtherRoots(WebElement, io.appium.java_client.pagefactory.bys.ContentType)}.
+ * The widget method is invoked once.
  * A click or any other action that already ran is not repeated, and a
  * {@code NoSuchElementException} thrown by the method itself is not treated as a missed
  * root. The wrapped element stays the real located element unless the locator declares

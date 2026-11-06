@@ -41,11 +41,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.WrapsElement;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -301,7 +303,20 @@ public class WidgetMultipleLocatorLookupTest {
         initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
 
         assertEquals(WIDGET_1, page.rootDom());
-        assertTrue(page.widgetRoot() instanceof SearchingWidgetRoot);
+        WebElement wrapped = page.widgetRoot();
+        assertTrue(wrapped instanceof SearchingWidgetRoot);
+        assertFalse(wrapped instanceof RootElement);
+        WebElement real = ((WrapsElement) wrapped).getWrappedElement();
+        assertTrue(real instanceof RootElement);
+        assertEquals(WIDGET_1, real.getTagName());
+    }
+
+    @Test
+    public void searchingWidgetRootHasNoPublicNestedType() {
+        for (Class<?> nested : SearchingWidgetRoot.class.getDeclaredClasses()) {
+            assertFalse(Modifier.isPublic(nested.getModifiers()));
+        }
+        assertEquals(0, SearchingWidgetRoot.class.getDeclaredClasses().length);
     }
 
     @Test
@@ -883,7 +898,7 @@ public class WidgetMultipleLocatorLookupTest {
         }
 
         @Override
-        public FurtherRoots furtherRoots(WebElement resolvedRoot) {
+        public FurtherRoots furtherRoots(WebElement resolvedRoot, ContentType contentType) {
             seenResolved = resolvedRoot;
             if (second == null) {
                 return FurtherRoots.none();

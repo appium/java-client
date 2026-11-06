@@ -17,32 +17,30 @@
 package io.appium.java_client.pagefactory;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
-
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
  * Widget root that repeats a nested lookup on later alternative roots.
- * The proxy delegates every other call, including {@code getDomAttribute} and
- * {@code getShadowRoot}, to the first matching element.
+ * Every call other than {@code findElement} and {@code findElements} is forwarded
+ * to the first matching element, including {@code getDomAttribute} and {@code getShadowRoot}.
+ *
+ * <p>The proxy implements the interfaces of that element, not its concrete class.
+ * {@code widget.getWrappedElement()} is therefore not an {@code AppiumWebElement} when
+ * several root locators are in use, and a cast to that class fails. The real element is
+ * {@code ((WrapsElement) widget.getWrappedElement()).getWrappedElement()}. A widget with
+ * one locator is not wrapped, so that cast is unchanged.
  *
  * <p>The whole {@link By} is applied to one root before the next. A {@code ByAll}
- * or {@code ByChained} therefore finishes on the first root before any later root
- * is considered, and a chain does not take its steps from different roots.
+ * or {@code ByChained} finishes on the first root before any later root is considered.
+ * Each of those driver calls uses the session implicit wait. This type does not change
+ * that wait. {@code AppiumElementLocator}'s own timeout does not interrupt a call that
+ * is already blocked inside the driver.
  */
 public interface SearchingWidgetRoot extends WebElement, WrapsDriver, WrapsElement {
 
@@ -55,135 +53,10 @@ public interface SearchingWidgetRoot extends WebElement, WrapsDriver, WrapsEleme
      * @return a proxy around {@code resolved}
      */
     static WebElement wrap(WebElement resolved, Supplier<Iterator<WebElement>> furtherRoots) {
-        Class<?>[] interfaces = Handler.proxyInterfaces(resolved);
         return (WebElement) Proxy.newProxyInstance(
                 SearchingWidgetRoot.class.getClassLoader(),
-                interfaces,
-                new Handler(resolved, furtherRoots)
+                SearchingWidgetRootHandler.proxyInterfaces(resolved),
+                new SearchingWidgetRootHandler(resolved, furtherRoots)
         );
-    }
-
-    /**
-     * Forwards calls to the real root and overrides only element lookup.
-     */
-    class Handler implements InvocationHandler {
-        private final WebElement resolved;
-        private final Supplier<Iterator<WebElement>> furtherRoots;
-
-        Handler(WebElement resolved, Supplier<Iterator<WebElement>> furtherRoots) {
-            this.resolved = resolved;
-            this.furtherRoots = furtherRoots;
-        }
-
-        /**
-         * Delegates to the real root, except element lookup.
-         *
-         * @param proxy the searching root
-         * @param method the called method
-         * @param args the arguments, or null when there are none
-         * @return the call result
-         * @throws Throwable when the real call fails
-         */
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (isLookup(method, args, "findElement")) {
-                return findElement((By) args[0]);
-            }
-            if (isLookup(method, args, "findElements")) {
-                return findElements((By) args[0]);
-            }
-            if ("getWrappedElement".equals(method.getName()) && (args == null || args.length == 0)) {
-                return resolved;
-            }
-            if ("getWrappedDriver".equals(method.getName()) && (args == null || args.length == 0)) {
-                return unpackWebDriverFromSearchContext(resolved);
-            }
-            if ("toString".equals(method.getName()) && (args == null || args.length == 0)) {
-                return resolved.toString();
-            }
-            if ("hashCode".equals(method.getName()) && (args == null || args.length == 0)) {
-                return resolved.hashCode();
-            }
-            if ("equals".equals(method.getName()) && args != null && args.length == 1) {
-                return same(proxy, args[0]);
-            }
-            try {
-                return method.invoke(resolved, args);
-            } catch (InvocationTargetException thrown) {
-                throw thrown.getCause() == null ? thrown : thrown.getCause();
-            }
-        }
-
-        private WebElement findElement(By by) {
-            try {
-                return resolved.findElement(by);
-            } catch (NoSuchElementException missed) {
-                NoSuchElementException firstMiss = missed;
-                Iterator<WebElement> laterRoots = furtherRoots.get();
-                while (laterRoots.hasNext()) {
-                    try {
-                        return laterRoots.next().findElement(by);
-                    } catch (NoSuchElementException laterMiss) {
-                        firstMiss.addSuppressed(laterMiss);
-                    }
-                }
-                throw firstMiss;
-            }
-        }
-
-        private List<WebElement> findElements(By by) {
-            List<WebElement> found = resolved.findElements(by);
-            if (!found.isEmpty()) {
-                return found;
-            }
-            Iterator<WebElement> laterRoots = furtherRoots.get();
-            while (laterRoots.hasNext()) {
-                List<WebElement> later = laterRoots.next().findElements(by);
-                if (!later.isEmpty()) {
-                    return later;
-                }
-            }
-            return found;
-        }
-
-        private boolean same(Object proxy, Object other) {
-            if (proxy == other) {
-                return true;
-            }
-            if (other instanceof WrapsElement) {
-                other = ((WrapsElement) other).getWrappedElement();
-            }
-            return resolved == other || resolved.equals(other);
-        }
-
-        private static boolean isLookup(Method method, Object[] args, String name) {
-            return name.equals(method.getName())
-                    && args != null
-                    && args.length == 1
-                    && args[0] instanceof By;
-        }
-
-        private static Class<?>[] proxyInterfaces(WebElement resolved) {
-            Set<Class<?>> interfaces = new LinkedHashSet<>();
-            collect(resolved.getClass(), interfaces);
-            interfaces.add(WebElement.class);
-            interfaces.add(WrapsDriver.class);
-            interfaces.add(WrapsElement.class);
-            interfaces.add(SearchingWidgetRoot.class);
-            interfaces.removeIf(type -> !Modifier.isPublic(type.getModifiers()));
-            return interfaces.toArray(Class<?>[]::new);
-        }
-
-        private static void collect(Class<?> type, Set<Class<?>> interfaces) {
-            if (type == null || Object.class.equals(type)) {
-                return;
-            }
-            for (Class<?> iface : type.getInterfaces()) {
-                if (interfaces.add(iface)) {
-                    collect(iface, interfaces);
-                }
-            }
-            collect(type.getSuperclass(), interfaces);
-        }
     }
 }
