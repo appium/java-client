@@ -29,7 +29,9 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,6 @@ import java.util.regex.Pattern;
 
 import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
@@ -83,9 +84,32 @@ public final class AppiumDriverLocalService implements Closeable {
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
-        // IPv6 literals must be enclosed in square brackets to be a valid URL host
-        String host = ipAddress.contains(":") && !ipAddress.startsWith("[") ? "[" + ipAddress + "]" : ipAddress;
-        this.url = new URL(String.format(URL_MASK, host, nodeJSPort));
+        this.url = new URL(String.format(URL_MASK, toUrlHost(ipAddress), nodeJSPort));
+    }
+
+    /**
+     * Removes the square brackets around an IPv6 literal.
+     *
+     * @param address an IP address or host name, with or without square brackets
+     * @return the address without enclosing square brackets
+     */
+    static String stripBrackets(String address) {
+        return address.length() > 1 && address.startsWith("[") && address.endsWith("]")
+                ? address.substring(1, address.length() - 1)
+                : address;
+    }
+
+    /**
+     * Encloses an IPv6 literal in square brackets, as required for the host of a URL.
+     * A zone ID such as {@code %en0} is kept as is, because {@link URL} and
+     * {@link InetAddress} expect it unencoded.
+     *
+     * @param address an IP address or host name, with or without square brackets
+     * @return the address in the form of a URL host
+     */
+    static String toUrlHost(String address) {
+        var host = stripBrackets(address);
+        return host.contains(":") ? "[" + host + "]" : host;
     }
 
     /**
@@ -124,9 +148,8 @@ public final class AppiumDriverLocalService implements Closeable {
     }
 
     @SneakyThrows
-    @SuppressWarnings("SameParameterValue")
-    private static URL replaceHost(URL source, String oldHost, String newHost) {
-        return new URL(source.toString().replaceFirst(oldHost, newHost));
+    private static URL replaceHost(URL source, String newHost) {
+        return new URL(source.getProtocol(), toUrlHost(newHost), source.getPort(), source.getFile());
     }
 
     /**
@@ -169,17 +192,33 @@ public final class AppiumDriverLocalService implements Closeable {
         return availabilityChecker.waitUntilAvailable(statusUrl, timeout);
     }
 
-    private URL fixBroadcastAddresses(URL url) {
+    static URL fixBroadcastAddresses(URL url) {
         // IPv6 hosts are returned in square brackets
-        var host = url.getHost().replaceAll("^\\[(.*)]$", "$1");
+        var host = stripBrackets(url.getHost());
         // The operating system will block direct access to the universal broadcast IP address
         if (host.equals(BROADCAST_IP4_ADDRESS)) {
-            return replaceHost(url, BROADCAST_IP4_ADDRESS, "127.0.0.1");
+            return replaceHost(url, "127.0.0.1");
         }
-        if (host.equals(BROADCAST_IP6_ADDRESS)) {
-            return replaceHost(url, BROADCAST_IP6_ADDRESS, "::1");
+        if (isIpv6AnyAddress(host)) {
+            return replaceHost(url, "::1");
         }
         return url;
+    }
+
+    /**
+     * Checks for any form of the IPv6 unspecified address, such as {@code ::}, {@code ::0}
+     * or {@code 0:0:0:0:0:0:0:0}.
+     */
+    private static boolean isIpv6AnyAddress(String host) {
+        if (!host.contains(":")) {
+            return false;
+        }
+        try {
+            // An IPv6 literal is parsed without a name lookup
+            return InetAddress.getByName(host).isAnyLocalAddress();
+        } catch (UnknownHostException e) {
+            return false;
+        }
     }
 
     /**
