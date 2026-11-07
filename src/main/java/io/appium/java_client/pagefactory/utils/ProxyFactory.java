@@ -16,28 +16,18 @@
 
 package io.appium.java_client.pagefactory.utils;
 
-import io.appium.java_client.proxy.HasMethodCallListeners;
-import io.appium.java_client.proxy.Interceptor;
 import io.appium.java_client.proxy.MethodCallListener;
-import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.method.MethodDescription;
-import net.bytebuddy.description.modifier.Visibility;
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy;
-import net.bytebuddy.implementation.FieldAccessor;
-import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatcher;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 import static io.appium.java_client.proxy.Helpers.OBJECT_METHOD_NAMES;
 import static io.appium.java_client.proxy.Helpers.createProxy;
-import static net.bytebuddy.matcher.ElementMatchers.isPublic;
 import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 
@@ -49,8 +39,9 @@ public final class ProxyFactory {
     private static final Set<String> NON_PROXYABLE_METHODS = setWithout(
             OBJECT_METHOD_NAMES, "toString", "equals", "hashCode"
     );
-    private static final Map<Class<?>, Class<?>> CACHED_INTERFACE_PROXIES =
-            Collections.synchronizedMap(new WeakHashMap<>());
+    private static final ElementMatcher<MethodDescription> INTERFACE_METHODS = not(
+            namedOneOf(NON_PROXYABLE_METHODS.toArray(new String[0]))
+    );
 
     @SafeVarargs
     private static <T> Set<T> setWithout(@SuppressWarnings("SameParameterValue") Set<T> source, T... items) {
@@ -112,7 +103,7 @@ public final class ProxyFactory {
 
     /**
      * Creates a proxy that implements {@code iface} and forwards its public methods to {@code listener}.
-     * Used when an {@code @OverrideWidget} field is declared as an interface.
+     * The interface must be public. Its loader and this library's loader must be able to see each other.
      *
      * @param iface an interface type
      * @param listener receives the proxied calls
@@ -125,34 +116,9 @@ public final class ProxyFactory {
         if (listener == null) {
             throw new IllegalArgumentException("Listener must not be null");
         }
-        Class<?> proxyClass = CACHED_INTERFACE_PROXIES.computeIfAbsent(iface, ProxyFactory::loadInterfaceProxy);
-        try {
-            Object result = proxyClass.getDeclaredConstructor().newInstance();
-            ((HasMethodCallListeners) result).setMethodCallListeners(new MethodCallListener[] {listener});
-            return result;
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException(String.format("Unable to create a proxy of %s", iface.getName()), e);
-        }
-    }
-
-    private static Class<?> loadInterfaceProxy(Class<?> iface) {
-        ClassLoader loader = iface.getClassLoader() == null
-                ? ProxyFactory.class.getClassLoader()
-                : iface.getClassLoader();
-        ElementMatcher<MethodDescription> methods = isPublic().and(not(
-                namedOneOf(NON_PROXYABLE_METHODS.toArray(new String[0]))
-        ));
-        //noinspection resource
-        return new ByteBuddy()
-                .subclass(Object.class)
-                .implement(iface)
-                .method(methods)
-                .intercept(MethodDelegation.to(Interceptor.class))
-                .defineField("methodCallListeners", MethodCallListener[].class, Visibility.PRIVATE)
-                .implement(HasMethodCallListeners.class)
-                .intercept(FieldAccessor.ofBeanProperty())
-                .make()
-                .load(loader, ClassLoadingStrategy.Default.WRAPPER)
-                .getLoaded();
+        @SuppressWarnings("unchecked")
+        Class<Object> type = (Class<Object>) iface;
+        return createProxy(type, new Object[] {}, new Class<?>[] {}, Collections.singletonList(listener),
+                INTERFACE_METHODS);
     }
 }

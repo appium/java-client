@@ -35,7 +35,6 @@ import java.util.concurrent.Callable;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
-import static java.util.Optional.ofNullable;
 
 /** Proxy interceptor class for widgets. */
 public class WidgetInterceptor extends InterceptorOfASingleElement {
@@ -45,6 +44,8 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     private final Duration duration;
     private final LocatorGroupStrategy defaultLocatorGroupStrategy;
     private WeakReference<WebElement> cachedElementReference;
+    // Interface list proxies do not store the element. Hold it until the widget, which keeps it, exists.
+    private WebElement elementUntilWidgetCreated;
 
     /**
      * Creates a new interceptor.
@@ -82,6 +83,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
     ) {
         super(locator, driverReference);
         this.cachedElementReference = cachedElementReference;
+        this.elementUntilWidgetCreated = cachedElementReference == null ? null : cachedElementReference.get();
         this.instantiationMap = instantiationMap;
         this.duration = duration;
         this.defaultLocatorGroupStrategy = defaultLocatorGroupStrategy;
@@ -117,6 +119,7 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
                     new AppiumFieldDecorator(new WeakReference<>(widget), duration, defaultLocatorGroupStrategy),
                     widget
             );
+            elementUntilWidgetCreated = null;
         }
         try {
             method.setAccessible(true);
@@ -128,9 +131,14 @@ public class WidgetInterceptor extends InterceptorOfASingleElement {
 
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
-        WebElement element = ofNullable(cachedElementReference).map(WeakReference::get).orElse(null);
+        WebElement element = referencedElement();
         return locator == null && element != null
                 ? getObject(element, method, args)
                 : super.call(obj, method, args, original);
+    }
+
+    private WebElement referencedElement() {
+        WebElement cached = cachedElementReference == null ? null : cachedElementReference.get();
+        return cached != null ? cached : elementUntilWidgetCreated;
     }
 }

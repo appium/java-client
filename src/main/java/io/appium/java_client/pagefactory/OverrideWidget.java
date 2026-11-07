@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation should mark an abstract/certain Widget object class
- * or field that declares some abstract/certain Widget object class or an interface
+ * or field that declares some abstract/certain Widget object class or a public interface
  * implemented by those classes.
  * io.appium.java_client.pagefactory.Widget is the Appium-specific extension of the
  * Page Object design pattern.
