@@ -43,6 +43,11 @@ import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 
 /**
  * Helpers for creating transparent proxies of classes.
+ *
+ * <p>A public interface is proxied when this library's class loader can see the interface,
+ * or when the interface's class loader can see this library.
+ * A package-private or protected interface, or a public interface for which neither is true,
+ * is rejected with {@link IllegalArgumentException}.
  */
 public class Helpers {
     /**
@@ -75,7 +80,10 @@ public class Helpers {
      * {@link io.appium.java_client.proxy.NotImplementedException}.
      *
      * @param cls                 the class to proxy, or a public interface.
-     *                            A non-public interface is rejected.
+     *                            A non-public interface is rejected with
+     *                            {@link IllegalArgumentException}. A public interface is also
+     *                            rejected unless this library's loader can see it, or its loader
+     *                            can see this library.
      * @param constructorArgs     Array of constructor arguments. Could be an
      *                            empty array if the class provides a constructor without arguments.
      *                            Must be empty when {@code cls} is an interface.
@@ -108,7 +116,10 @@ public class Helpers {
      * !!! This API is designed for private usage.
      *
      * @param cls                    The class to proxy, or a public interface.
-     *                               A non-public interface is rejected.
+     *                               A non-public interface is rejected with
+     *                               {@link IllegalArgumentException}. A public interface is also
+     *                               rejected unless this library's loader can see it, or its loader
+     *                               can see this library.
      * @param constructorArgs        Array of constructor arguments. Could be an
      *                               empty array if the class provides a constructor without arguments.
      * @param constructorArgTypes    Array of constructor argument types. Must
@@ -174,7 +185,9 @@ public class Helpers {
      *
      * @param cls       the class to proxy, or a public interface.
      *                  A class must expose a constructor without arguments.
-     *                  A non-public interface is rejected.
+     *                  A non-public interface is rejected with {@link IllegalArgumentException}.
+     *                  A public interface is also rejected unless this library's loader can see it,
+     *                  or its loader can see this library.
      * @param listeners One or more method invocation listeners.
      * @param <T>       Any class derived from Object
      * @return Proxy instance
@@ -193,7 +206,9 @@ public class Helpers {
      *
      * @param cls      the class to proxy, or a public interface.
      *                 A class must expose a constructor without arguments.
-     *                 A non-public interface is rejected.
+     *                 A non-public interface is rejected with {@link IllegalArgumentException}.
+     *                 A public interface is also rejected unless this library's loader can see it,
+     *                 or its loader can see this library.
      * @param listener Method invocation listener.
      * @param <T>      Any class derived from Object
      * @return Proxy instance
@@ -211,7 +226,10 @@ public class Helpers {
      * are expected to be skipped if they throw NotImplementedException.
      *
      * @param cls                 the class to proxy, or a public interface.
-     *                            A non-public interface is rejected.
+     *                            A non-public interface is rejected with
+     *                            {@link IllegalArgumentException}. A public interface is also
+     *                            rejected unless this library's loader can see it, or its loader
+     *                            can see this library.
      * @param constructorArgs     Array of constructor arguments. Could be an
      *                            empty array if the class provides a constructor without arguments.
      * @param constructorArgTypes Array of constructor argument types. Must
@@ -271,7 +289,8 @@ public class Helpers {
         throw new IllegalArgumentException(String.format(
                 "Cannot proxy %s. The generated proxy must see both this interface and %s. "
                         + "Interface class loader: %s. Library class loader: %s. "
-                        + "Load the page object and io.appium.java_client through loaders that delegate to each other.",
+                        + "Either this library's loader must see the interface, "
+                        + "or the interface's loader must see this library.",
                 iface.getName(),
                 Interceptor.class.getName(),
                 interfaceLoader,

@@ -53,6 +53,15 @@ class OverriddenWidgetInterfaceTest {
     }
 
     @Test
+    void defaultMethodNotOverriddenRunsOnTheRealWidgetForSingleAndList() {
+        var page = new Page();
+        initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()), page);
+
+        assertEquals("AndroidWidget:android", page.widget.described());
+        assertEquals("AndroidWidget:android", page.widgets.get(0).described());
+    }
+
+    @Test
     void singleFieldObjectMethodsUseTheLocatorAndProxyIdentity() {
         var page = new Page();
         initElements(new AppiumFieldDecorator(new AbstractStubWebDriver.StubAndroidDriver()), page);
@@ -231,6 +240,13 @@ class OverriddenWidgetInterfaceTest {
 
         default String title() {
             return "default";
+        }
+
+        /**
+         * Not overridden by the platform widgets. {@code getClass} shows which instance ran it.
+         */
+        default String described() {
+            return getClass().getSimpleName() + ":" + platformAction();
         }
     }
 

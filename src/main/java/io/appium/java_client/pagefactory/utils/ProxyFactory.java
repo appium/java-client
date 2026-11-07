@@ -103,7 +103,10 @@ public final class ProxyFactory {
 
     /**
      * Creates a proxy that implements {@code iface} and forwards its public methods to {@code listener}.
-     * The interface must be public. Its loader and this library's loader must be able to see each other.
+     * The interface must be public. Creation succeeds when this library's class loader can see
+     * {@code iface}, or when {@code iface}'s class loader can see this library.
+     * A package-private or protected interface, or loaders that cannot see either way,
+     * is rejected with {@link IllegalArgumentException}.
      *
      * @param iface an interface type
      * @param listener receives the proxied calls

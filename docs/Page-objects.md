@@ -700,7 +700,7 @@ This use case has some restrictions;
   //below is the other field/method declaration
 ```
 
-The field may be an interface implemented by those classes. Each class named by `@OverrideWidget` must extend `Widget` and implement the interface. The interface must be public. The page object and this library must be visible to loaders that delegate to each other; otherwise proxy creation fails with `IllegalArgumentException` instead of a linkage error. A content type that is left as the default cannot be instantiated, so name a class for every content type the field is used with:
+The field may be an interface implemented by those classes. Each class named by `@OverrideWidget` must extend `Widget` and implement the interface. The interface must be public. Creation succeeds when this library's class loader can see that interface, or when the interface's class loader can see this library. A package-private or protected interface, and loaders that cannot see either way, fail with `IllegalArgumentException` instead of a linkage error. A content type that is left as the default cannot be instantiated, so name a class for every content type the field is used with:
 
 ```java
 public interface UsersWidget {
