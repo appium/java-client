@@ -104,12 +104,11 @@ public final class AppiumDriverLocalService implements Closeable {
      * A zone ID such as {@code %en0} is kept as is, because {@link URL} and
      * {@link InetAddress} expect it unencoded.
      *
-     * @param address an IP address or host name, with or without square brackets
+     * @param address an IP address or host name without square brackets
      * @return the address in the form of a URL host
      */
     static String toUrlHost(String address) {
-        var host = stripBrackets(address);
-        return host.contains(":") ? "[" + host + "]" : host;
+        return address.contains(":") ? "[" + address + "]" : address;
     }
 
     /**
