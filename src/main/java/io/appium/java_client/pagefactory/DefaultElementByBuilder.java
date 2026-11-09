@@ -36,8 +36,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -46,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static io.appium.java_client.pagefactory.AppiumFieldDecorator.extractWidgetClass;
 import static java.lang.Integer.signum;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
@@ -58,6 +57,10 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     private static final Class<?>[] ANNOTATION_ARGUMENTS = new Class[]{};
     private static final Object[] ANNOTATION_PARAMETERS = new Object[]{};
     private final LocatorGroupStrategy defaultLocatorGroupStrategy;
+    @Nullable
+    private Class<?> currentPageClass;
+    @Nullable
+    private Class<? extends Widget> currentWidgetClass;
 
     /**
      * Creates a new builder.
@@ -122,23 +125,24 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        Field field = annotatedElement instanceof Field ? (Field) annotatedElement : null;
         By defaultBy = null;
         FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
         if (findBy != null) {
-            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, (Field) annotatedElement);
+            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, field);
         }
 
         if (defaultBy == null) {
             FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
             if (findBys != null) {
-                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, (Field) annotatedElement);
+                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, field);
             }
         }
 
         if (defaultBy == null) {
             FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
             if (findAll != null) {
-                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, (Field) annotatedElement);
+                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, field);
             }
         }
         return defaultBy;
@@ -187,7 +191,21 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return result.toArray(new By[0]);
     }
 
-    private static Optional<HowToUseLocators> findHowToUseLocators(AnnotatedElement annotatedElement) {
+    void setDecorationContext(@Nullable Class<?> pageClass, @Nullable Class<? extends Widget> widgetClass) {
+        this.currentPageClass = pageClass;
+        this.currentWidgetClass = widgetClass;
+    }
+
+    @Nullable
+    Class<? extends Widget> resolveWidgetClassForField(Field field) {
+        if (currentWidgetClass != null) {
+            return currentWidgetClass;
+        }
+        Class<?> pageClass = currentPageClass != null ? currentPageClass : PageFactory.getCurrentPageClass();
+        return extractWidgetClass(field, pageClass);
+    }
+
+    private Optional<HowToUseLocators> findHowToUseLocators(AnnotatedElement annotatedElement) {
         if (annotatedElement == null) {
             return Optional.empty();
         }
@@ -197,16 +215,16 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         }
         if (annotatedElement instanceof Field) {
             Field field = (Field) annotatedElement;
-            Class<?> widgetClass = extractWidgetClass(field);
+            Class<?> widgetClass = resolveWidgetClassForField(field);
             if (widgetClass != null) {
                 HowToUseLocators widgetAnnotation = findClassHowToUseLocators(widgetClass);
                 if (widgetAnnotation != null) {
                     return Optional.of(widgetAnnotation);
                 }
             }
-            Class<?> currentPageClass = PageFactory.getCurrentPageClass();
-            if (currentPageClass != null && field.getDeclaringClass().isAssignableFrom(currentPageClass)) {
-                HowToUseLocators pageAnnotation = findClassHowToUseLocators(currentPageClass);
+            Class<?> pageClass = currentPageClass != null ? currentPageClass : PageFactory.getCurrentPageClass();
+            if (pageClass != null && field.getDeclaringClass().isAssignableFrom(pageClass)) {
+                HowToUseLocators pageAnnotation = findClassHowToUseLocators(pageClass);
                 if (pageAnnotation != null) {
                     return Optional.of(pageAnnotation);
                 }
@@ -263,33 +281,6 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         return null;
     }
 
-    @Nullable
-    private static Class<?> extractWidgetClass(Field field) {
-        Class<?> fieldType = field.getType();
-        if (Widget.class.isAssignableFrom(fieldType)) {
-            return fieldType;
-        }
-        if (!List.class.isAssignableFrom(fieldType)) {
-            return null;
-        }
-        Type genericType = field.getGenericType();
-        if (!(genericType instanceof ParameterizedType)) {
-            return null;
-        }
-        Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
-        if (typeArguments.length == 0) {
-            return null;
-        }
-        Type listType = typeArguments[0];
-        if (listType instanceof ParameterizedType) {
-            listType = ((ParameterizedType) listType).getRawType();
-        }
-        if (listType instanceof Class<?> && Widget.class.isAssignableFrom((Class<?>) listType)) {
-            return (Class<?>) listType;
-        }
-        return null;
-    }
-
     @Override
     protected By buildMobileNativeBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
@@ -330,7 +321,10 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     }
 
     By buildMappedBy(@Nullable By defaultBy, @Nullable By mobileNativeBy) {
-        String idOrName = ((Field) annotatedElementContainer.getAnnotated()).getName();
+        AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        String idOrName = annotatedElement instanceof Field
+                ? ((Field) annotatedElement).getName()
+                : ((Class<?>) annotatedElement).getSimpleName();
 
         if (defaultBy == null && mobileNativeBy == null) {
             return returnMappedBy(new ByIdOrName(idOrName), new By.ById(idOrName));

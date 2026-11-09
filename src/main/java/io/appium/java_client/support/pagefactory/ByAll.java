@@ -50,12 +50,12 @@ public class ByAll extends By implements Serializable {
     }
 
     /**
-     * Returns the locators searched by this composite locator.
+     * Returns the locators searched by this strategy, in order.
      *
-     * @return a copy of the underlying locator array
+     * @return a copy of the locators
      */
     public By[] getBys() {
-        return bys == null ? new By[0] : bys.clone();
+        return bys.clone();
     }
 
     @Override

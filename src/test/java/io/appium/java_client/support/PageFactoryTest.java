@@ -34,19 +34,37 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PageFactoryTest {
 
-    @SuppressWarnings("unused")
-    private static class BasePage {
-        @FindBy(id = "base")
-        WebElement baseElement;
+    private interface CustomWebElement extends WebElement {
     }
 
     @SuppressWarnings("unused")
-    private static class Page extends BasePage {
+    private static class BasePage<T extends WebElement> {
+        @FindBy(id = "base")
+        WebElement baseElement;
+
+        @FindBy(id = "generic-single")
+        T genericSingleElement;
+
+        @FindBy(css = ".generic-elements")
+        List<T> genericElements;
+
+        @FindBy(css = ".generic-wildcard-elements")
+        List<? extends T> genericWildcardElements;
+    }
+
+    private static class SubtypeElementPage extends BasePage<CustomWebElement> {
+    }
+
+    @SuppressWarnings("unused")
+    private static class Page extends BasePage<WebElement> {
         @FindBy(id = "single")
         WebElement element;
 
         @FindBy(css = ".many")
         List<WebElement> elements;
+
+        @FindBy(css = ".many-wildcard")
+        List<? extends WebElement> wildcardElements;
 
         String untouched = "untouched";
 
@@ -54,6 +72,15 @@ class PageFactoryTest {
 
         @FindBy(id = "list-of-strings")
         List<String> notAnElementList;
+
+        @FindBy(id = "list-of-lower-bounded")
+        List<? super WebElement> lowerBoundedElementList;
+
+        @FindBy(id = "list-of-unbounded")
+        List<?> unboundedElementList;
+
+        @FindBy(id = "list-of-object-super")
+        List<? super Object> objectSuperElementList;
     }
 
     private static ElementLocator locatorOf(String text) {
@@ -78,8 +105,29 @@ class PageFactoryTest {
 
         assertEquals("element", page.element.getText());
         assertEquals("baseElement", page.baseElement.getText());
+        assertEquals("genericSingleElement", page.genericSingleElement.getText());
         assertEquals(2, page.elements.size());
         assertEquals("elements-2", page.elements.get(1).getText());
+        assertEquals(2, page.wildcardElements.size());
+        assertEquals("wildcardElements-1", page.wildcardElements.get(0).getText());
+        assertEquals(2, page.lowerBoundedElementList.size());
+        assertEquals(
+                "lowerBoundedElementList-1",
+                assertInstanceOf(WebElement.class, page.lowerBoundedElementList.get(0)).getText()
+        );
+        assertEquals(2, page.genericElements.size());
+        assertEquals("genericElements-1", page.genericElements.get(0).getText());
+        assertEquals(2, page.genericWildcardElements.size());
+        assertEquals("genericWildcardElements-2", page.genericWildcardElements.get(1).getText());
+        assertNull(page.unboundedElementList);
+        assertNull(page.objectSuperElementList);
+
+        SubtypeElementPage subtypePage = new SubtypeElementPage();
+        PageFactory.initElements(new DefaultFieldDecorator(field -> locatorOf(field.getName())), subtypePage);
+        assertNotNull(subtypePage.genericElements);
+        assertEquals(2, subtypePage.genericElements.size());
+        assertNotNull(subtypePage.genericWildcardElements);
+        assertEquals(2, subtypePage.genericWildcardElements.size());
     }
 
     @Test

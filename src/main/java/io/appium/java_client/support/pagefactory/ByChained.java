@@ -51,12 +51,12 @@ public class ByChained extends By implements Serializable {
     }
 
     /**
-     * Returns the locators that form this chain.
+     * Returns the locators applied by this chain, in order.
      *
-     * @return a copy of the underlying locator array
+     * @return a copy of the locators
      */
     public By[] getBys() {
-        return bys == null ? new By[0] : bys.clone();
+        return bys.clone();
     }
 
     @Override

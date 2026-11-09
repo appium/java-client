@@ -34,10 +34,13 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Locator which selects the underlying locator by the active {@link ContentType}.
+ * The explicit selection is stored per thread, so two threads can search different
+ * content through one shared instance.
  *
- * <p>When a content type is explicitly pinned via {@link #useContent(ContentType)},
- * {@link #findElement(SearchContext)}, {@link #findElements(SearchContext)}, and
- * {@link #toString()} use that pinned entry. When no content type has been set,
+ * <p>When a content type is explicitly pinned on the current thread via
+ * {@link #useContent(ContentType)}, {@link #findElement(SearchContext)},
+ * {@link #findElements(SearchContext)}, and {@link #toString()} use that pinned entry.
+ * When no content type has been set on the current thread,
  * {@link #findElement(SearchContext)} and {@link #findElements(SearchContext)}
  * auto-detect the content type from the target {@link SearchContext} via
  * {@link io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility#getCurrentContentType(SearchContext)}
@@ -49,8 +52,8 @@ import static java.util.Objects.requireNonNull;
 @EqualsAndHashCode(callSuper = true)
 public class ContentMappedBy extends By {
     private final Map<ContentType, By> map;
-    @Nullable
-    private ContentType currentContent;
+    @EqualsAndHashCode.Exclude
+    private final ThreadLocal<ContentType> currentContent = new ThreadLocal<>();
 
     /**
      * Creates a new locator.
@@ -68,9 +71,28 @@ public class ContentMappedBy extends By {
      * @return self-reference.
      */
     public By useContent(@NonNull ContentType type) {
-        requireNonNull(type);
-        currentContent = type;
+        currentContent.set(requireNonNull(type));
         return this;
+    }
+
+    /**
+     * Returns the locator selected for this thread's content type.
+     *
+     * @return the locator selected by {@link #useContent(ContentType)}
+     */
+    public By getCurrentLocator() {
+        ContentType pinned = currentContent.get();
+        return locatorFor(pinned != null ? pinned : NATIVE_MOBILE_SPECIFIC);
+    }
+
+    /**
+     * Returns the locator for {@code type} without changing this thread's selection.
+     *
+     * @param type the content type to read
+     * @return the locator stored for {@code type}, or null when it is absent
+     */
+    public By locatorFor(@NonNull ContentType type) {
+        return map.get(requireNonNull(type));
     }
 
     @Override
@@ -85,8 +107,9 @@ public class ContentMappedBy extends By {
 
     @Override
     public String toString() {
-        if (currentContent != null) {
-            return map.get(currentContent).toString();
+        ContentType pinned = currentContent.get();
+        if (pinned != null) {
+            return String.valueOf(map.get(pinned));
         }
         By defaultBy = map.get(HTML_OR_DEFAULT);
         By nativeBy = map.get(NATIVE_MOBILE_SPECIFIC);
@@ -101,7 +124,14 @@ public class ContentMappedBy extends By {
         );
     }
 
+    @Nullable
+    @EqualsAndHashCode.Include
+    private ContentType currentPinnedContent() {
+        return currentContent.get();
+    }
+
     private ContentType resolveContentType(SearchContext context) {
-        return currentContent != null ? currentContent : getCurrentContentType(context);
+        ContentType pinned = currentContent.get();
+        return pinned != null ? pinned : getCurrentContentType(context);
     }
 }
