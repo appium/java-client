@@ -275,7 +275,7 @@ public final class AppiumServiceBuilder {
      * @return the self-reference.
      */
     public AppiumServiceBuilder withIPAddress(String ipAddress) {
-        this.ipAddress = ipAddress == null ? null : AppiumDriverLocalService.stripBrackets(ipAddress);
+        this.ipAddress = ipAddress;
         return this;
     }
 
@@ -363,6 +363,9 @@ public final class AppiumServiceBuilder {
 
         if (isNullOrEmpty(ipAddress)) {
             ipAddress = BROADCAST_IP4_ADDRESS;
+        } else {
+            // Appium expects an IPv6 address without square brackets
+            ipAddress = AppiumDriverLocalService.stripBrackets(ipAddress);
         }
         argList.add("--address");
         argList.add(ipAddress);
