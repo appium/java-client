@@ -16,25 +16,33 @@
 
 package io.appium.java_client.pagefactory;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.CapabilityType;
 import io.appium.java_client.support.PageFactory;
+import io.appium.java_client.support.pagefactory.ByAll;
+import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import io.appium.java_client.support.pagefactory.FieldDecorator;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.openqa.selenium.By;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +57,21 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all of the
- * WebElement fields and 2) List of WebElement that have
+ * WebElement fields, 2) List of WebElement that have
  * {@literal @AndroidFindBy}, {@literal @AndroidFindBys}, or
  * {@literal @iOSFindBy/@iOSFindBys} annotation with a proxy that locates the
- * elements using the passed in ElementLocatorFactory.
- * Please pay attention: fields of {@link WebElement} or {@link AppiumWebElement}
- * to use with this decorator
+ * elements using the passed in ElementLocatorFactory, and 3) non-static, non-final,
+ * uninitialized {@link By} / {@link AppiumBy} fields annotated with Appium or Selenium
+ * locator annotations (pre-initialized {@link By} fields are preserved when initialized via
+ * {@link PageFactory#initElements}). When a field is declared with a narrow {@link By} subtype
+ * (such as {@link AppiumBy}) and the built locator cannot be coerced to that subtype,
+ * a warning is logged and the field is left {@code null}.
+ * Please pay attention: fields of {@link WebElement}, {@link AppiumWebElement},
+ * {@link By}, or {@link AppiumBy} are supported by this decorator.
  */
 public class AppiumFieldDecorator implements FieldDecorator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AppiumFieldDecorator.class);
 
     private static final List<Class<? extends WebElement>> AVAILABLE_ELEMENT_CLASSES = List.of(
             WebElement.class,
@@ -336,6 +351,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
             List<Class<?>> listElementClasses = ElementFieldDecorator.resolveListClasses(field, pageClass);
             Class<? extends Widget> widgetClass = resolveWidgetClass(field, fieldClasses, listElementClasses);
             Object result = decorateWidget(field, widgetClass, pageClass);
+            if (result == null) {
+                result = decorateBy(field, pageClass);
+            }
             return result == null
                     ? defaultElementFieldDecorator.decorateElement(field, pageClass, fieldClasses, listElementClasses)
                     : result;
@@ -346,6 +364,84 @@ public class AppiumFieldDecorator implements FieldDecorator {
                 CURRENT_DEFAULT_STRATEGY.set(previous);
             }
         }
+    }
+
+    @Nullable
+    private Object decorateBy(Field field, @Nullable Class<?> pageClass) {
+        Class<?> type = field.getType();
+        int modifiers = field.getModifiers();
+        if (!By.class.isAssignableFrom(type)
+                || Modifier.isStatic(modifiers)
+                || Modifier.isFinal(modifiers)
+                || PageFactory.isCurrentPageFieldInitialized(field)) {
+            return null;
+        }
+
+        DefaultElementByBuilder builder = new DefaultElementByBuilder(
+                platform, automation, defaultLocatorGroupStrategy
+        );
+        builder.setAnnotated(field);
+        builder.setDecorationContext(pageClass, null);
+        builder.assertValidAnnotations();
+
+        By mobileNativeBy = builder.buildMobileNativeBy();
+        By defaultBy = builder.buildDefaultBy();
+        if (mobileNativeBy == null && defaultBy == null) {
+            return null;
+        }
+        if (type.isAssignableFrom(ContentMappedBy.class)) {
+            return builder.buildMappedBy(defaultBy, mobileNativeBy);
+        }
+
+        By result = coerceToType(type, mobileNativeBy);
+        if (result == null) {
+            result = coerceToType(type, defaultBy);
+        }
+        if (result == null) {
+            By built = mobileNativeBy != null ? unwrapSingleBy(mobileNativeBy) : unwrapSingleBy(defaultBy);
+            LOG.warn(
+                    "Cannot decorate field '{}.{}' of narrow type {}: built locator {} ({}) is not assignable to {}",
+                    field.getDeclaringClass().getName(),
+                    field.getName(),
+                    type.getName(),
+                    built,
+                    built != null ? built.getClass().getName() : "null",
+                    type.getName()
+            );
+        }
+        return result;
+    }
+
+    @Nullable
+    private static By coerceToType(Class<?> type, @Nullable By candidate) {
+        if (candidate == null) {
+            return null;
+        }
+        if (type.isInstance(candidate)) {
+            return candidate;
+        }
+        By unwrapped = unwrapSingleBy(candidate);
+        return type.isInstance(unwrapped) ? unwrapped : null;
+    }
+
+    @Nullable
+    private static By unwrapSingleBy(@Nullable By by) {
+        By current = by;
+        while (true) {
+            By[] bys;
+            if (current instanceof ByChained) {
+                bys = ((ByChained) current).getBys();
+            } else if (current instanceof ByAll) {
+                bys = ((ByAll) current).getBys();
+            } else {
+                break;
+            }
+            if (bys.length != 1) {
+                break;
+            }
+            current = bys[0];
+        }
+        return current;
     }
 
     @Nullable
