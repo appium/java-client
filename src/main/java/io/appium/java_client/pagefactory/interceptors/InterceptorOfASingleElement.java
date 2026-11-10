@@ -29,6 +29,8 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
+
 /** Base class of interceptors of method calls on a single element. */
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
     /** The locator used to find the element. */
@@ -60,15 +62,6 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
      */
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
-    private static boolean areElementsEqual(Object we1, Object we2) {
-        if (!(we1 instanceof AppiumWebElement) || !(we2 instanceof AppiumWebElement)) {
-            return false;
-        }
-
-        return we1 == we2
-                || (Objects.equals(((AppiumWebElement) we1).getId(), ((AppiumWebElement) we2).getId()));
-    }
-
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         if (locator == null) {
@@ -90,8 +83,26 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
 
         WebElement realElement = locator.findElement();
         if ("equals".equals(method.getName()) && args.length == 1) {
-            return areElementsEqual(realElement, args[0]);
+            return obj == args[0] || areElementsEqual(realElement, args[0]);
         }
         return getObject(realElement, method, args);
+    }
+
+    private static boolean areElementsEqual(@Nullable Object we1, @Nullable Object we2) {
+        if (we1 == we2) {
+            return true;
+        }
+        Object unwrapped1 = unwrapElement(we1);
+        Object unwrapped2 = unwrapElement(we2);
+        if (unwrapped1 == unwrapped2) {
+            return true;
+        }
+        if (!(unwrapped1 instanceof AppiumWebElement) && unwrapped2 instanceof AppiumWebElement) {
+            return unwrapped2.equals(unwrapped1);
+        }
+        if (!(unwrapped1 instanceof AppiumWebElement) || !(unwrapped2 instanceof AppiumWebElement)) {
+            return Objects.equals(unwrapped1, unwrapped2);
+        }
+        return Objects.equals(((AppiumWebElement) unwrapped1).getId(), ((AppiumWebElement) unwrapped2).getId());
     }
 }

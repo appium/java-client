@@ -17,13 +17,16 @@
 package io.appium.java_client.pagefactory;
 
 import io.appium.java_client.pagefactory.interceptors.InterceptorOfAListOfElements;
+import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 
 /**
  * Intercepts requests to the list of {@link WebElement}.
@@ -42,7 +45,13 @@ public class ElementListInterceptor extends InterceptorOfAListOfElements {
     @Override
     protected Object getObject(List<WebElement> elements, Method method, Object[] args) throws Throwable {
         try {
-            return method.invoke(elements, args);
+            List<WebElement> adapted = new ArrayList<>(elements.size());
+            for (WebElement element : elements) {
+                adapted.add(element == null || element instanceof AppiumWebElement
+                        ? element
+                        : getEnhancedProxy(AppiumWebElement.class, new ElementInterceptor(element)));
+            }
+            return method.invoke(adapted, args);
         } catch (Throwable t) {
             throw extractReadableException(t);
         }

@@ -28,13 +28,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.WrapsElement;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
 import static io.appium.java_client.remote.DriverCommand.FIND_CHILD_ELEMENT;
 import static io.appium.java_client.remote.DriverCommand.FIND_CHILD_ELEMENTS;
 import static java.util.Objects.requireNonNull;
@@ -245,17 +246,20 @@ public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot,
 
     @Override
     public boolean equals(@Nullable Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof WebElement)) {
             return false;
         }
-        WebElement other = (WebElement) obj;
-        while (other instanceof WrapsElement) {
-            other = ((WrapsElement) other).getWrappedElement();
+        Object other = unwrapElement(obj);
+        if (this == other) {
+            return true;
         }
         if (!(other instanceof AppiumWebElement)) {
             return false;
         }
-        return id.equals(((AppiumWebElement) other).id);
+        return Objects.equals(getId(), ((AppiumWebElement) other).getId());
     }
 
     @Override

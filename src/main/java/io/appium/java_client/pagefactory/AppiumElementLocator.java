@@ -46,6 +46,7 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
 import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {
@@ -261,10 +262,18 @@ class AppiumElementLocator implements CacheableLocator {
         if (left == right) {
             return true;
         }
-        if (left instanceof AppiumWebElement && right instanceof AppiumWebElement) {
-            return Objects.equals(((AppiumWebElement) left).getId(), ((AppiumWebElement) right).getId());
+        Object unwrappedLeft = unwrapElement(left);
+        Object unwrappedRight = unwrapElement(right);
+        if (unwrappedLeft == unwrappedRight) {
+            return true;
         }
-        return left.equals(right);
+        if (unwrappedLeft instanceof AppiumWebElement && unwrappedRight instanceof AppiumWebElement) {
+            return Objects.equals(
+                    ((AppiumWebElement) unwrappedLeft).getId(),
+                    ((AppiumWebElement) unwrappedRight).getId()
+            );
+        }
+        return Objects.equals(unwrappedLeft, unwrappedRight);
     }
 
     /**

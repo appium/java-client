@@ -230,10 +230,19 @@ public class AppiumFieldDecorator implements FieldDecorator {
         if (searchContext == null) {
             return null;
         }
-        return unpackObjectFromSearchContext(searchContext, HasCapabilities.class)
-                .map(HasCapabilities::getCapabilities)
-                .map(caps -> CapabilityHelpers.getCapability(caps, capName, String.class))
+        return unpackObjectFromSearchContext(
+                searchContext,
+                HasCapabilities.class,
+                capsHolder -> extractStringCapability(capsHolder, capName) != null
+        )
+                .map(capsHolder -> extractStringCapability(capsHolder, capName))
                 .orElse(null);
+    }
+
+    @Nullable
+    private static String extractStringCapability(HasCapabilities capsHolder, String capName) {
+        var caps = capsHolder.getCapabilities();
+        return caps == null ? null : CapabilityHelpers.getCapability(caps, capName, String.class);
     }
 
     private static final class ElementFieldDecorator extends DefaultFieldDecorator {
