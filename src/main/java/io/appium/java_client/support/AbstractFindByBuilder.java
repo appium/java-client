@@ -41,10 +41,10 @@ public abstract class AbstractFindByBuilder<T> {
      * Builds the locator from the annotation.
      *
      * @param annotation the annotation to read
-     * @param field the annotated field
+     * @param field the annotated field, or {@code null} when building from a class-level annotation
      * @return the locator
      */
-    public abstract By buildIt(T annotation, Field field);
+    public abstract By buildIt(T annotation, @Nullable Field field);
 
     /**
      * Builds the locator from the {@link FindBy} annotation.

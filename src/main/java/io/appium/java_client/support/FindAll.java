@@ -17,6 +17,7 @@
 package io.appium.java_client.support;
 
 import io.appium.java_client.support.pagefactory.ByAll;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.ElementType;
@@ -60,7 +61,7 @@ public @interface FindAll {
         }
 
         @Override
-        public By buildIt(FindAll findBys, Field field) {
+        public By buildIt(FindAll findBys, @Nullable Field field) {
             assertValidFindAll(findBys);
 
             FindBy[] findByArray = findBys.value();

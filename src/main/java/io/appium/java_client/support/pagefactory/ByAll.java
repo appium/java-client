@@ -49,6 +49,15 @@ public class ByAll extends By implements Serializable {
         this.bys = bys;
     }
 
+    /**
+     * Returns the locators searched by this strategy, in order.
+     *
+     * @return a copy of the locators
+     */
+    public By[] getBys() {
+        return bys.clone();
+    }
+
     @Override
     public WebElement findElement(SearchContext context) {
         for (By by : bys) {
