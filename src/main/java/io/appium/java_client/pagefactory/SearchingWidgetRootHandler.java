@@ -29,9 +29,12 @@ import java.lang.reflect.Modifier;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import static io.appium.java_client.internal.ElementHelpers.sameElement;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
@@ -85,10 +88,10 @@ class SearchingWidgetRootHandler implements InvocationHandler {
             return resolved.toString();
         }
         if ("hashCode".equals(method.getName()) && (args == null || args.length == 0)) {
-            return resolved.hashCode();
+            return Objects.hashCode(unwrapElement(resolved));
         }
         if ("equals".equals(method.getName()) && args != null && args.length == 1) {
-            return same(proxy, args[0]);
+            return proxy == args[0] || sameElement(resolved, args[0]);
         }
         try {
             return method.invoke(resolved, args);
@@ -127,16 +130,6 @@ class SearchingWidgetRootHandler implements InvocationHandler {
             }
         }
         return found;
-    }
-
-    private boolean same(Object proxy, Object other) {
-        if (proxy == other) {
-            return true;
-        }
-        if (other instanceof WrapsElement) {
-            other = ((WrapsElement) other).getWrappedElement();
-        }
-        return resolved == other || resolved.equals(other);
     }
 
     private static boolean isLookup(Method method, Object[] args, String name) {

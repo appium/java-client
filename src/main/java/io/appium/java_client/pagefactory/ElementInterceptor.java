@@ -23,8 +23,12 @@ import org.openqa.selenium.WebElement;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
+import static io.appium.java_client.internal.ElementHelpers.resolveTargetMethod;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**
  * Intercepts requests to {@link WebElement}.
@@ -41,16 +45,33 @@ public class ElementInterceptor extends InterceptorOfASingleElement {
         super(locator, driver);
     }
 
+    ElementInterceptor(WebElement cachedElement) {
+        super(
+                new StaticElementLocator(cachedElement),
+                new WeakReference<>(unpackWebDriverFromSearchContext(cachedElement))
+        );
+    }
+
     @Override
     protected Object getObject(WebElement element, Method method, Object[] args)
         throws Throwable {
         try {
-            Method methodToInvoke = method;
-            if (!method.getDeclaringClass().isInstance(element)) {
-                // Selenium decorators may expose WebElement through an interface proxy.
-                methodToInvoke = WebElement.class.getMethod(method.getName(), method.getParameterTypes());
+            Object target = element;
+            Method resolved = resolveTargetMethod(target.getClass(), method);
+            if (resolved == null) {
+                Object unwrapped = unwrapElement(element);
+                if (unwrapped != null && unwrapped != element) {
+                    target = unwrapped;
+                    resolved = resolveTargetMethod(target.getClass(), method);
+                }
             }
-            return methodToInvoke.invoke(element, args);
+            if (resolved == null) {
+                throw new NoSuchMethodException(
+                        target.getClass().getName() + "." + method.getName()
+                                + Arrays.toString(method.getParameterTypes())
+                );
+            }
+            return resolved.invoke(target, args);
         } catch (Throwable t) {
             throw extractReadableException(t);
         }

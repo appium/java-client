@@ -17,7 +17,6 @@
 package io.appium.java_client.pagefactory.interceptors;
 
 import io.appium.java_client.proxy.MethodCallListener;
-import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
@@ -28,6 +27,9 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+
+import static io.appium.java_client.internal.ElementHelpers.sameElement;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 
 /** Base class of interceptors of method calls on a single element. */
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
@@ -60,23 +62,18 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
      */
     protected abstract Object getObject(WebElement element, Method method, Object[] args) throws Throwable;
 
-    private static boolean areElementsEqual(Object we1, Object we2) {
-        if (!(we1 instanceof AppiumWebElement) || !(we2 instanceof AppiumWebElement)) {
-            return false;
-        }
-
-        return we1 == we2
-                || (Objects.equals(((AppiumWebElement) we1).getId(), ((AppiumWebElement) we2).getId()));
-    }
-
     @Override
     public Object call(Object obj, Method method, Object[] args, Callable<?> original) throws Throwable {
         if (locator == null) {
             return original.call();
         }
 
-        if (method.getName().equals("toString") && args.length == 0) {
+        if ("toString".equals(method.getName()) && args.length == 0) {
             return locator.toString();
+        }
+
+        if ("equals".equals(method.getName()) && args.length == 1 && obj == args[0]) {
+            return true;
         }
 
         if (Object.class == method.getDeclaringClass()) {
@@ -84,13 +81,16 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
         }
 
         if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass())
-                && method.getName().equals("getWrappedDriver")) {
+                && "getWrappedDriver".equals(method.getName())) {
             return driverReference.get();
         }
 
         WebElement realElement = locator.findElement();
         if ("equals".equals(method.getName()) && args.length == 1) {
-            return areElementsEqual(realElement, args[0]);
+            return sameElement(realElement, args[0]);
+        }
+        if ("hashCode".equals(method.getName()) && args.length == 0) {
+            return Objects.hashCode(unwrapElement(realElement));
         }
         return getObject(realElement, method, args);
     }

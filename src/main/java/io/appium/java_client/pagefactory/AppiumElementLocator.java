@@ -20,7 +20,6 @@ import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.locator.FurtherRoots;
-import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.ui.FluentWait;
@@ -37,11 +36,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static io.appium.java_client.internal.ElementHelpers.sameElement;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
@@ -257,16 +256,6 @@ class AppiumElementLocator implements CacheableLocator {
         return null;
     }
 
-    private static boolean sameRoot(WebElement left, WebElement right) {
-        if (left == right) {
-            return true;
-        }
-        if (left instanceof AppiumWebElement && right instanceof AppiumWebElement) {
-            return Objects.equals(((AppiumWebElement) left).getId(), ((AppiumWebElement) right).getId());
-        }
-        return left.equals(right);
-    }
-
     /**
      * Alternate locators captured for one content type.
      */
@@ -341,7 +330,7 @@ class AppiumElementLocator implements CacheableLocator {
                     continue;
                 }
                 WebElement firstMatch = matches.get(0);
-                if (!sameRoot(firstMatch, resolvedRoot)) {
+                if (!sameElement(firstMatch, resolvedRoot)) {
                     return firstMatch;
                 }
             }

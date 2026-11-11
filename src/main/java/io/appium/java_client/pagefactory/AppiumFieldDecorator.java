@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static io.appium.java_client.internal.ElementHelpers.findInSearchContextChain;
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
@@ -226,14 +227,18 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     @Nullable
-    private String readStringCapability(SearchContext searchContext, String capName) {
-        if (searchContext == null) {
-            return null;
-        }
-        return unpackObjectFromSearchContext(searchContext, HasCapabilities.class)
-                .map(HasCapabilities::getCapabilities)
-                .map(caps -> CapabilityHelpers.getCapability(caps, capName, String.class))
-                .orElse(null);
+    private static String readStringCapability(@Nullable SearchContext searchContext, String capName) {
+        return findInSearchContextChain(
+                searchContext,
+                HasCapabilities.class,
+                capsHolder -> extractStringCapability(capsHolder, capName)
+        ).orElse(null);
+    }
+
+    @Nullable
+    private static String extractStringCapability(HasCapabilities capsHolder, String capName) {
+        var caps = capsHolder.getCapabilities();
+        return caps == null ? null : CapabilityHelpers.getCapability(caps, capName, String.class);
     }
 
     private static final class ElementFieldDecorator extends DefaultFieldDecorator {
@@ -265,7 +270,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
         @Override
         @SuppressWarnings("unchecked")
         protected List<WebElement> proxyForListLocator(ClassLoader ignored, ElementLocator locator) {
-            ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator);
+            return proxyForListLocator(locator, false);
+        }
+
+        @SuppressWarnings("unchecked")
+        private List<WebElement> proxyForListLocator(ElementLocator locator, boolean adaptToAppiumElement) {
+            ElementListInterceptor elementInterceptor = new ElementListInterceptor(locator, adaptToAppiumElement);
             return getEnhancedProxy(ArrayList.class, elementInterceptor);
         }
 
@@ -299,7 +309,9 @@ public class AppiumFieldDecorator implements FieldDecorator {
             if (isElement) {
                 return proxyForLocator(null, locator);
             }
-            return proxyForListLocator(null, locator);
+            boolean adaptToAppiumElement = listElementClasses.stream()
+                    .anyMatch(AppiumWebElement.class::isAssignableFrom);
+            return proxyForListLocator(locator, adaptToAppiumElement);
         }
     }
 
