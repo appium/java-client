@@ -16,9 +16,6 @@
 
 package io.appium.java_client.support.pagefactory;
 
-import io.appium.java_client.support.FindAll;
-import io.appium.java_client.support.FindBy;
-import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.internal.LocatingElementHandler;
 import io.appium.java_client.support.pagefactory.internal.LocatingElementListHandler;
@@ -110,9 +107,7 @@ public class DefaultFieldDecorator implements FieldDecorator {
     }
 
     private static boolean hasStandardLocatorAnnotation(Field field) {
-        return field.getAnnotation(FindBy.class) != null
-                || field.getAnnotation(FindBys.class) != null
-                || field.getAnnotation(FindAll.class) != null;
+        return Annotations.hasLocatorAnnotation(field);
     }
 
     /**

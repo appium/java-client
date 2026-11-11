@@ -21,18 +21,18 @@ import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.bys.builder.AppiumByBuilder;
 import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
+import io.appium.java_client.support.AbstractFindByBuilder;
 import io.appium.java_client.support.ByIdOrName;
 import io.appium.java_client.support.CacheLookup;
-import io.appium.java_client.support.FindAll;
-import io.appium.java_client.support.FindBy;
-import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.PageFactory;
+import io.appium.java_client.support.PageFactoryFinder;
 import io.appium.java_client.support.pagefactory.ByAll;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -91,14 +91,79 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         );
     }
 
-    private static void checkDisallowedAnnotationPairs(Annotation a1, Annotation a2)
+    private static void validateFinderAnnotations(List<Annotation> finders)
             throws IllegalArgumentException {
-        if (a1 != null && a2 != null) {
+        if (finders.size() > 1) {
+            Annotation a1 = finders.get(0);
+            Annotation a2 = finders.get(1);
             throw new IllegalArgumentException(
-                    "If you use a '@" + a1.getClass().getSimpleName() + "' annotation, "
-                            + "you must not also use a '@" + a2.getClass().getSimpleName()
+                    "If you use a '@" + a1.annotationType().getSimpleName() + "' annotation, "
+                            + "you must not also use a '@" + a2.annotationType().getSimpleName()
                             + "' annotation");
         }
+    }
+
+    private static List<Annotation> resolveFinderAnnotations(AnnotatedElement annotatedElement) {
+        List<Annotation> declared = collectFinderAnnotations(
+                annotatedElement.getDeclaredAnnotations(), annotatedElement
+        );
+        if (!declared.isEmpty() || !(annotatedElement instanceof Class<?>)) {
+            return declared;
+        }
+        return collectFinderAnnotations(annotatedElement.getAnnotations(), annotatedElement);
+    }
+
+    private static List<Annotation> collectFinderAnnotations(
+            Annotation[] candidates,
+            AnnotatedElement annotatedElement
+    ) {
+        List<Annotation> finders = new ArrayList<>();
+        for (Annotation annotation : candidates) {
+            if (annotation.annotationType().isAnnotationPresent(PageFactoryFinder.class)) {
+                finders.add(annotation);
+            } else if (SeleniumAnnotationsCompat.isBuiltinSeleniumFinder(annotation)) {
+                Annotation adapted = SeleniumAnnotationsCompat.adaptBuiltinSeleniumFinder(
+                        annotatedElement, annotation
+                );
+                if (adapted != null) {
+                    finders.add(adapted);
+                }
+            } else if (SeleniumAnnotationsCompat.hasLegacyPageFactoryFinder(annotation)) {
+                finders.add(annotation);
+            }
+        }
+        return finders;
+    }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    private static By buildFromFinderAnnotation(Annotation annotation, @Nullable Field field) {
+        PageFactoryFinder finder = annotation.annotationType().getAnnotation(PageFactoryFinder.class);
+        if (finder != null) {
+            Class<? extends AbstractFindByBuilder<?>> builderClass = finder.value();
+            AbstractFindByBuilder<Annotation> builder;
+            try {
+                Constructor<? extends AbstractFindByBuilder<?>> constructor =
+                        builderClass.getDeclaredConstructor();
+                constructor.setAccessible(true);
+                builder = (AbstractFindByBuilder<Annotation>) constructor.newInstance();
+            } catch (InvocationTargetException e) {
+                Throwable cause = e.getCause();
+                if (cause instanceof RuntimeException) {
+                    throw (RuntimeException) cause;
+                }
+                if (cause instanceof Error) {
+                    throw (Error) cause;
+                }
+                throw new IllegalStateException(cause);
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalArgumentException(
+                        "Cannot instantiate PageFactoryFinder builder " + builderClass.getName(), e
+                );
+            }
+            return builder.buildIt(annotation, field);
+        }
+        return SeleniumAnnotationsCompat.buildByFromLegacyFinder(annotation, field);
     }
 
     private static By buildMobileBy(LocatorGroupStrategy locatorGroupStrategy, By[] bys) {
@@ -114,38 +179,24 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
-        FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
-        checkDisallowedAnnotationPairs(findBy, findBys);
-        FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
-        checkDisallowedAnnotationPairs(findBy, findAll);
-        checkDisallowedAnnotationPairs(findBys, findAll);
+        if (annotatedElement != null) {
+            validateFinderAnnotations(resolveFinderAnnotations(annotatedElement));
+        }
     }
 
     @Override
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
+        if (annotatedElement == null) {
+            return null;
+        }
+        List<Annotation> finders = resolveFinderAnnotations(annotatedElement);
+        validateFinderAnnotations(finders);
+        if (finders.isEmpty()) {
+            return null;
+        }
         Field field = annotatedElement instanceof Field ? (Field) annotatedElement : null;
-        By defaultBy = null;
-        FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
-        if (findBy != null) {
-            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, field);
-        }
-
-        if (defaultBy == null) {
-            FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
-            if (findBys != null) {
-                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, field);
-            }
-        }
-
-        if (defaultBy == null) {
-            FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
-            if (findAll != null) {
-                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, field);
-            }
-        }
-        return defaultBy;
+        return buildFromFinderAnnotation(finders.get(0), field);
     }
 
     private By[] getBys(Class<? extends Annotation> singleLocator, Class<? extends Annotation> chainedLocator,
