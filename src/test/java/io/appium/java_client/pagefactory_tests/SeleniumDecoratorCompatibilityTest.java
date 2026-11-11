@@ -59,6 +59,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -72,6 +73,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -185,6 +188,14 @@ public class SeleniumDecoratorCompatibilityTest {
 
         assertNotEquals(appiumElement, originalDriver.secondaryElement);
         assertNotEquals(originalDriver.secondaryElement, appiumElement);
+
+        AppiumWebElement unboundFirst = new AppiumWebElement();
+        AppiumWebElement unboundSecond = new AppiumWebElement();
+        assertEquals(unboundFirst, unboundFirst);
+        assertNotEquals(unboundFirst, unboundSecond);
+        assertNotEquals(unboundFirst, appiumElement);
+        assertNotEquals(appiumElement, unboundFirst);
+        assertEquals(2, new HashSet<>(List.of(unboundFirst, unboundSecond)).size());
     }
 
     @Test
@@ -312,6 +323,44 @@ public class SeleniumDecoratorCompatibilityTest {
         CyclicSearchContext cyclic = new CyclicSearchContext();
         assertFalse(WebDriverUnpackUtility.unpackObjectFromSearchContext(cyclic, WebDriver.class).isPresent());
         assertSame(cyclic, ElementHelpers.unwrapElement(cyclic));
+    }
+
+    @Test
+    public void guardsDeepMultiNodeWrapperCyclesAndEvaluatesElementHelpersEquality() {
+        MutableSearchContextWrapper tail = new MutableSearchContextWrapper(null);
+        SearchContext chain = tail;
+        for (int i = 0; i < 6; i++) {
+            chain = new MutableSearchContextWrapper(chain);
+        }
+        tail.delegate = chain;
+
+        assertFalse(ElementHelpers.findInSearchContextChain(
+                chain, WebDriver.class, candidate -> candidate
+        ).isPresent());
+        assertNotNull(ElementHelpers.unwrapElement(chain));
+
+        AppiumWebElement unboundFirst = new AppiumWebElement();
+        assertFalse(ElementHelpers.sameElement(null, null));
+        assertFalse(ElementHelpers.sameElement(unboundFirst, null));
+        assertTrue(ElementHelpers.sameElement(unboundFirst, unboundFirst));
+        AppiumWebElement unboundSecond = new AppiumWebElement();
+        assertFalse(ElementHelpers.sameElement(unboundFirst, unboundSecond));
+    }
+
+    @Test
+    public void resolvesCallableMethodsAcrossPackagePrivateTargetsAndSubInterfaces() throws Exception {
+        Method packagePrivateMethod = PackagePrivateTarget.class.getDeclaredMethod("customLabel");
+        Method resolvedOnPackagePrivate = ElementHelpers.resolveTargetMethod(
+                PackagePrivateTarget.class, packagePrivateMethod
+        );
+        assertNotNull(resolvedOnPackagePrivate);
+        assertEquals(BaseLabelProvider.class, resolvedOnPackagePrivate.getDeclaringClass());
+        assertEquals("ok", resolvedOnPackagePrivate.invoke(new PackagePrivateTarget()));
+
+        Method unrelatedMethod = String.class.getMethod("trim");
+        assertNull(ElementHelpers.resolveTargetMethod(PackagePrivateTarget.class, unrelatedMethod));
+        assertNotNull(ElementHelpers.resolveTargetMethod(CountingElement.class,
+                TakesScreenshot.class.getMethod("getScreenshotAs", OutputType.class)));
     }
 
     public static class SampleWidget extends Widget {
@@ -731,9 +780,36 @@ public class SeleniumDecoratorCompatibilityTest {
         }
 
         public Object invokeListMethod(
-                List<WebElement> elements, java.lang.reflect.Method method, Object[] args
+                List<WebElement> elements, Method method, Object[] args
         ) throws Throwable {
             return getObject(elements, method, args);
+        }
+    }
+
+    public interface BaseLabelProvider {
+        String customLabel();
+    }
+
+    public interface PublicLabelExtension extends BaseLabelProvider {
+    }
+
+    static final class PackagePrivateTarget implements PublicLabelExtension {
+        @Override
+        public String customLabel() {
+            return "ok";
+        }
+    }
+
+    static final class MutableSearchContextWrapper extends StubWebElement implements WrapsElement {
+        private SearchContext delegate;
+
+        MutableSearchContextWrapper(SearchContext delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public WebElement getWrappedElement() {
+            return delegate instanceof WebElement ? (WebElement) delegate : null;
         }
     }
 }

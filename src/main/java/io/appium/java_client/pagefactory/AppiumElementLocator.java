@@ -40,11 +40,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static io.appium.java_client.internal.ElementHelpers.sameElement;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.sameElement;
 import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {

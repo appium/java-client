@@ -36,8 +36,6 @@ import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.WrapsElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,14 +45,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static io.appium.java_client.internal.ElementHelpers.extractDecoratedDriver;
-import static io.appium.java_client.internal.ElementHelpers.extractDecoratedOriginal;
+import static io.appium.java_client.internal.ElementHelpers.findInSearchContextChain;
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
@@ -233,52 +227,12 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     @Nullable
-    private String readStringCapability(@Nullable SearchContext searchContext, String capName) {
-        SearchContext current = searchContext;
-        Set<Object> visited = null;
-        for (int depth = 0; current != null; depth++) {
-            if (depth >= 4) {
-                if (visited == null) {
-                    visited = Collections.newSetFromMap(new IdentityHashMap<>());
-                }
-                if (!visited.add(current)) {
-                    return null;
-                }
-            }
-            var holder = unpackObjectFromSearchContext(current, HasCapabilities.class);
-            if (holder.isEmpty()) {
-                return null;
-            }
-            HasCapabilities capsHolder = holder.get();
-            String value = extractStringCapability(capsHolder, capName);
-            if (value != null) {
-                return value;
-            }
-            current = stepSearchContext(capsHolder);
-        }
-        return null;
-    }
-
-    @Nullable
-    private static SearchContext stepSearchContext(Object candidate) {
-        if (candidate instanceof WrapsDriver) {
-            WebDriver wrapped = ((WrapsDriver) candidate).getWrappedDriver();
-            if (wrapped != null && wrapped != candidate) {
-                return wrapped;
-            }
-        }
-        if (candidate instanceof WrapsElement) {
-            WebElement wrapped = ((WrapsElement) candidate).getWrappedElement();
-            if (wrapped != null && wrapped != candidate) {
-                return wrapped;
-            }
-        }
-        Object decoratedOriginal = extractDecoratedOriginal(candidate);
-        if (decoratedOriginal instanceof SearchContext && decoratedOriginal != candidate) {
-            return (SearchContext) decoratedOriginal;
-        }
-        SearchContext decoratedDriver = extractDecoratedDriver(candidate);
-        return decoratedDriver != candidate ? decoratedDriver : null;
+    private static String readStringCapability(@Nullable SearchContext searchContext, String capName) {
+        return findInSearchContextChain(
+                searchContext,
+                HasCapabilities.class,
+                capsHolder -> extractStringCapability(capsHolder, capName)
+        ).orElse(null);
     }
 
     @Nullable

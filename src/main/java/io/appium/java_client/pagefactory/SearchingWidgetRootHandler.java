@@ -33,8 +33,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import static io.appium.java_client.internal.ElementHelpers.sameElement;
 import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.sameElement;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
 
 /**

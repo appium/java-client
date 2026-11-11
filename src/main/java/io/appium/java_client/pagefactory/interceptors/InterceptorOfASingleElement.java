@@ -28,8 +28,8 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
+import static io.appium.java_client.internal.ElementHelpers.sameElement;
 import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.sameElement;
 
 /** Base class of interceptors of method calls on a single element. */
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
