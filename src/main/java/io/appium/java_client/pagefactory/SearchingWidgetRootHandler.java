@@ -16,7 +16,6 @@
 
 package io.appium.java_client.pagefactory;
 
-import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -34,8 +33,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.sameElement;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
 
 /**
  * Invocation handler for a {@link SearchingWidgetRoot} proxy.
@@ -88,10 +88,10 @@ class SearchingWidgetRootHandler implements InvocationHandler {
             return resolved.toString();
         }
         if ("hashCode".equals(method.getName()) && (args == null || args.length == 0)) {
-            return resolved.hashCode();
+            return Objects.hashCode(unwrapElement(resolved));
         }
         if ("equals".equals(method.getName()) && args != null && args.length == 1) {
-            return same(proxy, args[0]);
+            return proxy == args[0] || sameElement(resolved, args[0]);
         }
         try {
             return method.invoke(resolved, args);
@@ -130,15 +130,6 @@ class SearchingWidgetRootHandler implements InvocationHandler {
             }
         }
         return found;
-    }
-
-    private boolean same(Object proxy, @Nullable Object other) {
-        if (proxy == other || resolved == other) {
-            return true;
-        }
-        Object unwrappedResolved = unwrapElement(resolved);
-        Object unwrappedOther = unwrapElement(other);
-        return unwrappedResolved == unwrappedOther || Objects.equals(unwrappedResolved, unwrappedOther);
     }
 
     private static boolean isLookup(Method method, Object[] args, String name) {

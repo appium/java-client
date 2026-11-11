@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static io.appium.java_client.remote.DriverCommand.FIND_CHILD_ELEMENT;
 import static io.appium.java_client.remote.DriverCommand.FIND_CHILD_ELEMENTS;
 import static java.util.Objects.requireNonNull;
@@ -259,7 +259,12 @@ public class AppiumWebElement implements WebElement, Locatable, TakesScreenshot,
         if (!(other instanceof AppiumWebElement)) {
             return false;
         }
-        return Objects.equals(getId(), ((AppiumWebElement) other).getId());
+        AppiumWebElement otherElement = (AppiumWebElement) other;
+        if (otherElement.id == null && otherElement.getClass() != AppiumWebElement.class
+                && getClass() == AppiumWebElement.class) {
+            return otherElement.equals(this);
+        }
+        return Objects.equals(getId(), otherElement.getId());
     }
 
     @Override

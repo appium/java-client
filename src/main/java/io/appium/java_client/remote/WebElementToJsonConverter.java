@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static java.util.stream.Collectors.toList;
 
 /**

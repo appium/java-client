@@ -17,24 +17,27 @@
 package io.appium.java_client.pagefactory.utils;
 
 import io.appium.java_client.HasBrowserCheck;
+import io.appium.java_client.NoSuchContextException;
 import io.appium.java_client.pagefactory.bys.ContentType;
+import io.appium.java_client.proxy.HasMethodCallListeners;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.IdentityHashMap;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
+import static io.appium.java_client.internal.ElementHelpers.extractDecoratedDriver;
+import static io.appium.java_client.internal.ElementHelpers.extractDecoratedOriginal;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Locale.ROOT;
@@ -43,8 +46,7 @@ import static java.util.Locale.ROOT;
  * Utilities to unpack drivers and related objects from a {@link SearchContext}.
  */
 public final class WebDriverUnpackUtility {
-    private static final String DECORATED_INTERFACE_NAME =
-            "org.openqa.selenium.support.decorators.Decorated";
+    private static final int MAX_UNALLOCATED_DEPTH = 4;
 
     private WebDriverUnpackUtility() {
     }
@@ -65,26 +67,7 @@ public final class WebDriverUnpackUtility {
     public static <T> Optional<T> unpackObjectFromSearchContext(
             @Nullable SearchContext searchContext, Class<T> cls
     ) {
-        return unpackObjectFromSearchContext(searchContext, cls, ignored -> true);
-    }
-
-    /**
-     * Extracts an instance of {@code cls} matching {@code filter} from {@code searchContext}.
-     *
-     * @param <T> the type of the object to extract
-     * @param searchContext the search context to inspect
-     * @param cls interface or class to extract
-     * @param filter predicate that the extracted instance must satisfy
-     * @return a matching instance or {@link Optional#empty()}
-     */
-    public static <T> Optional<T> unpackObjectFromSearchContext(
-            @Nullable SearchContext searchContext,
-            Class<T> cls,
-            Predicate<? super T> filter
-    ) {
-        return doUnpackObjectFromSearchContext(
-                searchContext, cls, filter, Collections.newSetFromMap(new IdentityHashMap<>())
-        );
+        return doUnpackFromSearchContext(searchContext, cls, 0, null);
     }
 
     /**
@@ -105,32 +88,31 @@ public final class WebDriverUnpackUtility {
         return unpackObjectFromSearchContext(searchContext, WebDriver.class).orElse(null);
     }
 
-    /**
-     * Unwraps nested {@link WrapsElement} and Selenium decorator wrappers.
-     *
-     * @param element the object to unwrap
-     * @return the innermost unwrapped object, or {@code null}
-     */
-    @Nullable
-    public static Object unwrapElement(@Nullable Object element) {
-        Object current = element;
-        Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
-        while (current != null && visited.add(current)) {
-            if (current instanceof WrapsElement) {
-                WebElement wrapped = ((WrapsElement) current).getWrappedElement();
-                if (wrapped != null && wrapped != current) {
-                    current = wrapped;
-                    continue;
-                }
-            }
-            Object decoratedOriginal = extractDecoratedOriginal(current);
-            if (decoratedOriginal instanceof WebElement && decoratedOriginal != current) {
-                current = decoratedOriginal;
-                continue;
-            }
-            break;
+    /** Checks whether two references resolve to the same unwrapped element.
+     * @param first the first element or wrapper
+     * @param second the second element or wrapper
+     * @return true if both references resolve to equal underlying elements */
+    public static boolean sameElement(@Nullable Object first, @Nullable Object second) {
+        if (first == second) {
+            return first != null;
         }
-        return current;
+        if (first == null || second == null) {
+            return false;
+        }
+        Object unwrappedFirst = unwrapElement(first);
+        Object unwrappedSecond = unwrapElement(second);
+        if (unwrappedFirst == unwrappedSecond) {
+            return unwrappedFirst != null;
+        }
+        if (unwrappedFirst instanceof HasMethodCallListeners
+                && !(unwrappedSecond instanceof HasMethodCallListeners)) {
+            return unwrappedFirst.equals(unwrappedSecond);
+        }
+        if (!(unwrappedFirst instanceof HasMethodCallListeners)
+                && unwrappedSecond instanceof HasMethodCallListeners) {
+            return unwrappedSecond.equals(unwrappedFirst);
+        }
+        return Objects.equals(unwrappedFirst, unwrappedSecond);
     }
 
     /**
@@ -149,66 +131,72 @@ public final class WebDriverUnpackUtility {
      *                {@link WrapsDriver}
      */
     public static ContentType getCurrentContentType(SearchContext context) {
-        var browserCheckHolder = unpackObjectFromSearchContext(
-                context, HasBrowserCheck.class, hbc -> !hbc.isBrowser()
-        );
-        if (browserCheckHolder.isPresent()) {
+        var browserCheckHolder = unpackObjectFromSearchContext(context, HasBrowserCheck.class);
+        if (browserCheckHolder.filter(hbc -> !hbc.isBrowser()).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
 
-        var contextAware = unpackObjectFromSearchContext(
-                context,
-                SupportsContextSwitching.class,
-                sc -> {
-                    String currentContext = safeGetContext(sc);
-                    return currentContext != null && currentContext.toUpperCase(ROOT).contains(NATIVE_CONTEXT);
-                }
-        );
-        if (contextAware.isPresent()) {
+        var contextAware = unpackObjectFromSearchContext(context, SupportsContextSwitching.class);
+        if (contextAware.map(WebDriverUnpackUtility::safeGetContext)
+                .filter(c -> c.toUpperCase(ROOT).contains(NATIVE_CONTEXT)).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
 
         return HTML_OR_DEFAULT;
     }
 
-    private static <T> Optional<T> doUnpackObjectFromSearchContext(
+    private static <T> Optional<T> doUnpackFromSearchContext(
             @Nullable SearchContext searchContext,
             Class<T> cls,
-            Predicate<? super T> filter,
-            Set<SearchContext> visited
+            int depth,
+            @Nullable Set<SearchContext> visited
     ) {
-        if (searchContext == null || !visited.add(searchContext)) {
+        if (searchContext == null) {
             return Optional.empty();
+        }
+        Set<SearchContext> activeVisited = visited;
+        if (depth >= MAX_UNALLOCATED_DEPTH) {
+            if (activeVisited == null) {
+                activeVisited = Collections.newSetFromMap(new IdentityHashMap<>());
+            }
+            if (!activeVisited.add(searchContext)) {
+                return Optional.empty();
+            }
         }
 
         Object decoratedOriginal = extractDecoratedOriginal(searchContext);
         if (cls.isAssignableFrom(searchContext.getClass())
                 && (decoratedOriginal == null || cls.isAssignableFrom(decoratedOriginal.getClass()))) {
-            T candidate = cls.cast(searchContext);
-            if (filter.test(candidate)) {
-                return Optional.of(candidate);
-            }
+            return Optional.of(cls.cast(searchContext));
         }
+
+        int nextDepth = depth + 1;
         if (searchContext instanceof WrapsDriver) {
-            Optional<T> unwrappedDriver = doUnpackObjectFromSearchContext(
-                    ((WrapsDriver) searchContext).getWrappedDriver(), cls, filter, visited
-            );
-            if (unwrappedDriver.isPresent()) {
-                return unwrappedDriver;
+            WebDriver wrappedDriver = ((WrapsDriver) searchContext).getWrappedDriver();
+            if (wrappedDriver != searchContext) {
+                Optional<T> unwrappedDriver = doUnpackFromSearchContext(
+                        wrappedDriver, cls, nextDepth, activeVisited
+                );
+                if (unwrappedDriver.isPresent()) {
+                    return unwrappedDriver;
+                }
             }
         }
         if (searchContext instanceof WrapsElement) {
-            Optional<T> unwrappedElement = doUnpackObjectFromSearchContext(
-                    ((WrapsElement) searchContext).getWrappedElement(), cls, filter, visited
-            );
-            if (unwrappedElement.isPresent()) {
-                return unwrappedElement;
+            var wrappedElement = ((WrapsElement) searchContext).getWrappedElement();
+            if (wrappedElement != searchContext) {
+                Optional<T> unwrappedElement = doUnpackFromSearchContext(
+                        wrappedElement, cls, nextDepth, activeVisited
+                );
+                if (unwrappedElement.isPresent()) {
+                    return unwrappedElement;
+                }
             }
         }
 
-        if (decoratedOriginal instanceof SearchContext) {
-            Optional<T> unwrappedOriginal = doUnpackObjectFromSearchContext(
-                    (SearchContext) decoratedOriginal, cls, filter, visited
+        if (decoratedOriginal instanceof SearchContext && decoratedOriginal != searchContext) {
+            Optional<T> unwrappedOriginal = doUnpackFromSearchContext(
+                    (SearchContext) decoratedOriginal, cls, nextDepth, activeVisited
             );
             if (unwrappedOriginal.isPresent()) {
                 return unwrappedOriginal;
@@ -216,8 +204,8 @@ public final class WebDriverUnpackUtility {
         }
 
         SearchContext decoratedDriver = extractDecoratedDriver(searchContext);
-        if (decoratedDriver != null) {
-            return doUnpackObjectFromSearchContext(decoratedDriver, cls, filter, visited);
+        if (decoratedDriver != null && decoratedDriver != searchContext) {
+            return doUnpackFromSearchContext(decoratedDriver, cls, nextDepth, activeVisited);
         }
 
         return Optional.empty();
@@ -227,79 +215,8 @@ public final class WebDriverUnpackUtility {
     private static String safeGetContext(SupportsContextSwitching contextAware) {
         try {
             return contextAware.getContext();
-        } catch (WebDriverException e) {
+        } catch (UnsupportedCommandException | NoSuchContextException e) {
             return null;
         }
-    }
-
-    @Nullable
-    private static Object extractDecoratedOriginal(Object candidate) {
-        Class<?> decoratedInterface = findDecoratedInterface(candidate.getClass());
-        if (decoratedInterface == null) {
-            return null;
-        }
-        try {
-            Method getOriginal = decoratedInterface.getMethod("getOriginal");
-            return getOriginal.invoke(candidate);
-        } catch (ReflectiveOperationException e) {
-            return null;
-        }
-    }
-
-    @Nullable
-    private static SearchContext extractDecoratedDriver(Object candidate) {
-        Class<?> decoratedInterface = findDecoratedInterface(candidate.getClass());
-        if (decoratedInterface == null) {
-            return null;
-        }
-        try {
-            Method getDecorator = decoratedInterface.getMethod("getDecorator");
-            Object decorator = getDecorator.invoke(candidate);
-            if (decorator == null) {
-                return null;
-            }
-            Method getDecoratedDriver = decorator.getClass().getMethod("getDecoratedDriver");
-            Object decoratedDriver = getDecoratedDriver.invoke(decorator);
-            if (decoratedDriver instanceof SearchContext) {
-                return (SearchContext) decoratedDriver;
-            }
-            if (decoratedDriver != null) {
-                Object originalDriver = extractDecoratedOriginal(decoratedDriver);
-                if (originalDriver instanceof SearchContext) {
-                    return (SearchContext) originalDriver;
-                }
-            }
-        } catch (ReflectiveOperationException e) {
-            return null;
-        }
-        return null;
-    }
-
-    @Nullable
-    private static Class<?> findDecoratedInterface(@Nullable Class<?> type) {
-        for (Class<?> current = type; current != null && !Object.class.equals(current);
-                current = current.getSuperclass()) {
-            for (Class<?> iface : current.getInterfaces()) {
-                Class<?> found = findDecoratedOnInterfaceHierarchy(iface);
-                if (found != null) {
-                    return found;
-                }
-            }
-        }
-        return null;
-    }
-
-    @Nullable
-    private static Class<?> findDecoratedOnInterfaceHierarchy(Class<?> iface) {
-        if (DECORATED_INTERFACE_NAME.equals(iface.getName())) {
-            return iface;
-        }
-        for (Class<?> parent : iface.getInterfaces()) {
-            Class<?> found = findDecoratedOnInterfaceHierarchy(parent);
-            if (found != null) {
-                return found;
-            }
-        }
-        return null;
     }
 }

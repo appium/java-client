@@ -20,7 +20,6 @@ import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.locator.CacheableLocator;
 import io.appium.java_client.pagefactory.locator.FurtherRoots;
-import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.ui.FluentWait;
@@ -37,7 +36,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -46,7 +44,7 @@ import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableExc
 import static io.appium.java_client.pagefactory.ThrowableUtil.isInvalidSelectorRootCause;
 import static io.appium.java_client.pagefactory.ThrowableUtil.isStaleElementReferenceException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.getCurrentContentType;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.sameElement;
 import static java.lang.String.format;
 
 class AppiumElementLocator implements CacheableLocator {
@@ -258,24 +256,6 @@ class AppiumElementLocator implements CacheableLocator {
         return null;
     }
 
-    private static boolean sameRoot(WebElement left, WebElement right) {
-        if (left == right) {
-            return true;
-        }
-        Object unwrappedLeft = unwrapElement(left);
-        Object unwrappedRight = unwrapElement(right);
-        if (unwrappedLeft == unwrappedRight) {
-            return true;
-        }
-        if (unwrappedLeft instanceof AppiumWebElement && unwrappedRight instanceof AppiumWebElement) {
-            return Objects.equals(
-                    ((AppiumWebElement) unwrappedLeft).getId(),
-                    ((AppiumWebElement) unwrappedRight).getId()
-            );
-        }
-        return Objects.equals(unwrappedLeft, unwrappedRight);
-    }
-
     /**
      * Alternate locators captured for one content type.
      */
@@ -350,7 +330,7 @@ class AppiumElementLocator implements CacheableLocator {
                     continue;
                 }
                 WebElement firstMatch = matches.get(0);
-                if (!sameRoot(firstMatch, resolvedRoot)) {
+                if (!sameElement(firstMatch, resolvedRoot)) {
                     return firstMatch;
                 }
             }

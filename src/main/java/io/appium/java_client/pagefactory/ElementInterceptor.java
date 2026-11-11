@@ -25,11 +25,12 @@ import org.openqa.selenium.WebElement;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.List;
 
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static io.appium.java_client.pagefactory.ThrowableUtil.extractReadableException;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackWebDriverFromSearchContext;
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
 
 /**
  * Intercepts requests to {@link WebElement}.
@@ -66,52 +67,46 @@ public class ElementInterceptor extends InterceptorOfASingleElement {
     private static Object invokeElementMethod(
             WebElement element, Method method, Object[] args
     ) throws ReflectiveOperationException {
-        if (method.getDeclaringClass().isInstance(element)) {
-            return method.invoke(element, args);
-        }
-
-        Method interfaceOrObjectMethod = findInterfaceOrObjectMethod(
-                element.getClass(), method.getName(), method.getParameterTypes()
-        );
-        if (interfaceOrObjectMethod != null) {
-            return interfaceOrObjectMethod.invoke(element, args);
-        }
-
-        Object unwrapped = unwrapElement(element);
-        if (unwrapped != null && unwrapped != element) {
-            if (method.getDeclaringClass().isInstance(unwrapped)) {
-                return method.invoke(unwrapped, args);
+        Object target = element;
+        Method resolved = resolveTargetMethod(target.getClass(), method);
+        if (resolved == null) {
+            Object unwrapped = unwrapElement(element);
+            if (unwrapped != null && unwrapped != element) {
+                target = unwrapped;
+                resolved = resolveTargetMethod(target.getClass(), method);
             }
-            Method unwrappedInterfaceMethod = findInterfaceOrObjectMethod(
-                    unwrapped.getClass(), method.getName(), method.getParameterTypes()
+        }
+        if (resolved == null) {
+            throw new NoSuchMethodException(
+                    target.getClass().getName() + "." + method.getName()
+                            + Arrays.toString(method.getParameterTypes())
             );
-            if (unwrappedInterfaceMethod != null) {
-                return unwrappedInterfaceMethod.invoke(unwrapped, args);
-            }
-            return unwrapped.getClass()
-                    .getMethod(method.getName(), method.getParameterTypes())
-                    .invoke(unwrapped, args);
         }
-
-        return element.getClass()
-                .getMethod(method.getName(), method.getParameterTypes())
-                .invoke(element, args);
+        return resolved.invoke(target, args);
     }
 
     @Nullable
-    private static Method findInterfaceOrObjectMethod(
+    private static Method resolveTargetMethod(Class<?> targetClass, Method method) {
+        if (method.getDeclaringClass().isAssignableFrom(targetClass)
+                && Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
+            return method;
+        }
+        Method interfaceMethod = findPublicInterfaceMethod(
+                targetClass, method.getName(), method.getParameterTypes()
+        );
+        if (interfaceMethod != null) {
+            return interfaceMethod;
+        }
+        if (Modifier.isPublic(targetClass.getModifiers())) {
+            return findDeclaredPublicMethod(targetClass, method.getName(), method.getParameterTypes());
+        }
+        return null;
+    }
+
+    @Nullable
+    private static Method findPublicInterfaceMethod(
             Class<?> targetClass, String name, Class<?>[] parameterTypes
     ) {
-        Method objectMethod = findDeclaredPublicMethod(Object.class, name, parameterTypes);
-        if (objectMethod != null) {
-            return objectMethod;
-        }
-        if (WebElement.class.isAssignableFrom(targetClass)) {
-            Method webElementMethod = findDeclaredPublicMethod(WebElement.class, name, parameterTypes);
-            if (webElementMethod != null) {
-                return webElementMethod;
-            }
-        }
         for (Class<?> current = targetClass; current != null && !Object.class.equals(current);
                 current = current.getSuperclass()) {
             for (Class<?> iface : current.getInterfaces()) {

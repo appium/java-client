@@ -20,14 +20,20 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.HasBrowserCheck;
 import io.appium.java_client.events.stubs.EmptyWebDriver;
 import io.appium.java_client.events.stubs.StubWebElement;
+import io.appium.java_client.internal.ElementHelpers;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.ElementListInterceptor;
+import io.appium.java_client.pagefactory.SearchingWidgetRoot;
 import io.appium.java_client.pagefactory.Widget;
+import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility;
 import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.Response;
+import io.appium.java_client.remote.SupportsContextSwitching;
+import io.appium.java_client.support.CacheLookup;
 import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.ByChained;
 import org.junit.jupiter.api.Test;
@@ -35,10 +41,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -51,6 +60,8 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -62,6 +73,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SeleniumDecoratorCompatibilityTest {
@@ -79,6 +91,10 @@ public class SeleniumDecoratorCompatibilityTest {
 
     @AndroidFindBy(id = "list_id")
     private List<WebElement> webElements;
+
+    @CacheLookup
+    @AndroidFindBy(id = "list_id")
+    private List<AppiumWebElement> cachedAppiumElements;
 
     @AndroidFindBy(id = "widget_root")
     private SampleWidget widget;
@@ -152,12 +168,85 @@ public class SeleniumDecoratorCompatibilityTest {
         assertEquals(appiumElement, originalDriver.primaryElement);
         assertEquals(originalDriver.primaryElement, appiumElement);
         assertEquals(appiumElement, sameAppiumElement);
+
+        WebElement searchingRoot = SearchingWidgetRoot.wrap(
+                new ElementWrapper(decoratedFound), Collections::emptyIterator
+        );
+        assertEquals(searchingRoot, appiumElement);
+        assertEquals(appiumElement, searchingRoot);
+        assertEquals(originalDriver.primaryElement.hashCode(), appiumElement.hashCode());
+        assertEquals(originalDriver.primaryElement.hashCode(), decoratedFound.hashCode());
+        assertEquals(originalDriver.primaryElement.hashCode(), searchingRoot.hashCode());
+
+        Set<WebElement> deduplicated = new HashSet<>(
+                List.of(appiumElement, decoratedFound, originalDriver.primaryElement, searchingRoot)
+        );
+        assertEquals(1, deduplicated.size());
+
         assertNotEquals(appiumElement, originalDriver.secondaryElement);
         assertNotEquals(originalDriver.secondaryElement, appiumElement);
     }
 
     @Test
-    public void canUseAppiumWebElementAndWebElementListsWithSeleniumDecorator() {
+    public void selfEqualityShortCircuitsBeforeLocatingMissingElement() {
+        MissingElementDriver driver = new MissingElementDriver();
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+
+        assertEquals(element, element);
+        assertEquals(appiumElement, appiumElement);
+        assertEquals(0, driver.findElementCalls);
+    }
+
+    @Test
+    public void preservesPlainWebElementListIdentityAndTypeCasts() {
+        CountingDriver plainDriver = new CountingDriver();
+        PageFactory.initElements(new AppiumFieldDecorator(plainDriver), this);
+
+        assertSame(webElements.get(0), webElements.get(0));
+        CountingElement raw = (CountingElement) webElements.get(0);
+        assertSame(plainDriver.element, raw);
+    }
+
+    @Test
+    public void readsCapabilitiesInSinglePassAndPreservesContentTypeSemantics() {
+        CountingDriver innerDriver = new CountingDriver();
+        CountingCapabilitiesWrapper capsWrapper = new CountingCapabilitiesWrapper(innerDriver);
+        PageFactory.initElements(new AppiumFieldDecorator(capsWrapper), this);
+        assertEquals(2, capsWrapper.capabilitiesReads);
+
+        CountingContextDriver webViewDriver = new CountingContextDriver("WEBVIEW_1", null);
+        WebDriver decoratedWebView = new EventFiringDecorator<>(new CountingListener()).decorate(webViewDriver);
+        assertEquals(
+                ContentType.HTML_OR_DEFAULT,
+                WebDriverUnpackUtility.getCurrentContentType(decoratedWebView)
+        );
+        assertEquals(1, webViewDriver.getContextCalls);
+
+        CountingContextDriver unsupportedDriver = new CountingContextDriver(
+                null, new UnsupportedCommandException("getContext unsupported")
+        );
+        assertEquals(
+                ContentType.HTML_OR_DEFAULT,
+                WebDriverUnpackUtility.getCurrentContentType(unsupportedDriver)
+        );
+
+        CountingContextDriver deadSessionDriver = new CountingContextDriver(
+                null, new NoSuchSessionException("session terminated")
+        );
+        assertThrows(
+                NoSuchSessionException.class,
+                () -> WebDriverUnpackUtility.getCurrentContentType(deadSessionDriver)
+        );
+
+        BrowserOverrideWrapper browserWrapper = new BrowserOverrideWrapper(innerDriver, true);
+        assertEquals(
+                ContentType.HTML_OR_DEFAULT,
+                WebDriverUnpackUtility.getCurrentContentType(browserWrapper)
+        );
+    }
+
+    @Test
+    public void canUseAppiumWebElementAndWebElementListsWithSeleniumDecorator() throws Throwable {
         AppiumElementDriver originalDriver = new AppiumElementDriver();
         CountingListener listener = new CountingListener();
         WebDriver decoratedDriver = new EventFiringDecorator<>(listener).decorate(originalDriver);
@@ -175,6 +264,17 @@ public class SeleniumDecoratorCompatibilityTest {
         assertEquals(2, webElements.size());
         webElements.get(1).click();
         assertEquals(2, listener.clickCount);
+
+        assertEquals(2, cachedAppiumElements.size());
+        AppiumWebElement removed = cachedAppiumElements.remove(0);
+        assertEquals("appium-el-1", removed.getId());
+
+        List<WebElement> backingList = new ArrayList<>(decoratedDriver.findElements(AppiumBy.id("list_id")));
+        ExposedElementListInterceptor listInterceptor = new ExposedElementListInterceptor();
+        listInterceptor.invokeListMethod(backingList, List.class.getMethod("remove", int.class), new Object[]{0});
+        assertEquals(1, backingList.size());
+        listInterceptor.invokeListMethod(backingList, List.class.getMethod("clear"), new Object[0]);
+        assertTrue(backingList.isEmpty());
     }
 
     @Test
@@ -211,7 +311,7 @@ public class SeleniumDecoratorCompatibilityTest {
 
         CyclicSearchContext cyclic = new CyclicSearchContext();
         assertFalse(WebDriverUnpackUtility.unpackObjectFromSearchContext(cyclic, WebDriver.class).isPresent());
-        assertSame(cyclic, WebDriverUnpackUtility.unwrapElement(cyclic));
+        assertSame(cyclic, ElementHelpers.unwrapElement(cyclic));
     }
 
     public static class SampleWidget extends Widget {
@@ -518,6 +618,122 @@ public class SeleniumDecoratorCompatibilityTest {
         @Override
         public void afterClick(WebElement element) {
             clickCount++;
+        }
+    }
+
+    public static class ElementWrapper extends StubWebElement implements WrapsElement {
+        private final WebElement wrapped;
+
+        public ElementWrapper(WebElement wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public WebElement getWrappedElement() {
+            return wrapped;
+        }
+    }
+
+    public static class MissingElementDriver extends CountingDriver {
+        private int findElementCalls;
+
+        @Override
+        public StubWebElement findElement(By by) {
+            findElementCalls++;
+            throw new NoSuchElementException("missing");
+        }
+    }
+
+    public static class CountingCapabilitiesWrapper extends EmptyCapabilitiesDriverWrapper {
+        private int capabilitiesReads;
+
+        public CountingCapabilitiesWrapper(WebDriver delegate) {
+            super(delegate);
+        }
+
+        @Override
+        public Capabilities getCapabilities() {
+            capabilitiesReads++;
+            return new ImmutableCapabilities(
+                    CapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID,
+                    AUTOMATION_NAME_OPTION, AutomationName.ANDROID_UIAUTOMATOR2
+            );
+        }
+    }
+
+    public static class CountingContextDriver extends BaseWebDriverStub implements SupportsContextSwitching {
+        private final String contextValue;
+        private final RuntimeException errorToThrow;
+        private int getContextCalls;
+
+        public CountingContextDriver(String contextValue, RuntimeException errorToThrow) {
+            this.contextValue = contextValue;
+            this.errorToThrow = errorToThrow;
+        }
+
+        @Override
+        public Response execute(String driverCommand, Map<String, ?> parameters) {
+            return null;
+        }
+
+        @Override
+        public Response execute(String driverCommand) {
+            return null;
+        }
+
+        @Override
+        public WebDriver context(String name) {
+            return this;
+        }
+
+        @Override
+        public Set<String> getContextHandles() {
+            return Set.of();
+        }
+
+        @Override
+        public String getContext() {
+            getContextCalls++;
+            if (errorToThrow != null) {
+                throw errorToThrow;
+            }
+            return contextValue;
+        }
+    }
+
+    public static class BrowserOverrideWrapper extends EmptyCapabilitiesDriverWrapper implements HasBrowserCheck {
+        private final boolean browser;
+
+        public BrowserOverrideWrapper(WebDriver delegate, boolean browser) {
+            super(delegate);
+            this.browser = browser;
+        }
+
+        @Override
+        public Response execute(String driverCommand, Map<String, ?> parameters) {
+            return null;
+        }
+
+        @Override
+        public Response execute(String driverCommand) {
+            return null;
+        }
+
+        @Override
+        public boolean isBrowser() {
+            return browser;
+        }
+    }
+
+    public static class ExposedElementListInterceptor extends ElementListInterceptor {
+        public ExposedElementListInterceptor() {
+            super(null);
+        }
+
+        public Object invokeListMethod(
+                List<WebElement> elements, java.lang.reflect.Method method, Object[] args
+        ) throws Throwable {
+            return getObject(elements, method, args);
         }
     }
 }

@@ -17,7 +17,6 @@
 package io.appium.java_client.pagefactory.interceptors;
 
 import io.appium.java_client.proxy.MethodCallListener;
-import io.appium.java_client.remote.AppiumWebElement;
 import io.appium.java_client.support.pagefactory.ElementLocator;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebDriver;
@@ -29,7 +28,8 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
-import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unwrapElement;
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
+import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.sameElement;
 
 /** Base class of interceptors of method calls on a single element. */
 public abstract class InterceptorOfASingleElement implements MethodCallListener {
@@ -68,8 +68,12 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
             return original.call();
         }
 
-        if (method.getName().equals("toString") && args.length == 0) {
+        if ("toString".equals(method.getName()) && args.length == 0) {
             return locator.toString();
+        }
+
+        if ("equals".equals(method.getName()) && args.length == 1 && obj == args[0]) {
+            return true;
         }
 
         if (Object.class == method.getDeclaringClass()) {
@@ -77,32 +81,17 @@ public abstract class InterceptorOfASingleElement implements MethodCallListener 
         }
 
         if (WrapsDriver.class.isAssignableFrom(method.getDeclaringClass())
-                && method.getName().equals("getWrappedDriver")) {
+                && "getWrappedDriver".equals(method.getName())) {
             return driverReference.get();
         }
 
         WebElement realElement = locator.findElement();
         if ("equals".equals(method.getName()) && args.length == 1) {
-            return obj == args[0] || areElementsEqual(realElement, args[0]);
+            return sameElement(realElement, args[0]);
+        }
+        if ("hashCode".equals(method.getName()) && args.length == 0) {
+            return Objects.hashCode(unwrapElement(realElement));
         }
         return getObject(realElement, method, args);
-    }
-
-    private static boolean areElementsEqual(@Nullable Object we1, @Nullable Object we2) {
-        if (we1 == we2) {
-            return true;
-        }
-        Object unwrapped1 = unwrapElement(we1);
-        Object unwrapped2 = unwrapElement(we2);
-        if (unwrapped1 == unwrapped2) {
-            return true;
-        }
-        if (!(unwrapped1 instanceof AppiumWebElement) && unwrapped2 instanceof AppiumWebElement) {
-            return unwrapped2.equals(unwrapped1);
-        }
-        if (!(unwrapped1 instanceof AppiumWebElement) || !(unwrapped2 instanceof AppiumWebElement)) {
-            return Objects.equals(unwrapped1, unwrapped2);
-        }
-        return Objects.equals(((AppiumWebElement) unwrapped1).getId(), ((AppiumWebElement) unwrapped2).getId());
     }
 }
