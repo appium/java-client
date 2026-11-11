@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 import static io.appium.java_client.internal.Preconditions.checkNotNull;
+import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedInterfaceProxy;
 import static io.appium.java_client.pagefactory.utils.ProxyFactory.getEnhancedProxy;
 import static io.appium.java_client.pagefactory.utils.WebDriverUnpackUtility.unpackObjectFromSearchContext;
 import static io.appium.java_client.remote.options.SupportsAutomationNameOption.AUTOMATION_NAME_OPTION;
@@ -336,6 +337,43 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     /**
+     * Widget class for a field, including an {@code @OverrideWidget} interface.
+     *
+     * @param field the page object field
+     * @return the widget class or interface, or null
+     */
+    @Nullable
+    static Class<?> declaredWidgetType(Field field) {
+        Class<?> pageClass = PageFactory.getCurrentPageClass();
+        return declaredWidgetType(
+                field,
+                ElementFieldDecorator.resolveSingleFieldClasses(field, pageClass),
+                ElementFieldDecorator.resolveListClasses(field, pageClass)
+        );
+    }
+
+    @Nullable
+    private static Class<?> declaredWidgetType(
+            Field field,
+            List<Class<?>> fieldClasses,
+            List<Class<?>> listElementClasses
+    ) {
+        Class<? extends Widget> widgetClass = resolveWidgetClass(field, fieldClasses, listElementClasses);
+        if (widgetClass != null) {
+            return widgetClass;
+        }
+        List<Class<?>> candidates = List.class.isAssignableFrom(field.getType())
+                ? listElementClasses
+                : fieldClasses;
+        for (Class<?> candidate : candidates) {
+            if (isOverriddenWidgetInterface(candidate, field)) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Decorated page object {@code field}.
      *
      * @param ignored class loader is ignored by current implementation
@@ -349,7 +387,7 @@ public class AppiumFieldDecorator implements FieldDecorator {
             Class<?> pageClass = PageFactory.getCurrentPageClass();
             List<Class<?>> fieldClasses = ElementFieldDecorator.resolveSingleFieldClasses(field, pageClass);
             List<Class<?>> listElementClasses = ElementFieldDecorator.resolveListClasses(field, pageClass);
-            Class<? extends Widget> widgetClass = resolveWidgetClass(field, fieldClasses, listElementClasses);
+            Class<?> widgetClass = declaredWidgetType(field, fieldClasses, listElementClasses);
             Object result = decorateWidget(field, widgetClass, pageClass);
             if (result == null) {
                 result = decorateBy(field, pageClass);
@@ -445,17 +483,21 @@ public class AppiumFieldDecorator implements FieldDecorator {
     }
 
     @Nullable
+    @SuppressWarnings("unchecked")
     private Object decorateWidget(
             Field field,
-            @Nullable Class<? extends Widget> widgetType,
+            @Nullable Class<?> widgetType,
             @Nullable Class<?> pageClass
     ) {
         if (widgetType == null) {
             return null;
         }
         boolean isAlist = List.class.isAssignableFrom(field.getType());
+        Class<? extends Widget> locatorType = widgetType.isInterface()
+                ? null
+                : (Class<? extends Widget>) widgetType;
 
-        CacheableLocator locator = widgetLocatorFactory.createLocator(field, pageClass, widgetType);
+        CacheableLocator locator = widgetLocatorFactory.createLocator(field, pageClass, locatorType);
         Map<ContentType, Constructor<? extends Widget>> map = OverrideWidgetReader.read(widgetType, field, platform);
 
         if (isAlist) {
@@ -472,20 +514,41 @@ public class AppiumFieldDecorator implements FieldDecorator {
             );
         }
 
-        Constructor<? extends Widget> constructor = WidgetConstructorUtil.findConvenientConstructor(widgetType);
+        WidgetInterceptor interceptor = new WidgetInterceptor(
+                locator,
+                webDriverReference,
+                null,
+                map,
+                duration,
+                defaultLocatorGroupStrategy
+        );
+        if (widgetType.isInterface()) {
+            return getEnhancedInterfaceProxy(widgetType, interceptor);
+        }
+
+        //noinspection unchecked
+        Class<? extends Widget> widgetClass = (Class<? extends Widget>) widgetType;
+        Constructor<? extends Widget> constructor = WidgetConstructorUtil.findConvenientConstructor(widgetClass);
         return getEnhancedProxy(
-                widgetType,
+                widgetClass,
                 new Class[]{constructor.getParameterTypes()[0]},
                 new Object[]{proxyForAnElement(locator, webDriverReference)},
-                new WidgetInterceptor(
-                        locator,
-                        webDriverReference,
-                        null,
-                        map,
-                        duration,
-                        defaultLocatorGroupStrategy
-                )
+                interceptor
         );
+    }
+
+    /**
+     * True when {@code type} is a widget contract rather than a {@link WebElement}.
+     * {@code @OverrideWidget} on an element field keeps the normal element proxy.
+     *
+     * @param type the field type, or the list element type
+     * @param field the annotated field
+     * @return whether the type should be decorated as an interface widget
+     */
+    static boolean isOverriddenWidgetInterface(Class<?> type, Field field) {
+        return type.isInterface()
+                && !WebElement.class.isAssignableFrom(type)
+                && field.isAnnotationPresent(OverrideWidget.class);
     }
 
     private static WebElement proxyForAnElement(

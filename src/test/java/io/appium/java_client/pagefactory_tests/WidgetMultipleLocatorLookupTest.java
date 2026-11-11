@@ -22,6 +22,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.pagefactory.HowToUseLocators;
 import io.appium.java_client.pagefactory.LocatorGroupStrategy;
+import io.appium.java_client.pagefactory.OverrideWidget;
 import io.appium.java_client.pagefactory.SearchingWidgetRoot;
 import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.WidgetInterceptor;
@@ -96,6 +97,15 @@ public class WidgetMultipleLocatorLookupTest {
     @Test
     public void nestedElementIsFoundUnderALaterWidgetLocator() {
         assertFoundAcrossWidgets(new SamplePage(), new SelectiveDriver(WIDGET_1, WIDGET_2));
+    }
+
+    /**
+     * An interface field uses the same later-root search as a class field.
+     * The concrete widget is still built on a {@link SearchingWidgetRoot}.
+     */
+    @Test
+    public void nestedElementIsFoundUnderALaterRootForAnInterfaceWidget() {
+        assertFoundAcrossWidgets(new InterfaceSamplePage(), new SelectiveDriver(WIDGET_1, WIDGET_2));
     }
 
     /**
@@ -559,6 +569,40 @@ public class WidgetMultipleLocatorLookupTest {
     public static class SinglePage implements Readable {
         @AndroidFindBy(id = WIDGET_1)
         private SingleWidget widget;
+
+        @Override
+        public String readNestedElement() {
+            return widget.read();
+        }
+    }
+
+    /**
+     * Same nested lookup as {@link SampleWidget}, selected through an interface field.
+     */
+    public interface RootedWidget {
+        /**
+         * Reads the nested element.
+         *
+         * @return the nested element text
+         */
+        String read();
+    }
+
+    public static class InterfaceSampleWidget extends SampleWidget implements RootedWidget {
+        protected InterfaceSampleWidget(WebElement element) {
+            super(element);
+        }
+    }
+
+    public static class InterfaceSamplePage implements Readable {
+
+        @HowToUseLocators(androidAutomation = ALL_POSSIBLE)
+        @AndroidFindBy(id = WIDGET_1)
+        @AndroidFindBy(id = WIDGET_2)
+        @OverrideWidget(androidUIAutomator = InterfaceSampleWidget.class,
+                iOSXCUITAutomation = InterfaceSampleWidget.class,
+                html = InterfaceSampleWidget.class)
+        private RootedWidget widget;
 
         @Override
         public String readNestedElement() {
