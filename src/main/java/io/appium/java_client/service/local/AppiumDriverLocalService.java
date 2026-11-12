@@ -56,7 +56,6 @@ import static org.slf4j.event.Level.INFO;
  */
 public final class AppiumDriverLocalService implements Closeable {
 
-    private static final String URL_MASK = "http://%s:%d/";
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private static final String APPIUM_SERVICE_SLF4J_LOGGER_PREFIX = "appium.service";
@@ -84,31 +83,8 @@ public final class AppiumDriverLocalService implements Closeable {
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
-        this.url = new URL(String.format(URL_MASK, toUrlHost(ipAddress), nodeJSPort));
-    }
-
-    /**
-     * Removes the square brackets around an IPv6 literal.
-     *
-     * @param address an IP address or host name, with or without square brackets
-     * @return the address without enclosing square brackets
-     */
-    static String stripBrackets(String address) {
-        return address.length() > 1 && address.startsWith("[") && address.endsWith("]")
-                ? address.substring(1, address.length() - 1)
-                : address;
-    }
-
-    /**
-     * Encloses an IPv6 literal in square brackets, as required for the host of a URL.
-     * A zone ID such as {@code %en0} is kept as is, because {@link URL} and
-     * {@link InetAddress} expect it unencoded.
-     *
-     * @param address an IP address or host name without square brackets
-     * @return the address in the form of a URL host
-     */
-    static String toUrlHost(String address) {
-        return address.contains(":") ? "[" + address + "]" : address;
+        // URL encloses an IPv6 host in square brackets
+        this.url = new URL("http", ipAddress, nodeJSPort, "/");
     }
 
     /**
@@ -148,7 +124,7 @@ public final class AppiumDriverLocalService implements Closeable {
 
     @SneakyThrows
     private static URL replaceHost(URL source, String newHost) {
-        return new URL(source.getProtocol(), toUrlHost(newHost), source.getPort(), source.getFile());
+        return new URL(source.getProtocol(), newHost, source.getPort(), source.getFile());
     }
 
     /**
@@ -192,8 +168,7 @@ public final class AppiumDriverLocalService implements Closeable {
     }
 
     static URL fixBroadcastAddresses(URL url) {
-        // IPv6 hosts are returned in square brackets
-        var host = stripBrackets(url.getHost());
+        var host = url.getHost();
         // The operating system will block direct access to the universal broadcast IP address
         if (host.equals(BROADCAST_IP4_ADDRESS)) {
             return replaceHost(url, "127.0.0.1");

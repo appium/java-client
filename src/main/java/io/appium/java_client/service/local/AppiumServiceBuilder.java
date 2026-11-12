@@ -365,7 +365,7 @@ public final class AppiumServiceBuilder {
             ipAddress = BROADCAST_IP4_ADDRESS;
         } else {
             // Appium expects an IPv6 address without square brackets
-            ipAddress = AppiumDriverLocalService.stripBrackets(ipAddress);
+            ipAddress = stripBrackets(ipAddress);
         }
         argList.add("--address");
         argList.add(ipAddress);
@@ -397,6 +397,17 @@ public final class AppiumServiceBuilder {
         return Collections.unmodifiableList(argList);
     }
 
+    /**
+     * Removes the square brackets around an IPv6 literal.
+     *
+     * @param address an IP address or host name, with or without square brackets
+     * @return the address without enclosing square brackets
+     */
+    private static String stripBrackets(String address) {
+        return address.length() > 1 && address.startsWith("[") && address.endsWith("]")
+                ? address.substring(1, address.length() - 1)
+                : address;
+    }
 
     /**
      * Sets which Node.js the builder will use.
