@@ -63,7 +63,7 @@ rewrite {
 | Recipe                                                   | What it does                                                                                                                                       |
 |----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `io.appium.java_client.MigrateToV11`                     | Moves the types listed in the [first table](#what-moved) to their new packages.                                                                    |
-| `io.appium.java_client.MigrateToV11PageObjectAnnotations` | Optional. Switches `@FindBy`, `@FindBys`, `@FindAll`, `@CacheLookup` and `How` to the Appium ones. Skip it if the same code also uses the Selenium `PageFactory`. |
+| `io.appium.java_client.MigrateToV11PageObjectAnnotations` | Optional. Switches `@FindBy`, `@FindBys`, `@FindAll`, `@CacheLookup`, `How`, `@PageFactoryFinder` and `AbstractFindByBuilder` to the Appium ones. Skip it if the same code also uses the Selenium `PageFactory`. |
 | `io.appium.java_client.FindV11Breakages`                 | Marks the usages that have no automatic replacement (`RemoteWebDriver`, `HasBiDi`, `BiDi`, `DriverService`, touch actions, `AppiumFunction`, the mobile command helpers) with `/*~~>*/`. Search for `MobileCommand` yourself, as only some of its constants are removed.         |
 
 Several recipes can be activated at once, separated with commas. The recipe does not touch your build files
@@ -82,8 +82,8 @@ These types are covered by the recipe. The names stay the same, only the package
 | `org.openqa.selenium.remote.HttpCommandExecutor`                                                                                                                                                                           | `io.appium.java_client.remote.AppiumCommandExecutor`                     |
 | `org.openqa.selenium.remote.CommandInfo`                                                                                                                                                                                   | `io.appium.java_client.AppiumCommandInfo`                                |
 | `org.openqa.selenium.remote.http.{ClientConfig, HttpClient, HttpRequest, HttpResponse, HttpMethod, HttpHandler, HttpHeader, HttpMessage, Filter, Contents, WebSocket, Message, TextMessage, BinaryMessage, CloseMessage, ConnectionFailedException}` | `io.appium.java_client.http.*`                                           |
-| `org.openqa.selenium.support.{PageFactory}` and `org.openqa.selenium.support.pagefactory.{ElementLocator, ElementLocatorFactory, FieldDecorator, DefaultFieldDecorator, AbstractAnnotations, ByAll}`                        | `io.appium.java_client.support.*` and `io.appium.java_client.support.pagefactory.*` |
-| `org.openqa.selenium.support.{FindBy, FindBys, FindAll, CacheLookup, How}` (optional, the Selenium ones keep working while `selenium-support` is available)                                                                | `io.appium.java_client.support.*`                                        |
+| `org.openqa.selenium.support.{PageFactory}` and `org.openqa.selenium.support.pagefactory.{ElementLocator, ElementLocatorFactory, FieldDecorator, DefaultFieldDecorator, AbstractAnnotations, Annotations, ByAll}` | `io.appium.java_client.support.*` and `io.appium.java_client.support.pagefactory.*` |
+| `org.openqa.selenium.support.{FindBy, FindBys, FindAll, CacheLookup, How, PageFactoryFinder, AbstractFindByBuilder}` (optional, the Selenium ones keep working while `selenium-support` is available) | `io.appium.java_client.support.*` |
 | `io.appium.java_client.functions.ExpectedCondition`                                                                                                                                                                        | `org.openqa.selenium.support.ui.ExpectedCondition`                       |
 
 ## What needs a manual change
@@ -187,8 +187,9 @@ is not reset to the default anymore when other settings are changed.
 ### Page objects and waits
 
 - The page factory and `FluentWait` engine is now `io.appium.java_client.support`. Page objects that use the
-Selenium `@FindBy`, `@FindBys`, `@FindAll` and `@CacheLookup` annotations keep working if `selenium-support`
-is available, but it is recommended to switch to the annotations from `io.appium.java_client.support`.
+Selenium `@FindBy`, `@FindBys`, `@FindAll`, `@CacheLookup` and `@PageFactoryFinder` annotations keep working if
+`selenium-support` is available, but it is recommended to switch to the annotations from
+`io.appium.java_client.support`.
 See [Page objects](Page-objects.md).
 
 ### Touch actions

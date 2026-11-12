@@ -146,6 +146,9 @@ recipeList:
       oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.AbstractAnnotations
       newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.AbstractAnnotations
   - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.Annotations
+      newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.Annotations
+  - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: org.openqa.selenium.support.pagefactory.ByAll
       newFullyQualifiedTypeName: io.appium.java_client.support.pagefactory.ByAll
 ---
@@ -172,6 +175,12 @@ recipeList:
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: org.openqa.selenium.support.How
       newFullyQualifiedTypeName: io.appium.java_client.support.How
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.PageFactoryFinder
+      newFullyQualifiedTypeName: io.appium.java_client.support.PageFactoryFinder
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: org.openqa.selenium.support.AbstractFindByBuilder
+      newFullyQualifiedTypeName: io.appium.java_client.support.AbstractFindByBuilder
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: io.appium.java_client.FindV11Breakages
