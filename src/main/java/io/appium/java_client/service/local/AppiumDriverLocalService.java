@@ -29,7 +29,9 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,6 @@ import java.util.regex.Pattern;
 
 import static io.appium.java_client.internal.Strings.isNullOrEmpty;
 import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP4_ADDRESS;
-import static io.appium.java_client.service.local.AppiumServiceBuilder.BROADCAST_IP6_ADDRESS;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
@@ -55,7 +56,6 @@ import static org.slf4j.event.Level.INFO;
  */
 public final class AppiumDriverLocalService implements Closeable {
 
-    private static final String URL_MASK = "http://%s:%d/";
     private static final Logger LOG = LoggerFactory.getLogger(AppiumDriverLocalService.class);
     private static final Pattern LOGGER_CONTEXT_PATTERN = Pattern.compile("^(\\[debug\\] )?\\[(.+?)\\]");
     private static final String APPIUM_SERVICE_SLF4J_LOGGER_PREFIX = "appium.service";
@@ -83,7 +83,8 @@ public final class AppiumDriverLocalService implements Closeable {
         this.nodeJSArgs = nodeJSArgs;
         this.nodeJSEnvironment = nodeJSEnvironment;
         this.startupTimeout = startupTimeout;
-        this.url = new URL(String.format(URL_MASK, ipAddress, nodeJSPort));
+        // URL encloses an IPv6 host in square brackets
+        this.url = new URL("http", ipAddress, nodeJSPort, "/");
     }
 
     /**
@@ -122,9 +123,8 @@ public final class AppiumDriverLocalService implements Closeable {
     }
 
     @SneakyThrows
-    @SuppressWarnings("SameParameterValue")
-    private static URL replaceHost(URL source, String oldHost, String newHost) {
-        return new URL(source.toString().replaceFirst(oldHost, newHost));
+    private static URL replaceHost(URL source, String newHost) {
+        return new URL(source.getProtocol(), newHost, source.getPort(), source.getFile());
     }
 
     /**
@@ -167,16 +167,32 @@ public final class AppiumDriverLocalService implements Closeable {
         return availabilityChecker.waitUntilAvailable(statusUrl, timeout);
     }
 
-    private URL fixBroadcastAddresses(URL url) {
+    static URL fixBroadcastAddresses(URL url) {
         var host = url.getHost();
         // The operating system will block direct access to the universal broadcast IP address
         if (host.equals(BROADCAST_IP4_ADDRESS)) {
-            return replaceHost(url, BROADCAST_IP4_ADDRESS, "127.0.0.1");
+            return replaceHost(url, "127.0.0.1");
         }
-        if (host.equals(BROADCAST_IP6_ADDRESS)) {
-            return replaceHost(url, BROADCAST_IP6_ADDRESS, "::1");
+        if (isIpv6AnyAddress(host)) {
+            return replaceHost(url, "::1");
         }
         return url;
+    }
+
+    /**
+     * Checks for any form of the IPv6 unspecified address, such as {@code ::}, {@code ::0}
+     * or {@code 0:0:0:0:0:0:0:0}.
+     */
+    private static boolean isIpv6AnyAddress(String host) {
+        if (!host.contains(":")) {
+            return false;
+        }
+        try {
+            // An IPv6 literal is parsed without a name lookup
+            return InetAddress.getByName(host).isAnyLocalAddress();
+        } catch (UnknownHostException e) {
+            return false;
+        }
     }
 
     /**
