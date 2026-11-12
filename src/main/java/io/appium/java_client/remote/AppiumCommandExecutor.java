@@ -55,12 +55,12 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
 
     private final Optional<AppiumDriverLocalService> serviceOptional;
     @Getter
-    private final AppiumClientConfig appiumClientConfig;
-    private final @Nullable URL remoteServer;
+    private volatile AppiumClientConfig appiumClientConfig;
+    private volatile @Nullable URL remoteServer;
     private final Map<String, AppiumCommandInfo> additionalCommands;
     @Getter
     private final Factory httpClientFactory;
-    private HttpClient client;
+    private volatile HttpClient client;
     private @Nullable CommandCodec commandCodec;
     private @Nullable ResponseCodec responseCodec;
 
@@ -78,10 +78,14 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             @Nullable Factory httpClientFactory,
             AppiumClientConfig appiumClientConfig) {
         this.additionalCommands = new HashMap<>(requireNonNull(additionalCommands, "Additional commands"));
-        this.appiumClientConfig = requireNonNull(appiumClientConfig, "HTTP client configuration");
+        AppiumClientConfig effectiveConfig = requireNonNull(appiumClientConfig, "HTTP client configuration");
+        if (service != null && effectiveConfig.baseUri() == null) {
+            effectiveConfig = effectiveConfig.baseUrl(service.getUrl());
+        }
+        this.appiumClientConfig = effectiveConfig;
         this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(Factory::createDefault);
-        this.client = this.httpClientFactory.createClient(appiumClientConfig);
-        this.remoteServer = appiumClientConfig.baseUrl();
+        this.client = this.httpClientFactory.createClient(effectiveConfig);
+        this.remoteServer = effectiveConfig.baseUrl();
         this.serviceOptional = ofNullable(service);
     }
 
@@ -168,7 +172,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
                                  AppiumDriverLocalService service, AppiumClientConfig appiumClientConfig) {
-        this(additionalCommands, service, Factory.createDefault(), appiumClientConfig);
+        this(additionalCommands, requireNonNull(service), Factory.createDefault(), appiumClientConfig);
     }
 
     /**
@@ -240,9 +244,12 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      *                  and other non-special addresses are not rejected by this check.
      */
     protected void overrideServerUrl(URL serverUrl) {
-        DirectConnectUrlSafety.requireSafeOverrideTarget(serverUrl);
-        HttpClient newClient = getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl));
-        HttpClient oldClient = this.client;
+        DirectConnectUrlSafety.requireSafeOverrideTarget(requireNonNull(serverUrl, "Server URL"));
+        AppiumClientConfig updatedConfig = appiumClientConfig.baseUrl(serverUrl);
+        HttpClient newClient = getHttpClientFactory().createClient(updatedConfig);
+        final HttpClient oldClient = this.client;
+        this.appiumClientConfig = updatedConfig;
+        this.remoteServer = updatedConfig.baseUrl();
         this.client = newClient;
         oldClient.close();
     }
@@ -292,7 +299,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             return;
         }
 
-        if (!directConnect.getProtocol().equals("https")) {
+        if (!"https".equalsIgnoreCase(directConnect.getProtocol())) {
             throw new SessionNotCreatedException(
                     String.format("The given protocol '%s' as the direct connection url returned by "
                             + "the remote server is not accurate. Only 'https' is supported.",
