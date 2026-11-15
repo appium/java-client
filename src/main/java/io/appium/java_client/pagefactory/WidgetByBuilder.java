@@ -59,7 +59,10 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
 
         By result = null;
         try {
-            Class<? extends Widget> declaredClass = resolveWidgetClassForField(field);
+            Class<?> declaredClass = resolveWidgetClassForField(field);
+            if (declaredClass == null) {
+                declaredClass = AppiumFieldDecorator.declaredWidgetType(field);
+            }
             if (declaredClass == null) {
                 return null;
             }
@@ -67,15 +70,12 @@ public class WidgetByBuilder extends DefaultElementByBuilder {
             Class<?> convenientClass;
 
             if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
-                convenientClass =
-                    getDefaultOrHTMLWidgetClass(declaredClass, field);
+                convenientClass = getDefaultOrHTMLWidgetClass(declaredClass, field);
             } else {
-                convenientClass =
-                    getMobileNativeWidgetClass(declaredClass, field,
-                        platform);
+                convenientClass = getMobileNativeWidgetClass(declaredClass, field, platform);
             }
 
-            while (result == null && !convenientClass.equals(Object.class)) {
+            while (result == null && convenientClass != null && !convenientClass.equals(Object.class)) {
                 setAnnotated(convenientClass);
                 if (whatIsNeeded.equals(WhatIsNeeded.DEFAULT_OR_HTML)) {
                     result = super.buildDefaultBy();

@@ -40,15 +40,14 @@ class OverrideWidgetReader {
     private OverrideWidgetReader() {
     }
 
-    @SuppressWarnings("unchecked")
-    private static Class<? extends Widget> getConvenientClass(Class<? extends Widget> declaredClass,
-                                                              AnnotatedElement annotatedElement, String method) {
-        Class<? extends Widget> convenientClass;
+    private static Class<?> getConvenientClass(Class<?> declaredClass,
+                                               AnnotatedElement annotatedElement, String method) {
+        Class<?> convenientClass;
         OverrideWidget overrideWidget = annotatedElement.getAnnotation(OverrideWidget.class);
 
         try {
             if (overrideWidget == null || (convenientClass =
-                    (Class<? extends Widget>) OverrideWidget.class
+                    (Class<?>) OverrideWidget.class
                             .getDeclaredMethod(method).invoke(overrideWidget))
                     .equals(EMPTY)) {
                 convenientClass = declaredClass;
@@ -68,13 +67,12 @@ class OverrideWidgetReader {
 
     }
 
-    static Class<? extends Widget> getDefaultOrHTMLWidgetClass(
-            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement) {
+    static Class<?> getDefaultOrHTMLWidgetClass(Class<?> declaredClass, AnnotatedElement annotatedElement) {
         return getConvenientClass(declaredClass, annotatedElement, HTML);
     }
 
-    static Class<? extends Widget> getMobileNativeWidgetClass(Class<? extends Widget> declaredClass,
-                                                              AnnotatedElement annotatedElement, String platform) {
+    static Class<?> getMobileNativeWidgetClass(Class<?> declaredClass,
+                                               AnnotatedElement annotatedElement, String platform) {
         String transformedPlatform = String.valueOf(platform).toUpperCase(ROOT).trim();
 
         if (ANDROID.equalsIgnoreCase(transformedPlatform)) {
@@ -92,22 +90,30 @@ class OverrideWidgetReader {
         return getDefaultOrHTMLWidgetClass(declaredClass, annotatedElement);
     }
 
+    /**
+     * Interfaces have no widget constructor. A missing platform override stays unresolved
+     * until that content type is used, matching a partial {@code @OverrideWidget}.
+     */
+    @SuppressWarnings("unchecked")
+    private static Constructor<? extends Widget> findConstructor(Class<?> clazz) {
+        if (clazz == null || clazz.isInterface() || !Widget.class.isAssignableFrom(clazz)) {
+            return null;
+        }
+        return findConvenientConstructor((Class<? extends Widget>) clazz);
+    }
+
     private static Constructor<? extends Widget> getConstructorOfADefaultOrHTMLWidget(
-            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement) {
-        Class<? extends Widget> clazz =
-                getDefaultOrHTMLWidgetClass(declaredClass, annotatedElement);
-        return findConvenientConstructor(clazz);
+            Class<?> declaredClass, AnnotatedElement annotatedElement) {
+        return findConstructor(getDefaultOrHTMLWidgetClass(declaredClass, annotatedElement));
     }
 
     private static Constructor<? extends Widget> getConstructorOfAMobileNativeWidgets(
-            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
-        Class<? extends Widget> clazz =
-                getMobileNativeWidgetClass(declaredClass, annotatedElement, platform);
-        return findConvenientConstructor(clazz);
+            Class<?> declaredClass, AnnotatedElement annotatedElement, String platform) {
+        return findConstructor(getMobileNativeWidgetClass(declaredClass, annotatedElement, platform));
     }
 
     protected static Map<ContentType, Constructor<? extends Widget>> read(
-            Class<? extends Widget> declaredClass, AnnotatedElement annotatedElement, String platform) {
+            Class<?> declaredClass, AnnotatedElement annotatedElement, String platform) {
         Map<ContentType, Constructor<? extends Widget>> result = new HashMap<>();
         result.put(ContentType.HTML_OR_DEFAULT,
                 getConstructorOfADefaultOrHTMLWidget(declaredClass, annotatedElement));

@@ -39,6 +39,9 @@ public final class ProxyFactory {
     private static final Set<String> NON_PROXYABLE_METHODS = setWithout(
             OBJECT_METHOD_NAMES, "toString", "equals", "hashCode"
     );
+    private static final ElementMatcher<MethodDescription> INTERFACE_METHODS = not(
+            namedOneOf(NON_PROXYABLE_METHODS.toArray(new String[0]))
+    );
 
     @SafeVarargs
     private static <T> Set<T> setWithout(@SuppressWarnings("SameParameterValue") Set<T> source, T... items) {
@@ -96,5 +99,29 @@ public final class ProxyFactory {
                 Collections.singletonList(listener),
                 extraMatcher
         );
+    }
+
+    /**
+     * Creates a proxy that implements {@code iface} and forwards its public methods to {@code listener}.
+     * The interface must be public. Creation succeeds when this library's class loader can see
+     * {@code iface}, or when {@code iface}'s class loader can see this library.
+     * A package-private or protected interface, or loaders that cannot see either way,
+     * is rejected with {@link IllegalArgumentException}.
+     *
+     * @param iface an interface type
+     * @param listener receives the proxied calls
+     * @return a proxy that implements {@code iface}
+     */
+    public static Object getEnhancedInterfaceProxy(Class<?> iface, MethodCallListener listener) {
+        if (iface == null || !iface.isInterface()) {
+            throw new IllegalArgumentException("Expected an interface, got " + iface);
+        }
+        if (listener == null) {
+            throw new IllegalArgumentException("Listener must not be null");
+        }
+        @SuppressWarnings("unchecked")
+        Class<Object> type = (Class<Object>) iface;
+        return createProxy(type, new Object[] {}, new Class<?>[] {}, Collections.singletonList(listener),
+                INTERFACE_METHODS);
     }
 }

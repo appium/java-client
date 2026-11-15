@@ -684,7 +684,7 @@ and then
 
 This use case has some restrictions;
 
-- All classes which are declared by the OverrideWidget annotation should be subclasses of the class declared by field
+- All classes which are declared by the OverrideWidget annotation should be subclasses of the class declared by the field, or implementations of the interface declared by the field
 
 - All classes which are declared by the OverrideWidget should not be abstract. If a declared class is overridden partially like 
 
@@ -698,6 +698,20 @@ This use case has some restrictions;
   //
 
   //below is the other field/method declaration
+```
+
+The field may be an interface implemented by those classes. Each class named by `@OverrideWidget` must extend `Widget` and implement the interface. The interface must be public. Creation succeeds when this library's class loader can see that interface, or when the interface's class loader can see this library. A package-private or protected interface, and loaders that cannot see either way, fail with `IllegalArgumentException` instead of a linkage error. A content type that is left as the default cannot be instantiated, so name a class for every content type the field is used with:
+
+```java
+public interface UsersWidget {
+    void doWork();
+}
+
+@FindBy(id = "users")
+@OverrideWidget(html = HtmlUsersWidget.class,
+        androidUIAutomator = AndroidUsersWidget.class,
+        iOSXCUITAutomation = IosUsersWidget.class)
+UsersWidget widget;
 ```
 
 - for now it is not possible to 
