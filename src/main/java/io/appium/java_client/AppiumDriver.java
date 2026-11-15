@@ -64,7 +64,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
 
     private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile());
     // frequently used command parameters
-    private final @Nullable URL remoteAddress;
     private final ExecuteMethod executeMethod;
 
     /**
@@ -79,7 +78,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
     /**
@@ -215,7 +213,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
 
         setSessionId(sessionAddress.getId());
     }
@@ -227,10 +224,7 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
      */
     @Nullable
     public URL getRemoteAddress() {
-        var executor = getCommandExecutor();
-        return executor instanceof AppiumCommandExecutor
-                ? ((AppiumCommandExecutor) executor).getAddressOfRemoteServer()
-                : remoteAddress;
+        return ((AppiumCommandExecutor) getCommandExecutor()).getAddressOfRemoteServer();
     }
 
     @Override

@@ -18,6 +18,7 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumRemoteWebDriver;
 import io.appium.java_client.remote.SessionId;
@@ -41,11 +42,16 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
 
     /**
      * Start syslog messages broadcast via web socket.
-     * This method assumes that Appium server is running on localhost and
-     * is assigned to the default port (4723).
+     * This method uses the current remote server host and port when available,
+     * falling back to {@code localhost:4723}.
      */
     default void startSyslogBroadcast() {
-        startSyslogBroadcast("localhost");
+        var remoteWebDriver = (AppiumRemoteWebDriver) this;
+        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
+        startSyslogBroadcast(
+                SessionHelpers.resolveBroadcastHost(serverUrl, "localhost"),
+                SessionHelpers.resolveBroadcastPort(serverUrl, DEFAULT_APPIUM_PORT)
+        );
     }
 
     /**
@@ -67,11 +73,10 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
     default void startSyslogBroadcast(String host, int port) {
         var remoteWebDriver = (AppiumRemoteWebDriver) this;
         URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
-        var scheme = "https".equals(serverUrl.getProtocol()) ? "wss" : "ws";
         CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
         SessionId sessionId = remoteWebDriver.getSessionId();
-        var endpoint = String.format("%s://%s:%s/ws/session/%s/appium/device/syslog", scheme, host, port, sessionId);
-        getSyslogClient().connect(URI.create(endpoint));
+        URI endpoint = SessionHelpers.buildBroadcastUri(serverUrl, host, port, sessionId, "syslog");
+        getSyslogClient().connect(endpoint);
     }
 
     /**

@@ -79,14 +79,14 @@ public class DirectConnect {
      * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
-        String formattedHost = formatHost(this.host);
-        String normalizedPath = normalizePath(this.path);
-        String newUrlCandidate = String.format("%s://%s:%s%s",
-                this.protocol, formattedHost, this.port, normalizedPath);
         if (!isValid()) {
-            throw createMalformedUrlException(newUrlCandidate);
+            throw createMalformedUrlException(
+                    String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path)
+            );
         }
 
+        String newUrlCandidate = String.format("%s://%s:%s%s",
+                this.protocol, formatHost(this.host), this.port, normalizePath(this.path));
         try {
             return new URL(newUrlCandidate);
         } catch (MalformedURLException e) {
@@ -94,17 +94,14 @@ public class DirectConnect {
         }
     }
 
-    private static String formatHost(@Nullable String host) {
-        if (host != null && !host.startsWith("[") && host.indexOf(':') != host.lastIndexOf(':')) {
+    private static String formatHost(String host) {
+        if (!host.startsWith("[") && host.indexOf(':') != host.lastIndexOf(':')) {
             return "[" + host + "]";
         }
-        return String.valueOf(host);
+        return host;
     }
 
-    private static String normalizePath(@Nullable String path) {
-        if (path == null) {
-            return "null";
-        }
+    private static String normalizePath(String path) {
         if (path.isEmpty() || path.startsWith("/")) {
             return path;
         }

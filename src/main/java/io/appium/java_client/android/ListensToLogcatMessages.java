@@ -18,6 +18,7 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
+import io.appium.java_client.internal.SessionHelpers;
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumRemoteWebDriver;
 import io.appium.java_client.remote.SessionId;
@@ -40,11 +41,16 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
 
     /**
      * Start logcat messages broadcast via web socket.
-     * This method assumes that Appium server is running on localhost and
-     * is assigned to the default port (4723).
+     * This method uses the current remote server host and port when available,
+     * falling back to {@code 127.0.0.1:4723}.
      */
     default void startLogcatBroadcast() {
-        startLogcatBroadcast("127.0.0.1");
+        var remoteWebDriver = (AppiumRemoteWebDriver) this;
+        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
+        startLogcatBroadcast(
+                SessionHelpers.resolveBroadcastHost(serverUrl, "127.0.0.1"),
+                SessionHelpers.resolveBroadcastPort(serverUrl, DEFAULT_APPIUM_PORT)
+        );
     }
 
     /**
@@ -66,11 +72,10 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
     default void startLogcatBroadcast(String host, int port) {
         var remoteWebDriver = (AppiumRemoteWebDriver) this;
         URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
-        var scheme = "https".equals(serverUrl.getProtocol()) ? "wss" : "ws";
         CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
         SessionId sessionId = remoteWebDriver.getSessionId();
-        var endpoint = String.format("%s://%s:%s/ws/session/%s/appium/device/logcat", scheme, host, port, sessionId);
-        getLogcatClient().connect(URI.create(endpoint));
+        URI endpoint = SessionHelpers.buildBroadcastUri(serverUrl, host, port, sessionId, "logcat");
+        getLogcatClient().connect(endpoint);
     }
 
     /**
