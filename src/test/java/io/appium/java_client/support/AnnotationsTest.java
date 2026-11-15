@@ -93,11 +93,26 @@ class AnnotationsTest {
         @FindAll({@FindBy(id = "primary"), @FindBy(id = "secondary")})
         WebElement any;
 
+        @org.openqa.selenium.support.FindBys({
+            @org.openqa.selenium.support.FindBy(id = "form"),
+            @org.openqa.selenium.support.FindBy(name = "email")
+        })
+        WebElement seleniumChained;
+
+        @org.openqa.selenium.support.FindAll({
+            @org.openqa.selenium.support.FindBy(id = "primary"),
+            @org.openqa.selenium.support.FindBy(id = "secondary")
+        })
+        WebElement seleniumAll;
+
         @TestId("submit-btn")
         WebElement customSingle;
 
         @TestId
         List<WebElement> inferredItems;
+
+        @FindBy(id = "appium-list")
+        List<WebElement> appiumFindByList;
 
         @TestId("__null__")
         WebElement customNullFallback;
@@ -107,7 +122,17 @@ class AnnotationsTest {
 
         @LegacyRole("listitem")
         @org.openqa.selenium.support.CacheLookup
-        List<WebElement> legacyItems;
+        WebElement legacySingleFallback;
+
+        @LegacyRole("listitem")
+        List<WebElement> legacyOnlyList;
+
+        @org.openqa.selenium.support.FindBy(id = "selenium-list")
+        List<WebElement> seleniumOnlyList;
+
+        @FindBy(id = "explicit-legacy")
+        @LegacyRole("ignored")
+        WebElement findByWithLegacy;
 
         @FindBy(id = "appium-wins")
         @org.openqa.selenium.support.FindBy(id = "selenium-ignored")
@@ -159,6 +184,8 @@ class AnnotationsTest {
 
         assertInstanceOf(ByChained.class, new Annotations(field("chained")).buildBy());
         assertInstanceOf(ByAll.class, new Annotations(field("any")).buildBy());
+        assertInstanceOf(ByChained.class, new Annotations(field("seleniumChained")).buildBy());
+        assertInstanceOf(ByAll.class, new Annotations(field("seleniumAll")).buildBy());
 
         assertEquals(
                 By.cssSelector("[data-testid='submit-btn']"),
@@ -174,19 +201,28 @@ class AnnotationsTest {
         assertInstanceOf(ByIdOrName.class, new Annotations(field("fallbackByName")).buildBy());
         assertInstanceOf(ByIdOrName.class, new Annotations(field("customNullFallback")).buildBy());
 
-        Annotations legacy = new Annotations(field("legacyItems"));
-        assertEquals(By.cssSelector("[role='listitem']"), legacy.buildBy());
+        Annotations legacy = new Annotations(field("legacySingleFallback"));
+        assertInstanceOf(ByIdOrName.class, legacy.buildBy());
         assertTrue(legacy.isLookupCached());
 
+        assertEquals(By.id("explicit-legacy"), new Annotations(field("findByWithLegacy")).buildBy());
         assertEquals(By.id("appium-wins"), new Annotations(field("bothBuiltins")).buildBy());
     }
 
     @Test
-    void decoratesSingleAndListFieldsAnnotatedWithCustomAndLegacyFinders() {
+    void decoratesSingleAndListFieldsRespectingAppiumFinderRequirement() {
         SamplePage page = new SamplePage();
         DefaultFieldDecorator decorator = new DefaultFieldDecorator(AnnotationsTest::locatorFor);
 
-        for (String name : List.of("customSingle", "inferredItems", "legacyItems", "unannotatedList")) {
+        for (String name : List.of(
+                "customSingle",
+                "inferredItems",
+                "appiumFindByList",
+                "legacySingleFallback",
+                "legacyOnlyList",
+                "seleniumOnlyList",
+                "unannotatedList"
+        )) {
             try {
                 Field f = field(name);
                 Object decorated = decorator.decorate(SamplePage.class.getClassLoader(), f);
@@ -204,8 +240,12 @@ class AnnotationsTest {
         assertNotNull(page.inferredItems);
         assertEquals(1, page.inferredItems.size());
         assertEquals(By.cssSelector("[data-testid='inferredItems']").toString(), page.inferredItems.get(0).getText());
-        assertNotNull(page.legacyItems);
-        assertEquals(By.cssSelector("[role='listitem']").toString(), page.legacyItems.get(0).getText());
+        assertNotNull(page.appiumFindByList);
+        assertEquals(By.id("appium-list").toString(), page.appiumFindByList.get(0).getText());
+        assertNotNull(page.legacySingleFallback);
+        assertEquals(new ByIdOrName("legacySingleFallback").toString(), page.legacySingleFallback.getText());
+        assertNull(page.legacyOnlyList);
+        assertNull(page.seleniumOnlyList);
         assertNull(page.unannotatedList);
     }
 

@@ -763,3 +763,40 @@ It is strongly recommended to implement  each subclass of __io.appium.java_clien
        super(element);
    }
 ```
+
+# Custom locator annotations
+
+You can define custom `@FindBy`-style locator annotations by meta-annotating your annotation with `@io.appium.java_client.support.PageFactoryFinder` and providing an `AbstractFindByBuilder<T>` implementation:
+
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE})
+@PageFactoryFinder(DataTestIdBuilder.class)
+public @interface DataTestId {
+    String value() default "";
+}
+
+public class DataTestIdBuilder extends AbstractFindByBuilder<DataTestId> {
+    @Override
+    public By buildIt(DataTestId annotation, @Nullable Field field) {
+        String id = annotation.value().isEmpty() && field != null
+                ? field.getName()
+                : annotation.value();
+        return By.cssSelector("[data-testid='" + id + "']");
+    }
+}
+```
+
+### Builder contract
+
+- The builder class referenced by `@PageFactoryFinder` must provide a zero-argument constructor (it does not have to be `public`; the page factory instantiates it reflectively).
+- `buildIt(annotation, field)` receives the decorated `Field` when applied to a field, or `null` when resolving a class-level annotation on a `Widget` class.
+- Returning `null` from `buildIt` falls back to default lookup resolution (using `ByIdOrName` based on the field or widget class name).
+- Only annotations meta-annotated with `io.appium.java_client.support.PageFactoryFinder` are resolved; legacy `org.openqa.selenium.support.PageFactoryFinder` annotations are ignored.
+
+### Combining and overriding annotations
+
+- A `@PageFactoryFinder` annotation supplies the HTML/default locator (`ContentType.HTML_OR_DEFAULT`), so it can be combined on the same field or widget class with mobile native annotations such as `@AndroidFindBy` or `@iOSXCUITFindBy`.
+- Combining multiple HTML/default finder annotations (`@FindBy`, `@FindBys`, `@FindAll`, or any `@PageFactoryFinder` annotation) on the same field or the same class throws `IllegalArgumentException`.
+- On `Widget` classes, finders declared directly on a subclass override superclass finders (including `@Inherited` custom annotations) instead of conflicting with them. Inherited custom finders from a base widget are used when the subclass declares no finder annotation of its own.
+

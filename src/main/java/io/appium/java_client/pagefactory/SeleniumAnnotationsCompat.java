@@ -16,24 +16,11 @@
 
 package io.appium.java_client.pagefactory;
 
-import io.appium.java_client.support.FindAll;
-import io.appium.java_client.support.FindBy;
-import io.appium.java_client.support.FindBys;
+import io.appium.java_client.support.pagefactory.internal.PageFactoryFinderSupport;
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.By;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Lets page objects that still use Selenium's {@code @FindBy}, {@code @FindBys}, {@code @FindAll}
@@ -42,12 +29,6 @@ import static java.util.Objects.requireNonNull;
  * dependency on Selenium's support package.
  */
 final class SeleniumAnnotationsCompat {
-    private static final String SELENIUM_SUPPORT_PACKAGE = "org.openqa.selenium.support.";
-    private static final String SELENIUM_PAGE_FACTORY_FINDER = SELENIUM_SUPPORT_PACKAGE + "PageFactoryFinder";
-    private static final String SELENIUM_FIND_BY = SELENIUM_SUPPORT_PACKAGE + "FindBy";
-    private static final String SELENIUM_FIND_BYS = SELENIUM_SUPPORT_PACKAGE + "FindBys";
-    private static final String SELENIUM_FIND_ALL = SELENIUM_SUPPORT_PACKAGE + "FindAll";
-
     private SeleniumAnnotationsCompat() {
     }
 
@@ -61,151 +42,10 @@ final class SeleniumAnnotationsCompat {
      */
     @Nullable
     static <A extends Annotation> A find(AnnotatedElement element, Class<A> type) {
-        A annotation = element.getAnnotation(type);
-        if (annotation != null) {
-            return annotation;
-        }
-        return Arrays.stream(element.getAnnotations())
-                .filter(a -> isSeleniumCounterpart(a, type))
-                .findFirst()
-                .map(a -> adapt(a, type))
-                .orElse(null);
+        return PageFactoryFinderSupport.findCompatibleAnnotation(element, type);
     }
 
     static boolean isPresent(AnnotatedElement element, Class<? extends Annotation> type) {
-        return find(element, type) != null;
-    }
-
-    static boolean isBuiltinSeleniumFinder(Annotation annotation) {
-        String name = annotation.annotationType().getName();
-        return SELENIUM_FIND_BY.equals(name)
-                || SELENIUM_FIND_BYS.equals(name)
-                || SELENIUM_FIND_ALL.equals(name);
-    }
-
-    @Nullable
-    static Annotation adaptBuiltinSeleniumFinder(AnnotatedElement element, Annotation annotation) {
-        String name = annotation.annotationType().getName();
-        if (SELENIUM_FIND_BY.equals(name)) {
-            return element.getAnnotation(FindBy.class) != null ? null : adapt(annotation, FindBy.class);
-        }
-        if (SELENIUM_FIND_BYS.equals(name)) {
-            return element.getAnnotation(FindBys.class) != null ? null : adapt(annotation, FindBys.class);
-        }
-        if (SELENIUM_FIND_ALL.equals(name)) {
-            return element.getAnnotation(FindAll.class) != null ? null : adapt(annotation, FindAll.class);
-        }
-        return null;
-    }
-
-    static boolean hasLegacyPageFactoryFinder(Annotation annotation) {
-        return findLegacyFinderMeta(annotation.annotationType()) != null;
-    }
-
-    @Nullable
-    static By buildByFromLegacyFinder(Annotation annotation, @Nullable Field field) {
-        Annotation legacyFinder = requireNonNull(findLegacyFinderMeta(annotation.annotationType()));
-        Class<?> builderClass;
-        try {
-            builderClass = (Class<?>) legacyFinder.annotationType().getMethod("value").invoke(legacyFinder);
-        } catch (InvocationTargetException e) {
-            throw rethrowUnchecked(e.getCause());
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException(
-                    "Cannot read builder class from " + legacyFinder.annotationType().getName(), e
-            );
-        }
-
-        Object builder;
-        try {
-            Constructor<?> constructor = builderClass.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            builder = constructor.newInstance();
-        } catch (InvocationTargetException e) {
-            throw rethrowUnchecked(e.getCause());
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException(
-                    "Cannot instantiate PageFactoryFinder builder " + builderClass.getName(), e
-            );
-        }
-
-        try {
-            Method buildIt = builderClass.getMethod("buildIt", Object.class, Field.class);
-            buildIt.setAccessible(true);
-            return (By) buildIt.invoke(builder, annotation, field);
-        } catch (InvocationTargetException e) {
-            throw rethrowUnchecked(e.getCause());
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException(
-                    "Cannot invoke buildIt on PageFactoryFinder builder " + builderClass.getName(), e
-            );
-        }
-    }
-
-    @Nullable
-    private static Annotation findLegacyFinderMeta(Class<? extends Annotation> annotationType) {
-        for (Annotation meta : annotationType.getAnnotations()) {
-            if (SELENIUM_PAGE_FACTORY_FINDER.equals(meta.annotationType().getName())) {
-                return meta;
-            }
-        }
-        return null;
-    }
-
-    private static RuntimeException rethrowUnchecked(@Nullable Throwable cause) {
-        if (cause instanceof RuntimeException) {
-            return (RuntimeException) cause;
-        }
-        if (cause instanceof Error) {
-            throw (Error) cause;
-        }
-        return new IllegalStateException(cause);
-    }
-
-    private static boolean isSeleniumCounterpart(Annotation annotation, Class<? extends Annotation> type) {
-        return annotation.annotationType().getName().equals(SELENIUM_SUPPORT_PACKAGE + type.getSimpleName());
-    }
-
-    private static <A extends Annotation> A adapt(Annotation source, Class<A> target) {
-        InvocationHandler handler = (proxy, method, args) -> {
-            switch (method.getName()) {
-                case "annotationType":
-                    return target;
-                case "toString":
-                    return "Adapted " + source;
-                case "hashCode":
-                    return source.hashCode();
-                case "equals":
-                    return proxy == args[0];
-                default:
-                    return convert(readAttribute(source, method.getName()), method.getReturnType());
-            }
-        };
-        return target.cast(Proxy.newProxyInstance(target.getClassLoader(), new Class<?>[]{target}, handler));
-    }
-
-    private static Object readAttribute(Annotation source, String name) throws Throwable {
-        try {
-            return source.annotationType().getMethod(name).invoke(source);
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private static Object convert(Object value, Class<?> targetType) {
-        if (targetType.isEnum()) {
-            return Enum.valueOf((Class<? extends Enum>) targetType, ((Enum<?>) value).name());
-        }
-        if (targetType.isArray() && targetType.getComponentType().isAnnotation()) {
-            int length = Array.getLength(value);
-            Object result = Array.newInstance(targetType.getComponentType(), length);
-            for (int i = 0; i < length; i++) {
-                Array.set(result, i, adapt((Annotation) Array.get(value, i),
-                        (Class<? extends Annotation>) targetType.getComponentType()));
-            }
-            return result;
-        }
-        return value;
+        return PageFactoryFinderSupport.isCompatibleAnnotationPresent(element, type);
     }
 }

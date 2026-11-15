@@ -19,6 +19,7 @@ package io.appium.java_client.support.pagefactory;
 import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.internal.LocatingElementHandler;
 import io.appium.java_client.support.pagefactory.internal.LocatingElementListHandler;
+import io.appium.java_client.support.pagefactory.internal.PageFactoryFinderSupport;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsElement;
@@ -36,8 +37,9 @@ import java.util.List;
 
 /**
  * Default decorator for use with PageFactory. Will decorate 1) all the WebElement fields and 2)
- * {@code List<WebElement>} fields that have {@code @FindBy}, {@code @FindBys}, or {@code @FindAll}
- * annotation with a proxy that locates the elements using the passed in ElementLocatorFactory.
+ * {@code List<WebElement>} fields that have {@code @FindBy}, {@code @FindBys}, {@code @FindAll},
+ * or another Appium {@code @PageFactoryFinder} annotation with a proxy that locates the elements
+ * using the passed in ElementLocatorFactory.
  * Adapted from Selenium's {@code org.openqa.selenium.support.pagefactory.DefaultFieldDecorator}
  * (Apache License 2.0).
  */
@@ -107,7 +109,7 @@ public class DefaultFieldDecorator implements FieldDecorator {
     }
 
     private static boolean hasStandardLocatorAnnotation(Field field) {
-        return Annotations.hasLocatorAnnotation(field);
+        return PageFactoryFinderSupport.hasAppiumLocatorAnnotation(field);
     }
 
     /**

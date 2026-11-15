@@ -245,6 +245,13 @@ class CustomFindByAnnotationTest {
         }
     }
 
+    @FindBy(id = "sub-findby")
+    public static class FindByOverridingSubWidget extends InheritedBaseWidget {
+        protected FindByOverridingSubWidget(WebElement element) {
+            super(element);
+        }
+    }
+
     static class CustomFinderPage {
         @ScrollingAndroidFindBy(scrollingResourceId = "com.test:id/buttonNotInView")
         WebElement scrollingButton;
@@ -288,6 +295,8 @@ class CustomFindByAnnotationTest {
 
         OverridingSubWidget overridingWidget;
 
+        FindByOverridingSubWidget findByOverridingWidget;
+
         @LegacyAccessibility("legacy_submit")
         WebElement legacyElement;
 
@@ -299,6 +308,10 @@ class CustomFindByAnnotationTest {
 
         @LegacyAccessibility("legacy_by")
         AppiumBy legacyAppiumBy;
+
+        @FindBy(id = "explicit-coexisting")
+        @LegacyAccessibility("ignored")
+        WebElement findByWithLegacy;
     }
 
     static class ConflictingCustomAndFindByPage {
@@ -424,6 +437,10 @@ class CustomFindByAnnotationTest {
                 By.cssSelector("[data-testid='overridden-sub-card']"),
                 driver.captureFirstBy(page.overridingWidget::tapRoot)
         );
+        assertEquals(
+                By.id("sub-findby"),
+                driver.captureFirstBy(page.findByOverridingWidget::tapRoot)
+        );
     }
 
     @Test
@@ -457,18 +474,18 @@ class CustomFindByAnnotationTest {
     }
 
     @Test
-    void supportsLegacySeleniumPageFactoryFinderAnnotations() {
+    void preservesExistingBehaviorForLegacySeleniumPageFactoryFinderAnnotations() {
         RecordingAndroidDriver driver = new RecordingAndroidDriver();
         CustomFinderPage page = new CustomFinderPage();
         initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
 
         assertEquals(
-                AppiumBy.accessibilityId("legacy_submit"),
+                By.id("legacyElement"),
                 driver.captureFirstBy(page.legacyElement::click)
         );
         assertEquals(2, page.legacyList.size());
         assertEquals(
-                AppiumBy.accessibilityId("legacy_list"),
+                By.id("legacyList"),
                 driver.recordedBys.get(driver.recordedBys.size() - 1)
         );
 
@@ -476,13 +493,17 @@ class CustomFindByAnnotationTest {
         page.legacyWidget.tapInner();
         assertEquals(
                 List.of(
-                        AppiumBy.accessibilityId("legacy_widget"),
+                        By.id("legacyWidget"),
                         AppiumBy.androidUIAutomator(buildScrollIntoViewExpression("com.test:id/innerAction"))
                 ),
                 driver.recordedBys
         );
 
-        assertEquals(AppiumBy.accessibilityId("legacy_by"), page.legacyAppiumBy);
+        assertNull(page.legacyAppiumBy);
+        assertEquals(
+                By.id("explicit-coexisting"),
+                driver.captureFirstBy(page.findByWithLegacy::click)
+        );
     }
 
     @Test
