@@ -17,17 +17,21 @@
 package io.appium.java_client.pagefactory.utils;
 
 import io.appium.java_client.HasBrowserCheck;
+import io.appium.java_client.NoSuchContextException;
 import io.appium.java_client.pagefactory.bys.ContentType;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.WrapsElement;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import static io.appium.java_client.HasBrowserCheck.NATIVE_CONTEXT;
+import static io.appium.java_client.internal.ElementHelpers.findInSearchContextChain;
 import static io.appium.java_client.pagefactory.bys.ContentType.HTML_OR_DEFAULT;
 import static io.appium.java_client.pagefactory.bys.ContentType.NATIVE_MOBILE_SPECIFIC;
 import static java.util.Locale.ROOT;
@@ -36,6 +40,7 @@ import static java.util.Locale.ROOT;
  * Utilities to unpack drivers and related objects from a {@link SearchContext}.
  */
 public final class WebDriverUnpackUtility {
+
     private WebDriverUnpackUtility() {
     }
 
@@ -52,24 +57,10 @@ public final class WebDriverUnpackUtility {
      * @param cls interface whose instance is going to be extracted.
      * @return Either an instance of the given interface or Optional.empty().
      */
-    public static <T> Optional<T> unpackObjectFromSearchContext(@Nullable SearchContext searchContext, Class<T> cls) {
-        if (searchContext == null) {
-            return Optional.empty();
-        }
-
-        if (cls.isAssignableFrom(searchContext.getClass())) {
-            return Optional.of(cls.cast(searchContext));
-        }
-        if (searchContext instanceof WrapsDriver) {
-            return unpackObjectFromSearchContext(((WrapsDriver) searchContext).getWrappedDriver(), cls);
-        }
-        // Search context it is not only WebDriver. WebElement is search context too.
-        // AppiumWebElement implements WrapsDriver
-        if (searchContext instanceof WrapsElement) {
-            return unpackObjectFromSearchContext(((WrapsElement) searchContext).getWrappedElement(), cls);
-        }
-
-        return Optional.empty();
+    public static <T> Optional<T> unpackObjectFromSearchContext(
+            @Nullable SearchContext searchContext, Class<T> cls
+    ) {
+        return findInSearchContextChain(searchContext, cls, Function.identity());
     }
 
     /**
@@ -112,11 +103,20 @@ public final class WebDriverUnpackUtility {
         }
 
         var contextAware = unpackObjectFromSearchContext(context, SupportsContextSwitching.class);
-        if (contextAware.map(SupportsContextSwitching::getContext)
+        if (contextAware.map(WebDriverUnpackUtility::safeGetContext)
                 .filter(c -> c.toUpperCase(ROOT).contains(NATIVE_CONTEXT)).isPresent()) {
             return NATIVE_MOBILE_SPECIFIC;
         }
 
         return HTML_OR_DEFAULT;
+    }
+
+    @Nullable
+    private static String safeGetContext(SupportsContextSwitching contextAware) {
+        try {
+            return contextAware.getContext();
+        } catch (UnsupportedCommandException | NoSuchContextException e) {
+            return null;
+        }
     }
 }
