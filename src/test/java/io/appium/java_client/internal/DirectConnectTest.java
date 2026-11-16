@@ -119,7 +119,16 @@ class DirectConnectTest {
                 "appium:directConnectPort", "4443",
                 "appium:directConnectPath", ""
         ));
-        assertFalse(blankHost.isValid());
+        assertTrue(blankHost.isValid());
         assertThrowsExactly(MalformedURLException.class, blankHost::getUrl);
+
+        DirectConnect blankPort = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "x",
+                "appium:directConnectPort", "",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(blankPort.isValid());
+        assertThrowsExactly(MalformedURLException.class, blankPort::getUrl);
     }
 }

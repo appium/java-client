@@ -18,13 +18,9 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.internal.SessionHelpers;
-import io.appium.java_client.remote.AppiumCommandExecutor;
-import io.appium.java_client.remote.AppiumRemoteWebDriver;
-import io.appium.java_client.remote.SessionId;
+import io.appium.java_client.internal.LogBroadcastEndpoints;
 import io.appium.java_client.ws.StringWebSocketClient;
 
-import java.net.URI;
 import java.net.URL;
 import java.util.function.Consumer;
 
@@ -42,26 +38,29 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
 
     /**
      * Start syslog messages broadcast via web socket.
-     * This method uses the current remote server host and port when available,
-     * falling back to {@code localhost:4723}.
+     * This method uses the current remote server host (mapping wildcard addresses to {@code localhost})
+     * and port when available, falling back to {@code localhost:4723}.
      */
     default void startSyslogBroadcast() {
-        var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
+        URL serverUrl = LogBroadcastEndpoints.resolveServerUrl(this);
         startSyslogBroadcast(
-                SessionHelpers.resolveBroadcastHost(serverUrl, "localhost"),
-                SessionHelpers.resolveBroadcastPort(serverUrl, DEFAULT_APPIUM_PORT)
+                LogBroadcastEndpoints.resolveHost(serverUrl, "localhost"),
+                LogBroadcastEndpoints.resolvePort(serverUrl, DEFAULT_APPIUM_PORT)
         );
     }
 
     /**
      * Start syslog messages broadcast via web socket.
-     * This method assumes that Appium server is assigned to the default port (4723).
+     * This method uses the current remote server port when available,
+     * falling back to the default port (4723).
      *
      * @param host the name of the host where Appium server is running
      */
     default void startSyslogBroadcast(String host) {
-        startSyslogBroadcast(host, DEFAULT_APPIUM_PORT);
+        startSyslogBroadcast(
+                host,
+                LogBroadcastEndpoints.resolvePort(LogBroadcastEndpoints.resolveServerUrl(this), DEFAULT_APPIUM_PORT)
+        );
     }
 
     /**
@@ -71,12 +70,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startSyslogBroadcast(String host, int port) {
-        var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
-        CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
-        SessionId sessionId = remoteWebDriver.getSessionId();
-        URI endpoint = SessionHelpers.buildBroadcastUri(serverUrl, host, port, sessionId, "syslog");
-        getSyslogClient().connect(endpoint);
+        LogBroadcastEndpoints.startBroadcast(this, getSyslogClient(), host, port, "syslog");
     }
 
     /**

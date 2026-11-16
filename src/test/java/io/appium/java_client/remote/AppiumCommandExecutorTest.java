@@ -221,28 +221,6 @@ class AppiumCommandExecutorTest {
     }
 
     @Test
-    void directConnectIgnoresBlankCapabilityValues() throws MalformedURLException {
-        String caps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
-                + "\"appium:directConnectProtocol\":\"\","
-                + "\"appium:directConnectHost\":\"\","
-                + "\"appium:directConnectPort\":\"\","
-                + "\"appium:directConnectPath\":\"\"}";
-        HttpClient.Factory factory = cfg -> new RecordingHttpClient(cfg, caps);
-        URL initialUrl = new URL(APPIUM_URL);
-        AppiumCommandExecutor executor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository, null, factory,
-                AppiumClientConfig.defaultConfig().baseUrl(initialUrl).directConnect(true));
-
-        AndroidDriver driver = new AndroidDriver(executor, new UiAutomator2Options().setDeviceName("emu"));
-        try {
-            assertEquals(initialUrl, executor.getAddressOfRemoteServer());
-            assertEquals(initialUrl, driver.getRemoteAddress());
-        } finally {
-            driver.quit();
-        }
-    }
-
-    @Test
     void broadcastListenersUseUpdatedServerAddressAndKeepExplicitHubEndpointPlainWs() throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
@@ -324,6 +302,106 @@ class AppiumCommandExecutorTest {
             );
         } finally {
             iosDriver.quit();
+        }
+    }
+
+    @Test
+    void broadcastListenersPreserveWssOnHttpsServersNormalizeWildcardAndDefaultOneArgPortToServerPort()
+            throws MalformedURLException {
+        List<RecordingHttpClient> httpsClients = new ArrayList<>();
+        HttpClient.Factory httpsFactory = cfg -> {
+            RecordingHttpClient client = new RecordingHttpClient(cfg, "{\"platformName\":\"Android\"}");
+            httpsClients.add(client);
+            return client;
+        };
+        AppiumCommandExecutor httpsExecutor = new AppiumCommandExecutor(
+                MobileCommand.commandRepository,
+                null,
+                httpsFactory,
+                AppiumClientConfig.defaultConfig().baseUrl(new URL("https://grid.example.com"))
+        );
+
+        AndroidDriver httpsDriver = new AndroidDriver(
+                httpsExecutor,
+                new UiAutomator2Options().setDeviceName("emu")
+        );
+        try {
+            httpsDriver.startLogcatBroadcast();
+            httpsDriver.startLogcatBroadcast("10.0.0.5");
+            httpsDriver.startLogcatBroadcast("10.0.0.5", 4723);
+
+            assertEquals(
+                    List.of(
+                            "wss://grid.example.com:443/ws/session/s1/appium/device/logcat",
+                            "wss://10.0.0.5:443/ws/session/s1/appium/device/logcat",
+                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat"
+                    ),
+                    httpsClients.get(0).socketUris
+            );
+        } finally {
+            httpsDriver.quit();
+        }
+
+        List<RecordingHttpClient> wildcardClients = new ArrayList<>();
+        HttpClient.Factory wildcardFactory = cfg -> {
+            RecordingHttpClient client = new RecordingHttpClient(cfg, "{\"platformName\":\"iOS\"}");
+            wildcardClients.add(client);
+            return client;
+        };
+        AppiumCommandExecutor wildcardExecutor = new AppiumCommandExecutor(
+                MobileCommand.commandRepository,
+                null,
+                wildcardFactory,
+                AppiumClientConfig.defaultConfig().baseUrl(new URL("http://[::]:4444"))
+        );
+
+        IOSDriver wildcardDriver = new IOSDriver(
+                wildcardExecutor,
+                new XCUITestOptions().setDeviceName("iPhone 16")
+        );
+        try {
+            wildcardDriver.startSyslogBroadcast();
+            wildcardDriver.startSyslogBroadcast("log.internal");
+
+            assertEquals(
+                    List.of(
+                            "ws://localhost:4444/ws/session/s1/appium/device/syslog",
+                            "ws://log.internal:4444/ws/session/s1/appium/device/syslog"
+                    ),
+                    wildcardClients.get(0).socketUris
+            );
+        } finally {
+            wildcardDriver.quit();
+        }
+    }
+
+    @Test
+    void blankDirectConnectValuesFailWithSessionNotCreatedException() throws MalformedURLException {
+        for (String invalidCaps : List.of(
+                "{\"platformName\":\"Android\","
+                        + "\"appium:directConnectProtocol\":\"https\","
+                        + "\"appium:directConnectHost\":\"x\","
+                        + "\"appium:directConnectPort\":\"\","
+                        + "\"appium:directConnectPath\":\"/wd/hub\"}",
+                "{\"platformName\":\"Android\","
+                        + "\"appium:directConnectProtocol\":\"\","
+                        + "\"appium:directConnectHost\":\"\","
+                        + "\"appium:directConnectPort\":\"\","
+                        + "\"appium:directConnectPath\":\"\"}")) {
+            HttpClient.Factory factory = cfg -> new RecordingHttpClient(cfg, invalidCaps);
+            AppiumCommandExecutor executor = new AppiumCommandExecutor(
+                    MobileCommand.commandRepository,
+                    null,
+                    factory,
+                    AppiumClientConfig.defaultConfig()
+                            .baseUrl(new URL("http://hub.example.com:4723"))
+                            .directConnect(true)
+            );
+
+            assertThrows(
+                    SessionNotCreatedException.class,
+                    () -> new AndroidDriver(executor, new UiAutomator2Options().setDeviceName("emu"))
+            );
         }
     }
 }

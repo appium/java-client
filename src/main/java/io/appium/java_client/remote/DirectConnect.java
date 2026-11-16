@@ -23,6 +23,7 @@ import org.jspecify.annotations.Nullable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static io.appium.java_client.internal.CapabilityHelpers.APPIUM_PREFIX;
@@ -64,13 +65,11 @@ public class DirectConnect {
     }
 
     /**
-     * Returns true if the {@link DirectConnect} instance member has valid values.
-     * @return true if protocol, host and port are non-blank and path is non-null
+     * Returns true if the {@link DirectConnect} instance member has nonnull values.
+     * @return true if each connection information has a nonnull value
      */
     public boolean isValid() {
-        return this.path != null
-                && Stream.of(this.protocol, this.host, this.port)
-                .allMatch(value -> value != null && !value.isBlank());
+        return Stream.of(this.protocol, this.path, this.host, this.port).noneMatch(Objects::isNull);
     }
 
     /**
@@ -79,7 +78,7 @@ public class DirectConnect {
      * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
-        if (!isValid()) {
+        if (!isValid() || Stream.of(this.protocol, this.host, this.port).anyMatch(String::isBlank)) {
             throw createMalformedUrlException(
                     String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path)
             );
@@ -94,7 +93,13 @@ public class DirectConnect {
         }
     }
 
-    private static String formatHost(String host) {
+    /**
+     * Wraps a bare IPv6 host literal in brackets if not already bracketed.
+     *
+     * @param host the host name or IP literal
+     * @return the URL-safe host representation
+     */
+    public static String formatHost(String host) {
         if (!host.startsWith("[") && host.indexOf(':') != host.lastIndexOf(':')) {
             return "[" + host + "]";
         }
