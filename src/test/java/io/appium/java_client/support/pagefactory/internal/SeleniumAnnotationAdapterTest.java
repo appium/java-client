@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.pagefactory;
+package io.appium.java_client.support.pagefactory.internal;
 
+import io.appium.java_client.pagefactory.DefaultElementByBuilder;
 import io.appium.java_client.support.CacheLookup;
 import io.appium.java_client.support.FindAll;
 import io.appium.java_client.support.FindBy;
@@ -34,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SeleniumAnnotationsCompatTest {
+class SeleniumAnnotationAdapterTest {
 
     @SuppressWarnings("unused")
     private static class Page {
@@ -66,19 +67,29 @@ class SeleniumAnnotationsCompatTest {
         WebElement none;
     }
 
+    private static final class ExposedDefaultElementByBuilder extends DefaultElementByBuilder {
+        ExposedDefaultElementByBuilder() {
+            super(null, null);
+        }
+
+        By defaultBy() {
+            return super.buildDefaultBy();
+        }
+    }
+
     private static Field field(String name) throws NoSuchFieldException {
         return Page.class.getDeclaredField(name);
     }
 
-    private static DefaultElementByBuilder builderFor(String fieldName) throws NoSuchFieldException {
-        DefaultElementByBuilder builder = new DefaultElementByBuilder(null, null);
+    private static ExposedDefaultElementByBuilder builderFor(String fieldName) throws NoSuchFieldException {
+        ExposedDefaultElementByBuilder builder = new ExposedDefaultElementByBuilder();
         builder.setAnnotated(field(fieldName));
         return builder;
     }
 
     @Test
     void readsSeleniumFindByAttributes() throws NoSuchFieldException {
-        FindBy findBy = SeleniumAnnotationsCompat.find(field("seleniumShort"), FindBy.class);
+        FindBy findBy = SeleniumAnnotationAdapter.findCompatibleAnnotation(field("seleniumShort"), FindBy.class);
 
         assertNotNull(findBy);
         assertEquals("foo", findBy.id());
@@ -89,7 +100,7 @@ class SeleniumAnnotationsCompatTest {
 
     @Test
     void convertsTheSeleniumHowEnum() throws NoSuchFieldException {
-        FindBy findBy = SeleniumAnnotationsCompat.find(field("seleniumLong"), FindBy.class);
+        FindBy findBy = SeleniumAnnotationAdapter.findCompatibleAnnotation(field("seleniumLong"), FindBy.class);
 
         assertNotNull(findBy);
         assertEquals(How.XPATH, findBy.how());
@@ -98,8 +109,8 @@ class SeleniumAnnotationsCompatTest {
 
     @Test
     void convertsNestedAnnotationArrays() throws NoSuchFieldException {
-        FindBys findBys = SeleniumAnnotationsCompat.find(field("seleniumChained"), FindBys.class);
-        FindAll findAll = SeleniumAnnotationsCompat.find(field("seleniumAll"), FindAll.class);
+        FindBys findBys = SeleniumAnnotationAdapter.findCompatibleAnnotation(field("seleniumChained"), FindBys.class);
+        FindAll findAll = SeleniumAnnotationAdapter.findCompatibleAnnotation(field("seleniumAll"), FindAll.class);
 
         assertNotNull(findBys);
         assertNotNull(findAll);
@@ -111,13 +122,13 @@ class SeleniumAnnotationsCompatTest {
 
     @Test
     void detectsTheSeleniumCacheLookupMarker() throws NoSuchFieldException {
-        assertTrue(SeleniumAnnotationsCompat.isPresent(field("seleniumShort"), CacheLookup.class));
-        assertFalse(SeleniumAnnotationsCompat.isPresent(field("seleniumLong"), CacheLookup.class));
+        assertTrue(SeleniumAnnotationAdapter.isCompatibleAnnotationPresent(field("seleniumShort"), CacheLookup.class));
+        assertFalse(SeleniumAnnotationAdapter.isCompatibleAnnotationPresent(field("seleniumLong"), CacheLookup.class));
     }
 
     @Test
     void appiumAnnotationsTakePrecedence() throws NoSuchFieldException {
-        FindBy findBy = SeleniumAnnotationsCompat.find(field("both"), FindBy.class);
+        FindBy findBy = SeleniumAnnotationAdapter.findCompatibleAnnotation(field("both"), FindBy.class);
 
         assertNotNull(findBy);
         assertEquals("appium", findBy.id());
@@ -125,24 +136,24 @@ class SeleniumAnnotationsCompatTest {
 
     @Test
     void returnsNullWhenNothingIsPresent() throws NoSuchFieldException {
-        assertNull(SeleniumAnnotationsCompat.find(field("none"), FindBy.class));
-        assertNull(SeleniumAnnotationsCompat.find(field("appiumOnly"), FindAll.class));
+        assertNull(SeleniumAnnotationAdapter.findCompatibleAnnotation(field("none"), FindBy.class));
+        assertNull(SeleniumAnnotationAdapter.findCompatibleAnnotation(field("appiumOnly"), FindAll.class));
     }
 
     @Test
     void defaultElementByBuilderUnderstandsSeleniumAnnotations() throws NoSuchFieldException {
-        assertEquals(By.id("foo"), builderFor("seleniumShort").buildDefaultBy());
+        assertEquals(By.id("foo"), builderFor("seleniumShort").defaultBy());
         assertTrue(builderFor("seleniumShort").isLookupCached());
-        assertEquals(By.xpath("//a"), builderFor("seleniumLong").buildDefaultBy());
+        assertEquals(By.xpath("//a"), builderFor("seleniumLong").defaultBy());
         assertEquals("By.chained({By.id: foo,By.className: bar})",
-                builderFor("seleniumChained").buildDefaultBy().toString());
+                builderFor("seleniumChained").defaultBy().toString());
         assertEquals("By.all({By.name: foo,By.tagName: bar})",
-                builderFor("seleniumAll").buildDefaultBy().toString());
+                builderFor("seleniumAll").defaultBy().toString());
     }
 
     @Test
     void defaultElementByBuilderStillUnderstandsAppiumAnnotations() throws NoSuchFieldException {
-        assertEquals(By.id("appium"), builderFor("appiumOnly").buildDefaultBy());
+        assertEquals(By.id("appium"), builderFor("appiumOnly").defaultBy());
         assertTrue(builderFor("appiumOnly").isLookupCached());
         assertFalse(builderFor("none").isLookupCached());
     }

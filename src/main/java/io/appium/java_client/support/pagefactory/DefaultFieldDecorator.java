@@ -105,10 +105,10 @@ public class DefaultFieldDecorator implements FieldDecorator {
             return false;
         }
 
-        return hasStandardLocatorAnnotation(field);
+        return hasLocatorAnnotation(field);
     }
 
-    private static boolean hasStandardLocatorAnnotation(Field field) {
+    private static boolean hasLocatorAnnotation(Field field) {
         return PageFactoryFinderSupport.hasAppiumLocatorAnnotation(field);
     }
 

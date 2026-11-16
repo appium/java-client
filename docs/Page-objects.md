@@ -764,7 +764,7 @@ It is strongly recommended to implement  each subclass of __io.appium.java_clien
    }
 ```
 
-# Custom locator annotations
+## Custom locator annotations
 
 You can define custom `@FindBy`-style locator annotations by meta-annotating your annotation with `@io.appium.java_client.support.PageFactoryFinder` and providing an `AbstractFindByBuilder<T>` implementation:
 
@@ -782,7 +782,7 @@ public class DataTestIdBuilder extends AbstractFindByBuilder<DataTestId> {
         String id = annotation.value().isEmpty() && field != null
                 ? field.getName()
                 : annotation.value();
-        return By.cssSelector("[data-testid='" + id + "']");
+        return By.cssSelector("[data-testid='" + id.replace("'", "\\'") + "']");
     }
 }
 ```
@@ -797,6 +797,6 @@ public class DataTestIdBuilder extends AbstractFindByBuilder<DataTestId> {
 ### Combining and overriding annotations
 
 - A `@PageFactoryFinder` annotation supplies the HTML/default locator (`ContentType.HTML_OR_DEFAULT`), so it can be combined on the same field or widget class with mobile native annotations such as `@AndroidFindBy` or `@iOSXCUITFindBy`.
-- Combining multiple HTML/default finder annotations (`@FindBy`, `@FindBys`, `@FindAll`, or any `@PageFactoryFinder` annotation) on the same field or the same class throws `IllegalArgumentException`.
+- Combining multiple HTML/default finder annotations (`@FindBy`, `@FindBys`, `@FindAll`, or any `@PageFactoryFinder` annotation) on the same field throws `IllegalArgumentException`. On a `Widget` class, declaring multiple default finder annotations resolves to the first one declared.
 - On `Widget` classes, finders declared directly on a subclass override superclass finders (including `@Inherited` custom annotations) instead of conflicting with them. Inherited custom finders from a base widget are used when the subclass declares no finder annotation of its own.
 

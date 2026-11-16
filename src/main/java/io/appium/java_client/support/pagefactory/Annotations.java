@@ -25,7 +25,16 @@ import java.lang.reflect.Field;
 
 import static java.util.Objects.requireNonNull;
 
-/** Processes locator and cache annotations on a page object field. */
+/**
+ * Processes locator and cache annotations on a page object field.
+ *
+ * <p>Selenium's protected {@code AbstractAnnotations} hooks ({@code buildByFromFindBy},
+ * {@code buildByFromShortFindBy}, {@code buildByFromLongFindBy}, {@code assertValidFindBys},
+ * and {@code assertValidFindAll}) are intentionally omitted because finder resolution and
+ * conflict validation are centralized in {@link PageFactoryFinderSupport} via
+ * {@link io.appium.java_client.support.PageFactoryFinder} and
+ * {@link io.appium.java_client.support.AbstractFindByBuilder}.
+ */
 public class Annotations extends AbstractAnnotations {
     private final Field field;
 

@@ -17,41 +17,28 @@
 package io.appium.java_client.support.pagefactory.internal;
 
 import io.appium.java_client.support.AbstractFindByBuilder;
-import io.appium.java_client.support.FindAll;
-import io.appium.java_client.support.FindBy;
-import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.PageFactoryFinder;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Shared resolution, Selenium built-in adaptation, validation, and builder invocation helpers
- * for Appium {@link PageFactoryFinder}-annotated locator annotations.
+ * Shared discovery, validation, and builder invocation helpers for Appium
+ * {@link PageFactoryFinder}-annotated locator annotations.
  */
 public final class PageFactoryFinderSupport {
-    private static final String SELENIUM_SUPPORT_PACKAGE = "org.openqa.selenium.support.";
-    private static final String SELENIUM_FIND_BY = SELENIUM_SUPPORT_PACKAGE + "FindBy";
-    private static final String SELENIUM_FIND_BYS = SELENIUM_SUPPORT_PACKAGE + "FindBys";
-    private static final String SELENIUM_FIND_ALL = SELENIUM_SUPPORT_PACKAGE + "FindAll";
-
     private PageFactoryFinderSupport() {
     }
 
     /**
-     * Checks whether the field carries at least one Appium {@link PageFactoryFinder} annotation
-     * (including built-in Appium {@link FindBy}, {@link FindBys}, and {@link FindAll}).
+     * Checks whether the field carries at least one Appium {@link PageFactoryFinder} annotation.
      *
      * @param field the field to inspect
      * @return {@code true} if an Appium finder annotation is present on the field
@@ -66,27 +53,6 @@ public final class PageFactoryFinderSupport {
     }
 
     /**
-     * Finds the given annotation on the element, falling back to its Selenium counterpart.
-     *
-     * @param element the annotated element
-     * @param type the Appium annotation type
-     * @param <A> the annotation type
-     * @return the Appium annotation, an adapted view of the Selenium counterpart, or {@code null}
-     */
-    @Nullable
-    public static <A extends Annotation> A findCompatibleAnnotation(AnnotatedElement element, Class<A> type) {
-        A annotation = element.getAnnotation(type);
-        if (annotation != null) {
-            return annotation;
-        }
-        return Arrays.stream(element.getAnnotations())
-                .filter(candidate -> isSeleniumCounterpart(candidate, type))
-                .findFirst()
-                .map(candidate -> adapt(candidate, type))
-                .orElse(null);
-    }
-
-    /**
      * Checks whether the given Appium annotation or its Selenium counterpart is present on the element.
      *
      * @param element the annotated element
@@ -94,7 +60,7 @@ public final class PageFactoryFinderSupport {
      * @return {@code true} if the Appium annotation or Selenium counterpart is present
      */
     public static boolean isCompatibleAnnotationPresent(AnnotatedElement element, Class<? extends Annotation> type) {
-        return findCompatibleAnnotation(element, type) != null;
+        return SeleniumAnnotationAdapter.isCompatibleAnnotationPresent(element, type);
     }
 
     /**
@@ -151,8 +117,23 @@ public final class PageFactoryFinderSupport {
      */
     @Nullable
     public static By buildBy(AnnotatedElement element) {
+        return buildBy(element, true);
+    }
+
+    /**
+     * Resolves and builds a {@link By} locator from the first finder annotation on {@code element},
+     * optionally validating that multiple finder annotations are not combined on {@code element}.
+     *
+     * @param element the field or class to build a locator for
+     * @param validateConflicts whether to throw when multiple finder annotations are active
+     * @return the built {@link By}, or {@code null}
+     */
+    @Nullable
+    public static By buildBy(AnnotatedElement element, boolean validateConflicts) {
         List<Annotation> finders = resolveFinderAnnotations(element);
-        validateFinderAnnotations(finders);
+        if (validateConflicts) {
+            validateFinderAnnotations(finders);
+        }
         if (finders.isEmpty()) {
             return null;
         }
@@ -170,40 +151,15 @@ public final class PageFactoryFinderSupport {
             if (candidate.annotationType().isAnnotationPresent(PageFactoryFinder.class)) {
                 finders.add(candidate);
             } else {
-                Annotation adapted = adaptBuiltinSeleniumFinder(element, candidate, declaredOnly);
+                Annotation adapted = SeleniumAnnotationAdapter.adaptBuiltinSeleniumFinder(
+                        element, candidate, declaredOnly
+                );
                 if (adapted != null) {
                     finders.add(adapted);
                 }
             }
         }
         return finders;
-    }
-
-    @Nullable
-    private static Annotation adaptBuiltinSeleniumFinder(
-            AnnotatedElement element,
-            Annotation candidate,
-            boolean declaredOnly
-    ) {
-        String name = candidate.annotationType().getName();
-        if (SELENIUM_FIND_BY.equals(name)) {
-            return hasAnnotation(element, FindBy.class, declaredOnly) ? null : adapt(candidate, FindBy.class);
-        }
-        if (SELENIUM_FIND_BYS.equals(name)) {
-            return hasAnnotation(element, FindBys.class, declaredOnly) ? null : adapt(candidate, FindBys.class);
-        }
-        if (SELENIUM_FIND_ALL.equals(name)) {
-            return hasAnnotation(element, FindAll.class, declaredOnly) ? null : adapt(candidate, FindAll.class);
-        }
-        return null;
-    }
-
-    private static boolean hasAnnotation(
-            AnnotatedElement element,
-            Class<? extends Annotation> type,
-            boolean declaredOnly
-    ) {
-        return (declaredOnly ? element.getDeclaredAnnotation(type) : element.getAnnotation(type)) != null;
     }
 
     @Nullable
@@ -237,52 +193,5 @@ public final class PageFactoryFinderSupport {
             throw (Error) cause;
         }
         return new IllegalStateException(cause);
-    }
-
-    private static boolean isSeleniumCounterpart(Annotation annotation, Class<? extends Annotation> type) {
-        return annotation.annotationType().getName().equals(SELENIUM_SUPPORT_PACKAGE + type.getSimpleName());
-    }
-
-    private static <A extends Annotation> A adapt(Annotation source, Class<A> target) {
-        InvocationHandler handler = (proxy, method, args) -> {
-            switch (method.getName()) {
-                case "annotationType":
-                    return target;
-                case "toString":
-                    return "Adapted " + source;
-                case "hashCode":
-                    return source.hashCode();
-                case "equals":
-                    return args != null && proxy == args[0];
-                default:
-                    return convert(readAttribute(source, method.getName()), method.getReturnType());
-            }
-        };
-        return target.cast(Proxy.newProxyInstance(target.getClassLoader(), new Class<?>[]{target}, handler));
-    }
-
-    private static Object readAttribute(Annotation source, String name) throws Throwable {
-        try {
-            return source.annotationType().getMethod(name).invoke(source);
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private static Object convert(Object value, Class<?> targetType) {
-        if (targetType.isEnum()) {
-            return Enum.valueOf((Class<? extends Enum>) targetType, ((Enum<?>) value).name());
-        }
-        if (targetType.isArray() && targetType.getComponentType().isAnnotation()) {
-            int length = Array.getLength(value);
-            Object result = Array.newInstance(targetType.getComponentType(), length);
-            for (int i = 0; i < length; i++) {
-                Array.set(result, i, adapt((Annotation) Array.get(value, i),
-                        (Class<? extends Annotation>) targetType.getComponentType()));
-            }
-            return result;
-        }
-        return value;
     }
 }

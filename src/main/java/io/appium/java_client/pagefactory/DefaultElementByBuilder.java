@@ -110,7 +110,9 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        return annotatedElement != null ? PageFactoryFinderSupport.buildBy(annotatedElement) : null;
+        return annotatedElement != null
+                ? PageFactoryFinderSupport.buildBy(annotatedElement, annotatedElement instanceof Field)
+                : null;
     }
 
     private By[] getBys(Class<? extends Annotation> singleLocator, Class<? extends Annotation> chainedLocator,
@@ -275,7 +277,8 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     public boolean isLookupCached() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        return SeleniumAnnotationsCompat.isPresent(annotatedElement, CacheLookup.class);
+        return annotatedElement != null
+                && PageFactoryFinderSupport.isCompatibleAnnotationPresent(annotatedElement, CacheLookup.class);
     }
 
     private By returnMappedBy(By byDefault, By nativeAppBy) {

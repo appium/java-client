@@ -334,14 +334,18 @@ class CustomFindByAnnotationTest {
 
     @ScrollingAndroidFindBy(scrollingResourceId = "com.test:id/one")
     @FindBy(id = "two")
-    public static class ConflictingClassWidget extends Widget {
-        protected ConflictingClassWidget(WebElement element) {
+    public static class MultiFinderClassWidget extends Widget {
+        protected MultiFinderClassWidget(WebElement element) {
             super(element);
+        }
+
+        public void tapRoot() {
+            getWrappedElement().click();
         }
     }
 
-    static class ConflictingWidgetClassPage {
-        ConflictingClassWidget invalidWidget;
+    static class MultiFinderWidgetClassPage {
+        MultiFinderClassWidget widget;
     }
 
     @Test
@@ -530,12 +534,17 @@ class CustomFindByAnnotationTest {
         );
         assertTrue(e3.getMessage().contains("@ScrollingAndroidFindBy"), e3.getMessage());
         assertTrue(e3.getMessage().contains("@FindBy"), e3.getMessage());
+    }
 
-        IllegalArgumentException e4 = assertThrows(
-                IllegalArgumentException.class,
-                () -> initElements(new AppiumFieldDecorator(driver), new ConflictingWidgetClassPage())
+    @Test
+    void preservesFirstFinderPrecedenceOnWidgetClassWithMultipleFinders() {
+        RecordingAndroidDriver driver = new RecordingAndroidDriver();
+        MultiFinderWidgetClassPage page = new MultiFinderWidgetClassPage();
+        initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
+
+        assertEquals(
+                AppiumBy.androidUIAutomator(buildScrollIntoViewExpression("com.test:id/one")),
+                driver.captureFirstBy(page.widget::tapRoot)
         );
-        assertTrue(e4.getMessage().contains("@ScrollingAndroidFindBy"), e4.getMessage());
-        assertTrue(e4.getMessage().contains("@FindBy"), e4.getMessage());
     }
 }
