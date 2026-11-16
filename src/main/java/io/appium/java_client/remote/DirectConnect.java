@@ -16,6 +16,7 @@
 
 package io.appium.java_client.remote;
 
+import io.appium.java_client.internal.Strings;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
@@ -85,25 +86,12 @@ public class DirectConnect {
         }
 
         String newUrlCandidate = String.format("%s://%s:%s%s",
-                this.protocol, formatHost(this.host), this.port, normalizePath(this.path));
+                this.protocol, Strings.formatHost(this.host), this.port, normalizePath(this.path));
         try {
             return new URL(newUrlCandidate);
         } catch (MalformedURLException e) {
             throw createMalformedUrlException(newUrlCandidate);
         }
-    }
-
-    /**
-     * Wraps a bare IPv6 host literal in brackets if not already bracketed.
-     *
-     * @param host the host name or IP literal
-     * @return the URL-safe host representation
-     */
-    public static String formatHost(String host) {
-        if (!host.startsWith("[") && host.indexOf(':') != host.lastIndexOf(':')) {
-            return "[" + host + "]";
-        }
-        return host;
     }
 
     private static String normalizePath(String path) {

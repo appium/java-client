@@ -34,4 +34,17 @@ public final class Strings {
     public static boolean isNullOrEmpty(@Nullable String string) {
         return string == null || string.isEmpty();
     }
+
+    /**
+     * Wraps a bare IPv6 host literal in brackets if not already bracketed.
+     *
+     * @param host the host name or IP literal
+     * @return the URL-safe host representation
+     */
+    public static String formatHost(String host) {
+        if (!host.startsWith("[") && host.indexOf(':') != host.lastIndexOf(':')) {
+            return "[" + host + "]";
+        }
+        return host;
+    }
 }

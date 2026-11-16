@@ -21,7 +21,6 @@ import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.internal.LogBroadcastEndpoints;
 import io.appium.java_client.ws.StringWebSocketClient;
 
-import java.net.URL;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
@@ -38,29 +37,21 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
 
     /**
      * Start syslog messages broadcast via web socket.
-     * This method uses the current remote server host (mapping wildcard addresses to {@code localhost})
-     * and port when available, falling back to {@code localhost:4723}.
+     * This method assumes that Appium server is running on localhost and
+     * is assigned to the default port (4723).
      */
     default void startSyslogBroadcast() {
-        URL serverUrl = LogBroadcastEndpoints.resolveServerUrl(this);
-        startSyslogBroadcast(
-                LogBroadcastEndpoints.resolveHost(serverUrl, "localhost"),
-                LogBroadcastEndpoints.resolvePort(serverUrl, DEFAULT_APPIUM_PORT)
-        );
+        startSyslogBroadcast("localhost");
     }
 
     /**
      * Start syslog messages broadcast via web socket.
-     * This method uses the current remote server port when available,
-     * falling back to the default port (4723).
+     * This method assumes that Appium server is assigned to the default port (4723).
      *
      * @param host the name of the host where Appium server is running
      */
     default void startSyslogBroadcast(String host) {
-        startSyslogBroadcast(
-                host,
-                LogBroadcastEndpoints.resolvePort(LogBroadcastEndpoints.resolveServerUrl(this), DEFAULT_APPIUM_PORT)
-        );
+        startSyslogBroadcast(host, DEFAULT_APPIUM_PORT);
     }
 
     /**

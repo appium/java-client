@@ -37,10 +37,8 @@ import java.io.Closeable;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -66,16 +64,10 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     private static final class ClientState {
         private final AppiumClientConfig config;
         private final HttpClient client;
-        private final List<URL> replacedHttpServerUrls;
 
-        private ClientState(
-                AppiumClientConfig config,
-                HttpClient client,
-                List<URL> replacedHttpServerUrls
-        ) {
+        private ClientState(AppiumClientConfig config, HttpClient client) {
             this.config = config;
             this.client = client;
-            this.replacedHttpServerUrls = replacedHttpServerUrls;
         }
     }
 
@@ -100,8 +92,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(Factory::createDefault);
         this.clientState = new ClientState(
                 effectiveConfig,
-                this.httpClientFactory.createClient(effectiveConfig),
-                List.of()
+                this.httpClientFactory.createClient(effectiveConfig)
         );
         this.serviceOptional = ofNullable(service);
     }
@@ -222,15 +213,6 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     }
 
     /**
-     * Returns the plain-{@code http} server URLs previously replaced via {@link #overrideServerUrl(URL)}.
-     *
-     * @return unmodifiable list of replaced {@code http} server URLs
-     */
-    public List<URL> getReplacedHttpServerUrls() {
-        return clientState.replacedHttpServerUrls;
-    }
-
-    /**
      * Returns the codec used to encode commands.
      *
      * @return the command codec, or {@code null} if the session has not been created yet
@@ -284,14 +266,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         ClientState previousState = this.clientState;
         AppiumClientConfig updatedConfig = previousState.config.baseUrl(serverUrl);
         HttpClient newClient = getHttpClientFactory().createClient(updatedConfig);
-        URL previousUrl = previousState.config.baseUrl();
-        List<URL> updatedReplacedHttpUrls = previousState.replacedHttpServerUrls;
-        if (previousUrl != null && "http".equalsIgnoreCase(previousUrl.getProtocol())) {
-            List<URL> next = new ArrayList<>(updatedReplacedHttpUrls);
-            next.add(previousUrl);
-            updatedReplacedHttpUrls = List.copyOf(next);
-        }
-        this.clientState = new ClientState(updatedConfig, newClient, updatedReplacedHttpUrls);
+        this.clientState = new ClientState(updatedConfig, newClient);
         previousState.client.close();
     }
 

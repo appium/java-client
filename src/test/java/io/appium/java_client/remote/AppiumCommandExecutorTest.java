@@ -221,7 +221,8 @@ class AppiumCommandExecutorTest {
     }
 
     @Test
-    void broadcastListenersUseUpdatedServerAddressAndKeepExplicitHubEndpointPlainWs() throws MalformedURLException {
+    void broadcastListenersUseUpdatedHttpsSchemeAndPreserveDefaultHostAndPortOverloads()
+            throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
                 + "\"appium:directConnectHost\":\"203.0.113.1\","
@@ -248,13 +249,13 @@ class AppiumCommandExecutorTest {
         );
         try {
             androidDriver.startLogcatBroadcast();
-            androidDriver.startLogcatBroadcast("hub.example.com", 4723);
+            androidDriver.startLogcatBroadcast("10.0.0.5");
             androidDriver.startLogcatBroadcast("203.0.113.1", 4443);
 
             assertEquals(
                     List.of(
-                            "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
-                            "ws://hub.example.com:4723/ws/session/s1/appium/device/logcat",
+                            "wss://127.0.0.1:4723/ws/session/s1/appium/device/logcat",
+                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
                             "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat"
                     ),
                     androidClients.get(1).socketUris
@@ -289,89 +290,19 @@ class AppiumCommandExecutorTest {
         );
         try {
             iosDriver.startSyslogBroadcast();
-            iosDriver.startSyslogBroadcast("hub.example.com", 4723);
+            iosDriver.startSyslogBroadcast("log.internal");
             iosDriver.startSyslogBroadcast("2001:db8::1", 4443);
 
             assertEquals(
                     List.of(
-                            "wss://[2001:db8::1]:4443/ws/session/s1/appium/device/syslog",
-                            "ws://hub.example.com:4723/ws/session/s1/appium/device/syslog",
+                            "wss://localhost:4723/ws/session/s1/appium/device/syslog",
+                            "wss://log.internal:4723/ws/session/s1/appium/device/syslog",
                             "wss://[2001:db8::1]:4443/ws/session/s1/appium/device/syslog"
                     ),
                     iosClients.get(1).socketUris
             );
         } finally {
             iosDriver.quit();
-        }
-    }
-
-    @Test
-    void broadcastListenersPreserveWssOnHttpsServersNormalizeWildcardAndDefaultOneArgPortToServerPort()
-            throws MalformedURLException {
-        List<RecordingHttpClient> httpsClients = new ArrayList<>();
-        HttpClient.Factory httpsFactory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, "{\"platformName\":\"Android\"}");
-            httpsClients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor httpsExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                httpsFactory,
-                AppiumClientConfig.defaultConfig().baseUrl(new URL("https://grid.example.com"))
-        );
-
-        AndroidDriver httpsDriver = new AndroidDriver(
-                httpsExecutor,
-                new UiAutomator2Options().setDeviceName("emu")
-        );
-        try {
-            httpsDriver.startLogcatBroadcast();
-            httpsDriver.startLogcatBroadcast("10.0.0.5");
-            httpsDriver.startLogcatBroadcast("10.0.0.5", 4723);
-
-            assertEquals(
-                    List.of(
-                            "wss://grid.example.com:443/ws/session/s1/appium/device/logcat",
-                            "wss://10.0.0.5:443/ws/session/s1/appium/device/logcat",
-                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat"
-                    ),
-                    httpsClients.get(0).socketUris
-            );
-        } finally {
-            httpsDriver.quit();
-        }
-
-        List<RecordingHttpClient> wildcardClients = new ArrayList<>();
-        HttpClient.Factory wildcardFactory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, "{\"platformName\":\"iOS\"}");
-            wildcardClients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor wildcardExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                wildcardFactory,
-                AppiumClientConfig.defaultConfig().baseUrl(new URL("http://[::]:4444"))
-        );
-
-        IOSDriver wildcardDriver = new IOSDriver(
-                wildcardExecutor,
-                new XCUITestOptions().setDeviceName("iPhone 16")
-        );
-        try {
-            wildcardDriver.startSyslogBroadcast();
-            wildcardDriver.startSyslogBroadcast("log.internal");
-
-            assertEquals(
-                    List.of(
-                            "ws://localhost:4444/ws/session/s1/appium/device/syslog",
-                            "ws://log.internal:4444/ws/session/s1/appium/device/syslog"
-                    ),
-                    wildcardClients.get(0).socketUris
-            );
-        } finally {
-            wildcardDriver.quit();
         }
     }
 

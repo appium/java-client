@@ -21,7 +21,6 @@ import io.appium.java_client.ExecutesMethod;
 import io.appium.java_client.internal.LogBroadcastEndpoints;
 import io.appium.java_client.ws.StringWebSocketClient;
 
-import java.net.URL;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
@@ -37,29 +36,21 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
 
     /**
      * Start logcat messages broadcast via web socket.
-     * This method uses the current remote server host (mapping wildcard addresses to {@code 127.0.0.1})
-     * and port when available, falling back to {@code 127.0.0.1:4723}.
+     * This method assumes that Appium server is running on localhost and
+     * is assigned to the default port (4723).
      */
     default void startLogcatBroadcast() {
-        URL serverUrl = LogBroadcastEndpoints.resolveServerUrl(this);
-        startLogcatBroadcast(
-                LogBroadcastEndpoints.resolveHost(serverUrl, "127.0.0.1"),
-                LogBroadcastEndpoints.resolvePort(serverUrl, DEFAULT_APPIUM_PORT)
-        );
+        startLogcatBroadcast("127.0.0.1");
     }
 
     /**
      * Start logcat messages broadcast via web socket.
-     * This method uses the current remote server port when available,
-     * falling back to the default port (4723).
+     * This method assumes that Appium server is assigned to the default port (4723).
      *
      * @param host the name of the host where Appium server is running
      */
     default void startLogcatBroadcast(String host) {
-        startLogcatBroadcast(
-                host,
-                LogBroadcastEndpoints.resolvePort(LogBroadcastEndpoints.resolveServerUrl(this), DEFAULT_APPIUM_PORT)
-        );
+        startLogcatBroadcast(host, DEFAULT_APPIUM_PORT);
     }
 
     /**

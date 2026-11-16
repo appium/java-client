@@ -79,6 +79,8 @@ class DirectConnectTest {
         DirectConnect bracketed = new DirectConnect(bracketedIpv6);
         assertTrue(bracketed.isValid());
         assertEquals("https://[2001:db8::1]:4443/wd/hub", bracketed.getUrl().toString());
+        assertEquals("[2001:db8::1]", Strings.formatHost("2001:db8::1"));
+        assertEquals("[2001:db8::1]", Strings.formatHost("[2001:db8::1]"));
     }
 
     @Test
