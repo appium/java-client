@@ -17,8 +17,10 @@
 package io.appium.java_client.android.options;
 
 import io.appium.java_client.android.options.adb.SupportsAdbExecTimeoutOption;
+import io.appium.java_client.android.options.adb.SupportsAdbListenAllNetworkOption;
 import io.appium.java_client.android.options.adb.SupportsAdbPortOption;
 import io.appium.java_client.android.options.adb.SupportsAllowDelayAdbOption;
+import io.appium.java_client.android.options.adb.SupportsAllowOfflineDevicesOption;
 import io.appium.java_client.android.options.adb.SupportsBuildToolsVersionOption;
 import io.appium.java_client.android.options.adb.SupportsClearDeviceLogsOnStartOption;
 import io.appium.java_client.android.options.adb.SupportsIgnoreHiddenApiPolicyErrorOption;
@@ -37,6 +39,7 @@ import io.appium.java_client.android.options.app.SupportsAppWaitActivityOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitDurationOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitPackageOption;
 import io.appium.java_client.android.options.app.SupportsAutoGrantPermissionsOption;
+import io.appium.java_client.android.options.app.SupportsDontStopAppOnResetOption;
 import io.appium.java_client.android.options.app.SupportsIntentOptionsOption;
 import io.appium.java_client.android.options.app.SupportsRemoteAppsCacheLimitOption;
 import io.appium.java_client.android.options.app.SupportsUninstallOtherPackagesOption;
@@ -47,6 +50,7 @@ import io.appium.java_client.android.options.avd.SupportsAvdOption;
 import io.appium.java_client.android.options.avd.SupportsAvdReadyTimeoutOption;
 import io.appium.java_client.android.options.avd.SupportsGpsEnabledOption;
 import io.appium.java_client.android.options.avd.SupportsNetworkSpeedOption;
+import io.appium.java_client.android.options.context.SupportsAutoWebviewNameOption;
 import io.appium.java_client.android.options.context.SupportsAutoWebviewTimeoutOption;
 import io.appium.java_client.android.options.context.SupportsChromeLoggingPrefsOption;
 import io.appium.java_client.android.options.context.SupportsChromeOptionsOption;
@@ -55,9 +59,12 @@ import io.appium.java_client.android.options.context.SupportsChromedriverChromeM
 import io.appium.java_client.android.options.context.SupportsChromedriverDisableBuildCheckOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableDirOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverForwardBiDiOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverGrantPermissionsOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverPortOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverPortsOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverUseSystemExecutableOption;
+import io.appium.java_client.android.options.context.SupportsEnableWebviewDetailsCollectionOption;
 import io.appium.java_client.android.options.context.SupportsEnsureWebviewsHavePagesOption;
 import io.appium.java_client.android.options.context.SupportsExtractChromeAndroidPackageFromContextNameOption;
 import io.appium.java_client.android.options.context.SupportsNativeWebScreenshotOption;
@@ -66,6 +73,7 @@ import io.appium.java_client.android.options.context.SupportsShowChromedriverLog
 import io.appium.java_client.android.options.context.SupportsWebviewDevtoolsPortOption;
 import io.appium.java_client.android.options.localization.SupportsAppLocaleOption;
 import io.appium.java_client.android.options.localization.SupportsLocaleScriptOption;
+import io.appium.java_client.android.options.localization.SupportsTimeZoneOption;
 import io.appium.java_client.android.options.locking.SupportsSkipUnlockOption;
 import io.appium.java_client.android.options.locking.SupportsUnlockKeyOption;
 import io.appium.java_client.android.options.locking.SupportsUnlockStrategyOption;
@@ -79,6 +87,7 @@ import io.appium.java_client.android.options.server.SupportsEspressoServerLaunch
 import io.appium.java_client.android.options.server.SupportsForceEspressoRebuildOption;
 import io.appium.java_client.android.options.server.SupportsShowGradleLogOption;
 import io.appium.java_client.android.options.server.SupportsSkipServerInstallationOption;
+import io.appium.java_client.android.options.server.SupportsSkipSettingsAppReinstallOption;
 import io.appium.java_client.android.options.server.SupportsSystemPortOption;
 import io.appium.java_client.android.options.signing.SupportsKeystoreOptions;
 import io.appium.java_client.android.options.signing.SupportsNoSignOption;
@@ -115,6 +124,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         // Driver/Server options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#espresso-server
         SupportsSystemPortOption<EspressoOptions>,
         SupportsSkipServerInstallationOption<EspressoOptions>,
+        SupportsSkipSettingsAppReinstallOption<EspressoOptions>,
         SupportsEspressoServerLaunchTimeoutOption<EspressoOptions>,
         SupportsForceEspressoRebuildOption<EspressoOptions>,
         SupportsShowGradleLogOption<EspressoOptions>,
@@ -131,6 +141,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsIntentOptionsOption<EspressoOptions>,
         SupportsActivityOptionsOption<EspressoOptions>,
         SupportsAutoGrantPermissionsOption<EspressoOptions>,
+        SupportsDontStopAppOnResetOption<EspressoOptions>,
         SupportsOtherAppsOption<EspressoOptions>,
         SupportsUninstallOtherPackagesOption<EspressoOptions>,
         SupportsAllowTestPackagesOption<EspressoOptions>,
@@ -140,6 +151,7 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsLocaleScriptOption<EspressoOptions>,
         SupportsLanguageOption<EspressoOptions>,
         SupportsLocaleOption<EspressoOptions>,
+        SupportsTimeZoneOption<EspressoOptions>,
         SupportsAppLocaleOption<EspressoOptions>,
         // ADB options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#adb
         SupportsAdbPortOption<EspressoOptions>,
@@ -148,7 +160,9 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsClearDeviceLogsOnStartOption<EspressoOptions>,
         SupportsBuildToolsVersionOption<EspressoOptions>,
         SupportsSkipLogcatCaptureOption<EspressoOptions>,
+        SupportsAllowOfflineDevicesOption<EspressoOptions>,
         SupportsSuppressKillServerOption<EspressoOptions>,
+        SupportsAdbListenAllNetworkOption<EspressoOptions>,
         SupportsIgnoreHiddenApiPolicyErrorOption<EspressoOptions>,
         SupportsMockLocationAppOption<EspressoOptions>,
         SupportsLogcatFormatOption<EspressoOptions>,
@@ -177,8 +191,10 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsMjpegScreenshotUrlOption<EspressoOptions>,
         // Web Context options: https://appium.github.io/appium-espresso-driver/latest/reference/capabilities/#web-context
         SupportsAutoWebViewOption<EspressoOptions>,
+        SupportsAutoWebviewNameOption<EspressoOptions>,
         SupportsWebviewDevtoolsPortOption<EspressoOptions>,
         SupportsEnsureWebviewsHavePagesOption<EspressoOptions>,
+        SupportsEnableWebviewDetailsCollectionOption<EspressoOptions>,
         SupportsChromedriverPortOption<EspressoOptions>,
         SupportsChromedriverPortsOption<EspressoOptions>,
         SupportsChromedriverArgsOption<EspressoOptions>,
@@ -187,6 +203,8 @@ public class EspressoOptions extends BaseOptions<EspressoOptions> implements
         SupportsChromedriverChromeMappingFileOption<EspressoOptions>,
         SupportsChromedriverUseSystemExecutableOption<EspressoOptions>,
         SupportsChromedriverDisableBuildCheckOption<EspressoOptions>,
+        SupportsChromedriverForwardBiDiOption<EspressoOptions>,
+        SupportsChromedriverGrantPermissionsOption<EspressoOptions>,
         SupportsAutoWebviewTimeoutOption<EspressoOptions>,
         SupportsRecreateChromeDriverSessionsOption<EspressoOptions>,
         SupportsNativeWebScreenshotOption<EspressoOptions>,
