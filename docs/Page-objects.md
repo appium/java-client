@@ -797,6 +797,6 @@ public class DataTestIdBuilder extends AbstractFindByBuilder<DataTestId> {
 ### Combining and overriding annotations
 
 - A `@PageFactoryFinder` annotation supplies the HTML/default locator (`ContentType.HTML_OR_DEFAULT`), so it can be combined on the same field or widget class with mobile native annotations such as `@AndroidFindBy` or `@iOSXCUITFindBy`.
-- Combining multiple HTML/default finder annotations (`@FindBy`, `@FindBys`, `@FindAll`, or any `@PageFactoryFinder` annotation) on the same field throws `IllegalArgumentException`. On a `Widget` class, declaring multiple default finder annotations resolves to the first one declared.
+- Combining multiple HTML/default finder annotations (`@FindBy`, `@FindBys`, `@FindAll`, or any `@PageFactoryFinder` annotation) on the same field throws `IllegalArgumentException`. On a `Widget` class, declaring multiple default finder annotations resolves deterministically in priority order (`@FindBy` > `@FindBys` > `@FindAll` > custom `@PageFactoryFinder` annotations sorted by annotation class name), continuing to the next finder if a builder returns `null`.
 - On `Widget` classes, finders declared directly on a subclass override superclass finders (including `@Inherited` custom annotations) instead of conflicting with them. Inherited custom finders from a base widget are used when the subclass declares no finder annotation of its own.
 

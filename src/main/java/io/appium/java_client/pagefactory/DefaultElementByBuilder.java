@@ -102,7 +102,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        if (annotatedElement != null) {
+        if (annotatedElement instanceof Field) {
             PageFactoryFinderSupport.validateFinderAnnotations(annotatedElement);
         }
     }

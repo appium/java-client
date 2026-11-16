@@ -3,14 +3,18 @@ package io.appium.java_client.pagefactory_tests;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.DefaultElementByBuilder;
 import io.appium.java_client.pagefactory.Widget;
 import io.appium.java_client.pagefactory.bys.ContentMappedBy;
 import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory_tests.widget.tests.AbstractStubWebDriver;
 import io.appium.java_client.pagefactory_tests.widget.tests.StubWebElement;
 import io.appium.java_client.remote.AppiumWebElement;
+import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.remote.MobilePlatform;
 import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.support.AbstractFindByBuilder;
+import io.appium.java_client.support.FindAll;
 import io.appium.java_client.support.FindBy;
 import io.appium.java_client.support.PageFactoryFinder;
 import org.jspecify.annotations.Nullable;
@@ -98,6 +102,9 @@ class CustomFindByAnnotationTest {
             String testId = annotation.value().isEmpty() && field != null
                     ? field.getName()
                     : annotation.value();
+            if ("__null__".equals(testId)) {
+                return null;
+            }
             return By.cssSelector("[data-testid='" + testId + "']");
         }
     }
@@ -344,8 +351,34 @@ class CustomFindByAnnotationTest {
         }
     }
 
+    @FindAll({@FindBy(id = "from-findall")})
+    @FindBy(id = "from-findby")
+    public static class FindAllBeforeFindByWidget extends Widget {
+        protected FindAllBeforeFindByWidget(WebElement element) {
+            super(element);
+        }
+
+        public void tapRoot() {
+            getWrappedElement().click();
+        }
+    }
+
+    @DataTestId("__null__")
+    @ScrollingAndroidFindBy(scrollingResourceId = "com.test:id/fallback")
+    public static class NullFallbackMultiFinderWidget extends Widget {
+        protected NullFallbackMultiFinderWidget(WebElement element) {
+            super(element);
+        }
+
+        public void tapRoot() {
+            getWrappedElement().click();
+        }
+    }
+
     static class MultiFinderWidgetClassPage {
         MultiFinderClassWidget widget;
+        FindAllBeforeFindByWidget builtinPrecedenceWidget;
+        NullFallbackMultiFinderWidget nullFallbackWidget;
     }
 
     @Test
@@ -537,14 +570,29 @@ class CustomFindByAnnotationTest {
     }
 
     @Test
-    void preservesFirstFinderPrecedenceOnWidgetClassWithMultipleFinders() {
+    void resolvesMultiFinderWidgetClassesDeterministicallyAndFallsThroughOnNull() {
         RecordingAndroidDriver driver = new RecordingAndroidDriver();
         MultiFinderWidgetClassPage page = new MultiFinderWidgetClassPage();
         initElements(new AppiumFieldDecorator(driver, Duration.ZERO), page);
 
         assertEquals(
-                AppiumBy.androidUIAutomator(buildScrollIntoViewExpression("com.test:id/one")),
+                By.id("two"),
                 driver.captureFirstBy(page.widget::tapRoot)
         );
+        assertEquals(
+                By.id("from-findby"),
+                driver.captureFirstBy(page.builtinPrecedenceWidget::tapRoot)
+        );
+        assertEquals(
+                AppiumBy.androidUIAutomator(buildScrollIntoViewExpression("com.test:id/fallback")),
+                driver.captureFirstBy(page.nullFallbackWidget::tapRoot)
+        );
+
+        DefaultElementByBuilder classBuilder = new DefaultElementByBuilder(
+                MobilePlatform.ANDROID,
+                AutomationName.ANDROID_UIAUTOMATOR2
+        );
+        classBuilder.setAnnotated(MultiFinderClassWidget.class);
+        assertEquals(By.id("two"), classBuilder.buildBy());
     }
 }

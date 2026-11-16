@@ -17,6 +17,9 @@
 package io.appium.java_client.support.pagefactory.internal;
 
 import io.appium.java_client.support.AbstractFindByBuilder;
+import io.appium.java_client.support.FindAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.PageFactoryFinder;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
@@ -27,6 +30,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -34,6 +38,10 @@ import java.util.List;
  * {@link PageFactoryFinder}-annotated locator annotations.
  */
 public final class PageFactoryFinderSupport {
+    private static final Comparator<Annotation> FINDER_ORDER = Comparator
+            .comparingInt((Annotation annotation) -> builtinPriority(annotation.annotationType()))
+            .thenComparing(annotation -> annotation.annotationType().getName());
+
     private PageFactoryFinderSupport() {
     }
 
@@ -65,8 +73,10 @@ public final class PageFactoryFinderSupport {
 
     /**
      * Resolves all active Appium {@link PageFactoryFinder} annotations (and un-superseded Selenium
-     * built-in {@code @FindBy}/{@code @FindBys}/{@code @FindAll}) on the given element. For classes,
-     * inherited annotations are consulted only when no finder annotation is declared on the class itself.
+     * built-in {@code @FindBy}/{@code @FindBys}/{@code @FindAll}) on the given element, ordered
+     * deterministically as {@code @FindBy}, {@code @FindBys}, {@code @FindAll}, and then custom
+     * finder annotations sorted by annotation type name. For classes, inherited annotations are
+     * consulted only when no finder annotation is declared on the class itself.
      *
      * @param element the field or class to inspect
      * @return the resolved finder annotations (with Selenium built-ins adapted to Appium types)
@@ -121,8 +131,10 @@ public final class PageFactoryFinderSupport {
     }
 
     /**
-     * Resolves and builds a {@link By} locator from the first finder annotation on {@code element},
-     * optionally validating that multiple finder annotations are not combined on {@code element}.
+     * Resolves and builds a {@link By} locator from the active finder annotations on {@code element}
+     * in deterministic priority order, continuing to the next finder if a builder returns
+     * {@code null} and optionally validating that multiple finder annotations are not combined on
+     * {@code element}.
      *
      * @param element the field or class to build a locator for
      * @param validateConflicts whether to throw when multiple finder annotations are active
@@ -134,11 +146,14 @@ public final class PageFactoryFinderSupport {
         if (validateConflicts) {
             validateFinderAnnotations(finders);
         }
-        if (finders.isEmpty()) {
-            return null;
-        }
         Field field = element instanceof Field ? (Field) element : null;
-        return buildFromFinder(finders.get(0), field);
+        for (Annotation finder : finders) {
+            By by = buildFromFinder(finder, field);
+            if (by != null) {
+                return by;
+            }
+        }
+        return null;
     }
 
     private static List<Annotation> collectFinderAnnotations(
@@ -159,7 +174,21 @@ public final class PageFactoryFinderSupport {
                 }
             }
         }
+        finders.sort(FINDER_ORDER);
         return finders;
+    }
+
+    private static int builtinPriority(Class<? extends Annotation> annotationType) {
+        if (FindBy.class.equals(annotationType)) {
+            return 0;
+        }
+        if (FindBys.class.equals(annotationType)) {
+            return 1;
+        }
+        if (FindAll.class.equals(annotationType)) {
+            return 2;
+        }
+        return 3;
     }
 
     @Nullable

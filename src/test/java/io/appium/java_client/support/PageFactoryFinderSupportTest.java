@@ -1,10 +1,10 @@
 package io.appium.java_client.support;
 
-import io.appium.java_client.support.pagefactory.Annotations;
 import io.appium.java_client.support.pagefactory.ByAll;
 import io.appium.java_client.support.pagefactory.ByChained;
 import io.appium.java_client.support.pagefactory.DefaultFieldDecorator;
 import io.appium.java_client.support.pagefactory.ElementLocator;
+import io.appium.java_client.support.pagefactory.internal.PageFactoryFinderSupport;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AnnotationsTest {
+class PageFactoryFinderSupportTest {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD, ElementType.TYPE})
@@ -154,8 +154,13 @@ class AnnotationsTest {
         return SamplePage.class.getDeclaredField(name);
     }
 
+    private static By buildByOrDefault(Field field) {
+        By by = PageFactoryFinderSupport.buildBy(field);
+        return by != null ? by : new ByIdOrName(field.getName());
+    }
+
     private static ElementLocator locatorFor(Field field) {
-        By by = new Annotations(field).buildBy();
+        By by = buildByOrDefault(field);
         return new ElementLocator() {
             @Override
             public WebElement findElement() {
@@ -178,41 +183,42 @@ class AnnotationsTest {
 
     @Test
     void buildsBuiltinCustomLegacyAndFallbackLocators() throws NoSuchFieldException {
-        Annotations standard = new Annotations(field("standard"));
-        assertEquals(By.id("save"), standard.buildBy());
-        assertTrue(standard.isLookupCached());
+        Field standard = field("standard");
+        assertEquals(By.id("save"), PageFactoryFinderSupport.buildBy(standard));
+        assertTrue(PageFactoryFinderSupport.isCompatibleAnnotationPresent(standard, CacheLookup.class));
 
-        assertInstanceOf(ByChained.class, new Annotations(field("chained")).buildBy());
-        assertInstanceOf(ByAll.class, new Annotations(field("any")).buildBy());
-        assertInstanceOf(ByChained.class, new Annotations(field("seleniumChained")).buildBy());
-        assertInstanceOf(ByAll.class, new Annotations(field("seleniumAll")).buildBy());
+        assertInstanceOf(ByChained.class, PageFactoryFinderSupport.buildBy(field("chained")));
+        assertInstanceOf(ByAll.class, PageFactoryFinderSupport.buildBy(field("any")));
+        assertInstanceOf(ByChained.class, PageFactoryFinderSupport.buildBy(field("seleniumChained")));
+        assertInstanceOf(ByAll.class, PageFactoryFinderSupport.buildBy(field("seleniumAll")));
 
+        Field customSingle = field("customSingle");
         assertEquals(
                 By.cssSelector("[data-testid='submit-btn']"),
-                new Annotations(field("customSingle")).buildBy()
+                PageFactoryFinderSupport.buildBy(customSingle)
         );
-        assertFalse(new Annotations(field("customSingle")).isLookupCached());
+        assertFalse(PageFactoryFinderSupport.isCompatibleAnnotationPresent(customSingle, CacheLookup.class));
 
         assertEquals(
                 By.cssSelector("[data-testid='inferredItems']"),
-                new Annotations(field("inferredItems")).buildBy()
+                PageFactoryFinderSupport.buildBy(field("inferredItems"))
         );
 
-        assertInstanceOf(ByIdOrName.class, new Annotations(field("fallbackByName")).buildBy());
-        assertInstanceOf(ByIdOrName.class, new Annotations(field("customNullFallback")).buildBy());
+        assertNull(PageFactoryFinderSupport.buildBy(field("fallbackByName")));
+        assertNull(PageFactoryFinderSupport.buildBy(field("customNullFallback")));
 
-        Annotations legacy = new Annotations(field("legacySingleFallback"));
-        assertInstanceOf(ByIdOrName.class, legacy.buildBy());
-        assertTrue(legacy.isLookupCached());
+        Field legacy = field("legacySingleFallback");
+        assertNull(PageFactoryFinderSupport.buildBy(legacy));
+        assertTrue(PageFactoryFinderSupport.isCompatibleAnnotationPresent(legacy, CacheLookup.class));
 
-        assertEquals(By.id("explicit-legacy"), new Annotations(field("findByWithLegacy")).buildBy());
-        assertEquals(By.id("appium-wins"), new Annotations(field("bothBuiltins")).buildBy());
+        assertEquals(By.id("explicit-legacy"), PageFactoryFinderSupport.buildBy(field("findByWithLegacy")));
+        assertEquals(By.id("appium-wins"), PageFactoryFinderSupport.buildBy(field("bothBuiltins")));
     }
 
     @Test
     void decoratesSingleAndListFieldsRespectingAppiumFinderRequirement() {
         SamplePage page = new SamplePage();
-        DefaultFieldDecorator decorator = new DefaultFieldDecorator(AnnotationsTest::locatorFor);
+        DefaultFieldDecorator decorator = new DefaultFieldDecorator(PageFactoryFinderSupportTest::locatorFor);
 
         for (String name : List.of(
                 "customSingle",
@@ -254,7 +260,7 @@ class AnnotationsTest {
         Field conflicting = field("conflicting");
         IllegalArgumentException conflictError = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Annotations(conflicting).buildBy()
+                () -> PageFactoryFinderSupport.buildBy(conflicting)
         );
         assertTrue(conflictError.getMessage().contains("@TestId"), conflictError.getMessage());
         assertTrue(conflictError.getMessage().contains("@FindBy"), conflictError.getMessage());
@@ -262,14 +268,14 @@ class AnnotationsTest {
         Field customInvalid = field("customInvalid");
         IllegalArgumentException builderValidationError = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Annotations(customInvalid).buildBy()
+                () -> PageFactoryFinderSupport.buildBy(customInvalid)
         );
         assertEquals("Invalid test id", builderValidationError.getMessage());
 
         Field broken = field("brokenBuilderField");
         IllegalArgumentException brokenBuilderError = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Annotations(broken).buildBy()
+                () -> PageFactoryFinderSupport.buildBy(broken)
         );
         assertTrue(brokenBuilderError.getMessage().contains("NoZeroArgConstructorBuilder"));
     }
