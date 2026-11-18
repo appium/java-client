@@ -37,19 +37,20 @@ public interface SupportsEnableWebviewDetailsCollectionOption<T extends BaseOpti
     String ENABLE_WEBVIEW_DETAILS_COLLECTION_OPTION = "enableWebviewDetailsCollection";
 
     /**
-     * Enables retrieving extended webview metadata via DevTools.
+     * Disables retrieving extended webview metadata via DevTools.
+     * Extended webview details collection is {@code true} by default in the driver.
      *
      * @return self instance for chaining.
      */
-    default T enableWebviewDetailsCollection() {
-        return amend(ENABLE_WEBVIEW_DETAILS_COLLECTION_OPTION, true);
+    default T disableWebviewDetailsCollection() {
+        return amend(ENABLE_WEBVIEW_DETAILS_COLLECTION_OPTION, false);
     }
 
     /**
      * Whether to retrieve extended webview information via DevTools to improve
-     * detection of the matching ChromeDriver version.
+     * detection of the matching ChromeDriver version. {@code true} by default.
      *
-     * @param value True to enable extended webview details collection.
+     * @param value False to disable extended webview details collection, true to enable it.
      * @return self instance for chaining.
      */
     default T setEnableWebviewDetailsCollection(boolean value) {

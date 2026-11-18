@@ -38,6 +38,9 @@ public interface SupportsEnableAccessibilityEventsServiceOption<T extends BaseOp
 
     /**
      * Enables the Appium Settings accessibility events service for the session.
+     * Enabling this also stops suppressing accessibility services unless
+     * {@code disableSuppressAccessibilityService} is explicitly set to {@code false}.
+     * Supported since {@code appium-uiautomator2-driver} 9.1.0.
      *
      * @return self instance for chaining.
      */
@@ -48,6 +51,9 @@ public interface SupportsEnableAccessibilityEventsServiceOption<T extends BaseOp
     /**
      * Whether to enable the Appium Settings no-op accessibility service for the
      * duration of the session so Chrome emits accessibility events for web content.
+     * Enabling this also stops suppressing accessibility services unless
+     * {@code disableSuppressAccessibilityService} is explicitly set to {@code false}.
+     * {@code false} by default. Supported since {@code appium-uiautomator2-driver} 9.1.0.
      *
      * @param value True to enable the accessibility events service.
      * @return self instance for chaining.

@@ -35,10 +35,12 @@ public interface SupportsAutoWebviewNameOption<T extends BaseOptions<T>> extends
     String AUTO_WEBVIEW_NAME_OPTION = "autoWebviewName";
 
     /**
-     * Sets a custom context name suffix to match instead of the application package
-     * when {@code autoWebview} is enabled.
+     * Sets a custom name to replace the application package part in the
+     * {@code WEBVIEW_<name>} context name (for example {@code com.example.app})
+     * when {@code autoWebview} is enabled. The driver prepends {@code WEBVIEW_}
+     * automatically.
      *
-     * @param name Custom webview context name.
+     * @param name Custom name replacing the application package part of the context name.
      * @return self instance for chaining.
      */
     default T setAutoWebviewName(String name) {
@@ -46,9 +48,10 @@ public interface SupportsAutoWebviewNameOption<T extends BaseOptions<T>> extends
     }
 
     /**
-     * Get the custom webview context name used for {@code autoWebview}.
+     * Get the custom name replacing the application package part of the
+     * {@code WEBVIEW_<name>} context name for {@code autoWebview}.
      *
-     * @return Custom webview context name.
+     * @return Custom package part of the webview context name.
      */
     default Optional<String> getAutoWebviewName() {
         return Optional.ofNullable((String) getCapability(AUTO_WEBVIEW_NAME_OPTION));

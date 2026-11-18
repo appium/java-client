@@ -81,10 +81,10 @@ class AndroidOptionsParityTest {
                 .dontStopAppOnReset()
                 .forceAppLaunch()
                 .shouldTerminateApp()
-                .setAutoWebviewName("WEBVIEW_sample")
+                .setAutoWebviewName("com.example.sample")
                 .chromedriverForwardBiDi()
                 .chromedriverGrantPermissions()
-                .enableWebviewDetailsCollection()
+                .disableWebviewDetailsCollection()
                 .setTimeZone("America/New_York")
                 .enableAccessibilityEventsService()
                 .skipSettingsAppReinstall();
@@ -95,10 +95,10 @@ class AndroidOptionsParityTest {
         assertEquals(Optional.of(true), options.doesDontStopAppOnReset());
         assertEquals(Optional.of(true), options.doesForceAppLaunch());
         assertEquals(Optional.of(true), options.doesTerminateApp());
-        assertEquals(Optional.of("WEBVIEW_sample"), options.getAutoWebviewName());
+        assertEquals(Optional.of("com.example.sample"), options.getAutoWebviewName());
         assertEquals(Optional.of(true), options.doesChromedriverForwardBiDi());
         assertEquals(Optional.of(true), options.doesChromedriverGrantPermissions());
-        assertEquals(Optional.of(true), options.doesEnableWebviewDetailsCollection());
+        assertEquals(Optional.of(false), options.doesEnableWebviewDetailsCollection());
         assertEquals(Optional.of("America/New_York"), options.getTimeZone());
         assertEquals(Optional.of(true), options.doesEnableAccessibilityEventsService());
         assertEquals(Optional.of(true), options.doesSkipSettingsAppReinstall());
@@ -109,7 +109,10 @@ class AndroidOptionsParityTest {
         assertEquals(true, capMap.get("appium:" + SupportsDontStopAppOnResetOption.DONT_STOP_APP_ON_RESET_OPTION));
         assertEquals(true, capMap.get("appium:" + SupportsForceAppLaunchOption.FORCE_APP_LAUNCH_OPTION));
         assertEquals(true, capMap.get("appium:" + SupportsShouldTerminateAppOption.SHOULD_TERMINATE_APP_OPTION));
-        assertEquals("WEBVIEW_sample", capMap.get("appium:" + SupportsAutoWebviewNameOption.AUTO_WEBVIEW_NAME_OPTION));
+        assertEquals(
+                "com.example.sample",
+                capMap.get("appium:" + SupportsAutoWebviewNameOption.AUTO_WEBVIEW_NAME_OPTION)
+        );
         assertEquals(
                 true,
                 capMap.get("appium:" + SupportsChromedriverForwardBiDiOption.CHROMEDRIVER_FORWARD_BIDI_OPTION)
@@ -119,7 +122,7 @@ class AndroidOptionsParityTest {
                 capMap.get("appium:" + SupportsChromedriverGrantPermissionsOption.CHROMEDRIVER_GRANT_PERMISSIONS_OPTION)
         );
         assertEquals(
-                true,
+                false,
                 capMap.get(
                         "appium:"
                                 + SupportsEnableWebviewDetailsCollectionOption
@@ -148,10 +151,10 @@ class AndroidOptionsParityTest {
                 .adbListenAllNetwork()
                 .allowOfflineDevices()
                 .dontStopAppOnReset()
-                .setAutoWebviewName("WEBVIEW_espresso")
+                .setAutoWebviewName("com.example.espresso")
                 .chromedriverForwardBiDi()
                 .chromedriverGrantPermissions()
-                .enableWebviewDetailsCollection()
+                .disableWebviewDetailsCollection()
                 .setTimeZone("Asia/Ho_Chi_Minh")
                 .skipSettingsAppReinstall();
 
@@ -159,10 +162,10 @@ class AndroidOptionsParityTest {
         assertEquals(Optional.of(true), options.doesAdbListenAllNetwork());
         assertEquals(Optional.of(true), options.doesAllowOfflineDevices());
         assertEquals(Optional.of(true), options.doesDontStopAppOnReset());
-        assertEquals(Optional.of("WEBVIEW_espresso"), options.getAutoWebviewName());
+        assertEquals(Optional.of("com.example.espresso"), options.getAutoWebviewName());
         assertEquals(Optional.of(true), options.doesChromedriverForwardBiDi());
         assertEquals(Optional.of(true), options.doesChromedriverGrantPermissions());
-        assertEquals(Optional.of(true), options.doesEnableWebviewDetailsCollection());
+        assertEquals(Optional.of(false), options.doesEnableWebviewDetailsCollection());
         assertEquals(Optional.of("Asia/Ho_Chi_Minh"), options.getTimeZone());
         assertEquals(Optional.of(true), options.doesSkipSettingsAppReinstall());
 
@@ -170,10 +173,10 @@ class AndroidOptionsParityTest {
         assertEquals(true, capMap.get("appium:adbListenAllNetwork"));
         assertEquals(true, capMap.get("appium:allowOfflineDevices"));
         assertEquals(true, capMap.get("appium:dontStopAppOnReset"));
-        assertEquals("WEBVIEW_espresso", capMap.get("appium:autoWebviewName"));
+        assertEquals("com.example.espresso", capMap.get("appium:autoWebviewName"));
         assertEquals(true, capMap.get("appium:chromedriverForwardBiDi"));
         assertEquals(true, capMap.get("appium:chromedriverGrantPermissions"));
-        assertEquals(true, capMap.get("appium:enableWebviewDetailsCollection"));
+        assertEquals(false, capMap.get("appium:enableWebviewDetailsCollection"));
         assertEquals("Asia/Ho_Chi_Minh", capMap.get("appium:timeZone"));
         assertEquals(true, capMap.get("appium:skipSettingsAppReinstall"));
     }
@@ -204,9 +207,11 @@ class AndroidOptionsParityTest {
         assertEquals(Optional.of(false), uia2.doesSkipSettingsAppReinstall());
 
         uia2.setEnableAccessibilityEventsService(true)
+                .setEnableWebviewDetailsCollection(true)
                 .setForceAppLaunch(true)
                 .setShouldTerminateApp(true);
         assertTrue(uia2.doesEnableAccessibilityEventsService().orElse(false));
+        assertTrue(uia2.doesEnableWebviewDetailsCollection().orElse(false));
         assertTrue(uia2.doesForceAppLaunch().orElse(false));
         assertTrue(uia2.doesTerminateApp().orElse(false));
 
@@ -227,8 +232,11 @@ class AndroidOptionsParityTest {
         assertEquals(Optional.of(false), espresso.doesEnableWebviewDetailsCollection());
         assertEquals(Optional.of(false), espresso.doesSkipSettingsAppReinstall());
 
-        espresso.setChromedriverForwardBiDi(true).setSkipSettingsAppReinstall(true);
+        espresso.setChromedriverForwardBiDi(true)
+                .setEnableWebviewDetailsCollection(true)
+                .setSkipSettingsAppReinstall(true);
         assertTrue(espresso.doesChromedriverForwardBiDi().orElse(false));
+        assertTrue(espresso.doesEnableWebviewDetailsCollection().orElse(false));
         assertTrue(espresso.doesSkipSettingsAppReinstall().orElse(false));
     }
 
@@ -240,7 +248,7 @@ class AndroidOptionsParityTest {
                 Map.entry("dontStopAppOnReset", true),
                 Map.entry("forceAppLaunch", "true"),
                 Map.entry("shouldTerminateApp", "false"),
-                Map.entry("autoWebviewName", "WEBVIEW_chrome"),
+                Map.entry("autoWebviewName", "chrome"),
                 Map.entry("chromedriverForwardBiDi", "true"),
                 Map.entry("chromedriverGrantPermissions", true),
                 Map.entry("enableWebviewDetailsCollection", "false"),
@@ -254,7 +262,7 @@ class AndroidOptionsParityTest {
         assertEquals(Optional.of(true), uia2.doesDontStopAppOnReset());
         assertEquals(Optional.of(true), uia2.doesForceAppLaunch());
         assertEquals(Optional.of(false), uia2.doesTerminateApp());
-        assertEquals(Optional.of("WEBVIEW_chrome"), uia2.getAutoWebviewName());
+        assertEquals(Optional.of("chrome"), uia2.getAutoWebviewName());
         assertEquals(Optional.of(true), uia2.doesChromedriverForwardBiDi());
         assertEquals(Optional.of(true), uia2.doesChromedriverGrantPermissions());
         assertEquals(Optional.of(false), uia2.doesEnableWebviewDetailsCollection());
@@ -266,11 +274,11 @@ class AndroidOptionsParityTest {
                 "appium:chromedriverForwardBiDi", true,
                 "appium:skipSettingsAppReinstall", true,
                 "appium:timeZone", "Europe/London",
-                "appium:autoWebviewName", "WEBVIEW_app"
+                "appium:autoWebviewName", "com.example.app"
         )));
         assertEquals(Optional.of(true), espresso.doesChromedriverForwardBiDi());
         assertEquals(Optional.of(true), espresso.doesSkipSettingsAppReinstall());
         assertEquals(Optional.of("Europe/London"), espresso.getTimeZone());
-        assertEquals(Optional.of("WEBVIEW_app"), espresso.getAutoWebviewName());
+        assertEquals(Optional.of("com.example.app"), espresso.getAutoWebviewName());
     }
 }

@@ -38,7 +38,9 @@ public interface SupportsChromedriverForwardBiDiOption<T extends BaseOptions<T>>
 
     /**
      * Enables forwarding the ChromeDriver BiDi WebSocket to the driver WebSocket
-     * when switching to a webview context.
+     * when switching to a webview context. Requires BiDi to be enabled
+     * ({@code webSocketUrl} set to {@code true}, e.g. via {@code enableBiDi()})
+     * to take effect. Supported since {@code appium-android-driver} 6.1.0.
      *
      * @return self instance for chaining.
      */
@@ -48,7 +50,11 @@ public interface SupportsChromedriverForwardBiDiOption<T extends BaseOptions<T>>
 
     /**
      * Whether to forward the ChromeDriver BiDi WebSocket to the driver WebSocket
-     * when the BiDi protocol is enabled.
+     * when switching to a webview context. Requires BiDi to be enabled
+     * ({@code webSocketUrl} set to {@code true}, e.g. via {@code enableBiDi()})
+     * to take effect; calling only this setter without enabling BiDi produces no
+     * forwarding and no error. {@code false} by default. Supported since
+     * {@code appium-android-driver} 6.1.0.
      *
      * @param value True to enable ChromeDriver BiDi forwarding.
      * @return self instance for chaining.
