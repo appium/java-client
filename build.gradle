@@ -252,7 +252,7 @@ testing {
             dependencies {
                 implementation project()
                 implementation(sourceSets.test.output)
-                implementation('org.apache.commons:commons-lang3:3.21.0')
+                implementation('org.apache.commons:commons-lang3:3.22.0')
             }
 
             targets.configureEach {
