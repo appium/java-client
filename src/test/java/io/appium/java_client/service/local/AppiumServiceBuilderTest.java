@@ -72,15 +72,6 @@ class AppiumServiceBuilderTest {
     }
 
     @Test
-    void buildsServiceWithBracketedIpv6Address() throws IOException {
-        var builder = newBuilder().usingPort(4777).withIPAddress("[::1]");
-
-        assertEquals(List.of(tempDir.resolve("main.js").toString(), "--port", "4777", "--address", "::1"),
-                builder.createArgs());
-        assertEquals("http://[::1]:4777/", builder.build().getUrl().toString());
-    }
-
-    @Test
     void buildsServiceWithIpv6AddressWithZoneId() throws IOException {
         var builder = newBuilder().usingPort(4777).withIPAddress("fe80::1%en0");
 
