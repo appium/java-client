@@ -45,6 +45,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *
      * @return the logcat web socket client.
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     StringWebSocketClient getLogcatClient();
 
     /**
@@ -52,6 +53,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * This method assumes that Appium server is running on localhost and
      * is assigned to the default port (4723).
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void startLogcatBroadcast() {
         startLogcatBroadcast("127.0.0.1");
     }
@@ -62,6 +64,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *
      * @param host the name of the host where Appium server is running
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void startLogcatBroadcast(String host) {
         startLogcatBroadcast(host, DEFAULT_APPIUM_PORT);
     }
@@ -72,6 +75,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param host the name of the host where Appium server is running
      * @param port the port of the host where Appium server is running
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void startLogcatBroadcast(String host, int port) {
         var remoteWebDriver = (AppiumRemoteWebDriver) this;
         URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
@@ -90,6 +94,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *
      * @param handler a function, which accepts a single argument, which is the actual log message
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addLogcatMessagesListener(Consumer<String> handler) {
         getLogcatClient().addMessageHandler(handler);
     }
@@ -102,6 +107,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      *
      * @param handler a function, which accepts a single argument, which is the actual exception instance
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addLogcatErrorsListener(Consumer<Throwable> handler) {
         getLogcatClient().addErrorHandler(handler);
     }
@@ -115,6 +121,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param handler a function, which is executed as soon as the client is successfully
      *                connected to the web socket
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addLogcatConnectionListener(Runnable handler) {
         getLogcatClient().addConnectionHandler(handler);
     }
@@ -128,6 +135,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param handler a function, which is executed as soon as the client is successfully
      *                disconnected from the web socket
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addLogcatDisconnectionListener(Runnable handler) {
         getLogcatClient().addDisconnectionHandler(handler);
     }
@@ -135,6 +143,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
     /**
      * Removes all existing logcat handlers.
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void removeAllLogcatListeners() {
         getLogcatClient().removeAllHandlers();
     }
@@ -142,6 +151,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
     /**
      * Stops logcat messages broadcast via web socket.
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void stopLogcatBroadcast() {
         removeAllLogcatListeners();
         CommandExecutionHelper.executeScript(this, "mobile: stopLogsBroadcast");

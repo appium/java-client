@@ -46,6 +46,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      *
      * @return the syslog web socket client
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     StringWebSocketClient getSyslogClient();
 
     /**
@@ -53,6 +54,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * This method assumes that Appium server is running on localhost and
      * is assigned to the default port (4723).
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void startSyslogBroadcast() {
         startSyslogBroadcast("localhost");
     }
@@ -63,6 +65,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      *
      * @param host the name of the host where Appium server is running
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void startSyslogBroadcast(String host) {
         startSyslogBroadcast(host, DEFAULT_APPIUM_PORT);
     }
@@ -73,6 +76,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param host the name of the host where Appium server is running
      * @param port the port of the host where Appium server is running
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void startSyslogBroadcast(String host, int port) {
         var remoteWebDriver = (AppiumRemoteWebDriver) this;
         URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
@@ -91,6 +95,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      *
      * @param handler a function, which accepts a single argument, which is the actual log message
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addSyslogMessagesListener(Consumer<String> handler) {
         getSyslogClient().addMessageHandler(handler);
     }
@@ -103,6 +108,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      *
      * @param handler a function, which accepts a single argument, which is the actual exception instance
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addSyslogErrorsListener(Consumer<Throwable> handler) {
         getSyslogClient().addErrorHandler(handler);
     }
@@ -116,6 +122,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param handler a function, which is executed as soon as the client is successfully
      *                connected to the web socket
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addSyslogConnectionListener(Runnable handler) {
         getSyslogClient().addConnectionHandler(handler);
     }
@@ -129,6 +136,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param handler a function, which is executed as soon as the client is successfully
      *                disconnected from the web socket
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void addSyslogDisconnectionListener(Runnable handler) {
         getSyslogClient().addDisconnectionHandler(handler);
     }
@@ -136,6 +144,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
     /**
      * Removes all existing syslog handlers.
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void removeAllSyslogListeners() {
         getSyslogClient().removeAllHandlers();
     }
@@ -143,6 +152,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
     /**
      * Stops syslog messages broadcast via web socket.
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     default void stopSyslogBroadcast() {
         CommandExecutionHelper.executeScript(this, "mobile: stopLogsBroadcast");
     }
