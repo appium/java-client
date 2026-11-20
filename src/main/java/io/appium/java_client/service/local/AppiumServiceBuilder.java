@@ -269,6 +269,7 @@ public final class AppiumServiceBuilder {
 
     /**
      * Sets the IP address the server listens on.
+     * An IPv6 address must be given without square brackets, for example {@code ::1}.
      *
      * @param ipAddress the IP address
      * @return the self-reference.
@@ -392,7 +393,6 @@ public final class AppiumServiceBuilder {
 
         return Collections.unmodifiableList(argList);
     }
-
 
     /**
      * Sets which Node.js the builder will use.
