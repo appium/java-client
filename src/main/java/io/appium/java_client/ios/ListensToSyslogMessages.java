@@ -29,7 +29,16 @@ import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
 
-/** Provides the ability to listen to syslog messages broadcast by the Appium server via web socket. */
+/**
+ * Provides the ability to listen to syslog messages broadcast by the Appium server via web socket.
+ *
+ * @deprecated The logs broadcasting web socket of the Appium drivers is deprecated and will be removed
+ *     together with this API. Subscribe to the BiDi {@code log.entryAdded} event instead, see the
+ *     <a href="https://github.com/appium/java-client/blob/master/docs/selenium-bridge.md#bidi">Selenium
+ *     bridge documentation</a>.
+ */
+@Deprecated(since = "11.1.0", forRemoval = true)
+@SuppressWarnings("removal")
 public interface ListensToSyslogMessages extends ExecutesMethod {
 
     /**

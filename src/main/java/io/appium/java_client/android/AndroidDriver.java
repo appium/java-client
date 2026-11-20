@@ -49,6 +49,8 @@ import java.net.URL;
 /**
  * Android driver implementation.
  */
+// The deprecated logs broadcasting API is removed in the next major release
+@SuppressWarnings("removal")
 public class AndroidDriver extends AppiumDriver implements
         PressesKey,
         SupportsRotation,
@@ -224,6 +226,7 @@ public class AndroidDriver extends AppiumDriver implements
     }
 
     @Override
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public synchronized StringWebSocketClient getLogcatClient() {
         if (logcatClient == null) {
             logcatClient = new StringWebSocketClient(getHttpClient());

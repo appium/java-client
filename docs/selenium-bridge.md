@@ -54,3 +54,24 @@ The next `asRemoteWebDriver` call opens a new connection.
 
 To customize the HTTP client that opens the WebSocket connection, use the `asRemoteWebDriver` overload that takes
 a Selenium `HttpClient.Factory`. It creates a new Selenium driver with its own connection on every call.
+
+### Migrating from the logs broadcast
+
+`ListensToLogcatMessages` (Android) and `ListensToSyslogMessages` (iOS), together with the `StringWebSocketClient`
+they are based on, are deprecated, as the Appium drivers deprecated the `mobile: startLogsBroadcast` and
+`mobile: stopLogsBroadcast` extensions. Subscribe to the BiDi `log.entryAdded` event instead. It is delivered over the
+connection of the session, so there is no need to know the host and the port of the Appium server.
+
+```java
+var driver = new AndroidDriver(serverUrl, options.enableBiDi());
+var selenium = SeleniumBridge.asRemoteWebDriver(driver);
+try (var logInspector = new LogInspector(selenium)) {
+    logInspector.onLog(entry -> System.out.println(entry.getText()));
+    // ...
+} finally {
+    selenium.closeBiDi();
+}
+```
+
+The `type` of a log entry tells the source of the log, for example `logcat` or `syslog`, and its level is one of
+`debug`, `info`, `warn` and `error`.
