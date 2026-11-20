@@ -45,6 +45,7 @@ import java.lang.reflect.Field;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
+@PageFactoryFinder(FindBy.FindByBuilder.class)
 public @interface FindBy {
     /**
      * The location strategy to use together with {@link #using()}.

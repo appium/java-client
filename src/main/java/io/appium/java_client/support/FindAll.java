@@ -42,6 +42,7 @@ import java.lang.reflect.Field;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
+@PageFactoryFinder(FindAll.FindByBuilder.class)
 public @interface FindAll {
     /**
      * The locators to search with.

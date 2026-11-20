@@ -41,6 +41,7 @@ import java.lang.reflect.Field;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
+@PageFactoryFinder(FindBys.FindByBuilder.class)
 public @interface FindBys {
     /**
      * The locators to chain.

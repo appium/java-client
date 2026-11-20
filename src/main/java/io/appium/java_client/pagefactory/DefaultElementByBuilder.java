@@ -23,11 +23,9 @@ import io.appium.java_client.pagefactory.bys.builder.ByChained;
 import io.appium.java_client.pagefactory.bys.builder.HowToUseSelectors;
 import io.appium.java_client.support.ByIdOrName;
 import io.appium.java_client.support.CacheLookup;
-import io.appium.java_client.support.FindAll;
-import io.appium.java_client.support.FindBy;
-import io.appium.java_client.support.FindBys;
 import io.appium.java_client.support.PageFactory;
 import io.appium.java_client.support.pagefactory.ByAll;
+import io.appium.java_client.support.pagefactory.internal.PageFactoryFinderSupport;
 import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.By;
 
@@ -91,16 +89,6 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
         );
     }
 
-    private static void checkDisallowedAnnotationPairs(Annotation a1, Annotation a2)
-            throws IllegalArgumentException {
-        if (a1 != null && a2 != null) {
-            throw new IllegalArgumentException(
-                    "If you use a '@" + a1.getClass().getSimpleName() + "' annotation, "
-                            + "you must not also use a '@" + a2.getClass().getSimpleName()
-                            + "' annotation");
-        }
-    }
-
     private static By buildMobileBy(LocatorGroupStrategy locatorGroupStrategy, By[] bys) {
         if (bys.length == 0) {
             return null;
@@ -114,38 +102,17 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     protected void assertValidAnnotations() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
-        FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
-        checkDisallowedAnnotationPairs(findBy, findBys);
-        FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
-        checkDisallowedAnnotationPairs(findBy, findAll);
-        checkDisallowedAnnotationPairs(findBys, findAll);
+        if (annotatedElement instanceof Field) {
+            PageFactoryFinderSupport.validateFinderAnnotations(annotatedElement);
+        }
     }
 
     @Override
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        Field field = annotatedElement instanceof Field ? (Field) annotatedElement : null;
-        By defaultBy = null;
-        FindBy findBy = SeleniumAnnotationsCompat.find(annotatedElement, FindBy.class);
-        if (findBy != null) {
-            defaultBy = new FindBy.FindByBuilder().buildIt(findBy, field);
-        }
-
-        if (defaultBy == null) {
-            FindBys findBys = SeleniumAnnotationsCompat.find(annotatedElement, FindBys.class);
-            if (findBys != null) {
-                defaultBy = new FindBys.FindByBuilder().buildIt(findBys, field);
-            }
-        }
-
-        if (defaultBy == null) {
-            FindAll findAll = SeleniumAnnotationsCompat.find(annotatedElement, FindAll.class);
-            if (findAll != null) {
-                defaultBy = new FindAll.FindByBuilder().buildIt(findAll, field);
-            }
-        }
-        return defaultBy;
+        return annotatedElement != null
+                ? PageFactoryFinderSupport.buildBy(annotatedElement, annotatedElement instanceof Field)
+                : null;
     }
 
     private By[] getBys(Class<? extends Annotation> singleLocator, Class<? extends Annotation> chainedLocator,
@@ -310,7 +277,8 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     @Override
     public boolean isLookupCached() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
-        return SeleniumAnnotationsCompat.isPresent(annotatedElement, CacheLookup.class);
+        return annotatedElement != null
+                && PageFactoryFinderSupport.isCompatibleAnnotationPresent(annotatedElement, CacheLookup.class);
     }
 
     private By returnMappedBy(By byDefault, By nativeAppBy) {

@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package io.appium.java_client.pagefactory;
+package io.appium.java_client.support.pagefactory.internal;
 
+import io.appium.java_client.support.FindAll;
+import io.appium.java_client.support.FindBy;
+import io.appium.java_client.support.FindBys;
 import org.jspecify.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -27,40 +30,85 @@ import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
 /**
- * Lets page objects that still use Selenium's {@code @FindBy}, {@code @FindBys}, {@code @FindAll}
- * and {@code @CacheLookup} keep working when selenium-support is on the classpath.
- * The Selenium annotations are matched by name and read reflectively, so there is no compile-time
- * dependency on Selenium's support package.
+ * Reflection and dynamic-proxy shims adapting built-in {@code org.openqa.selenium.support}
+ * page-factory annotations to their Appium counterparts.
  */
-final class SeleniumAnnotationsCompat {
+final class SeleniumAnnotationAdapter {
     private static final String SELENIUM_SUPPORT_PACKAGE = "org.openqa.selenium.support.";
+    private static final String SELENIUM_FIND_BY = SELENIUM_SUPPORT_PACKAGE + "FindBy";
+    private static final String SELENIUM_FIND_BYS = SELENIUM_SUPPORT_PACKAGE + "FindBys";
+    private static final String SELENIUM_FIND_ALL = SELENIUM_SUPPORT_PACKAGE + "FindAll";
 
-    private SeleniumAnnotationsCompat() {
+    private SeleniumAnnotationAdapter() {
     }
 
     /**
-     * Finds the given annotation on the element, falling back to its Selenium counterpart.
+     * Finds the given Appium annotation on the element, falling back to its Selenium counterpart.
      *
      * @param element the annotated element
      * @param type the Appium annotation type
      * @param <A> the annotation type
-     * @return the Appium annotation, or a view of the Selenium one, or null if none is present
+     * @return the Appium annotation, an adapted view of the Selenium counterpart, or {@code null}
      */
     @Nullable
-    static <A extends Annotation> A find(AnnotatedElement element, Class<A> type) {
+    static <A extends Annotation> A findCompatibleAnnotation(AnnotatedElement element, Class<A> type) {
         A annotation = element.getAnnotation(type);
         if (annotation != null) {
             return annotation;
         }
         return Arrays.stream(element.getAnnotations())
-                .filter(a -> isSeleniumCounterpart(a, type))
+                .filter(candidate -> isSeleniumCounterpart(candidate, type))
                 .findFirst()
-                .map(a -> adapt(a, type))
+                .map(candidate -> adapt(candidate, type))
                 .orElse(null);
     }
 
-    static boolean isPresent(AnnotatedElement element, Class<? extends Annotation> type) {
-        return find(element, type) != null;
+    /**
+     * Checks whether the given Appium annotation or its Selenium counterpart is present on the element.
+     *
+     * @param element the annotated element
+     * @param type the Appium annotation type
+     * @return {@code true} if the Appium annotation or Selenium counterpart is present
+     */
+    static boolean isCompatibleAnnotationPresent(AnnotatedElement element, Class<? extends Annotation> type) {
+        return findCompatibleAnnotation(element, type) != null;
+    }
+
+    /**
+     * Adapts a built-in Selenium finder annotation to the corresponding Appium annotation unless the
+     * matching Appium annotation is already present at the same lookup scope.
+     *
+     * @param element the annotated element being inspected
+     * @param candidate the annotation instance encountered on {@code element}
+     * @param declaredOnly whether precedence checks only declared annotations (for fields) or inherited ones
+     * @return the adapted Appium annotation, or {@code null} when {@code candidate} is not a Selenium
+     *     built-in finder or is superseded by an Appium annotation
+     */
+    @Nullable
+    static Annotation adaptBuiltinSeleniumFinder(
+            AnnotatedElement element,
+            Annotation candidate,
+            boolean declaredOnly
+    ) {
+        String name = candidate.annotationType().getName();
+        if (SELENIUM_FIND_BY.equals(name)) {
+            return hasAnnotation(element, FindBy.class, declaredOnly) ? null : adapt(candidate, FindBy.class);
+        }
+        if (SELENIUM_FIND_BYS.equals(name)) {
+            return hasAnnotation(element, FindBys.class, declaredOnly) ? null : adapt(candidate, FindBys.class);
+        }
+        if (SELENIUM_FIND_ALL.equals(name)) {
+            return hasAnnotation(element, FindAll.class, declaredOnly) ? null : adapt(candidate, FindAll.class);
+        }
+        return null;
+    }
+
+    private static boolean hasAnnotation(
+            AnnotatedElement element,
+            Class<? extends Annotation> type,
+            boolean declaredOnly
+    ) {
+        return (declaredOnly ? element.getDeclaredAnnotation(type) : element.getAnnotation(type)) != null;
     }
 
     private static boolean isSeleniumCounterpart(Annotation annotation, Class<? extends Annotation> type) {
@@ -77,7 +125,7 @@ final class SeleniumAnnotationsCompat {
                 case "hashCode":
                     return source.hashCode();
                 case "equals":
-                    return proxy == args[0];
+                    return args != null && proxy == args[0];
                 default:
                     return convert(readAttribute(source, method.getName()), method.getReturnType());
             }
