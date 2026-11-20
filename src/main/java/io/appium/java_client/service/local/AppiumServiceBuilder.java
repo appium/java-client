@@ -269,7 +269,7 @@ public final class AppiumServiceBuilder {
 
     /**
      * Sets the IP address the server listens on.
-     * An IPv6 address can be given with or without square brackets.
+     * An IPv6 address must be given without square brackets, for example {@code ::1}.
      *
      * @param ipAddress the IP address
      * @return the self-reference.
@@ -363,9 +363,6 @@ public final class AppiumServiceBuilder {
 
         if (isNullOrEmpty(ipAddress)) {
             ipAddress = BROADCAST_IP4_ADDRESS;
-        } else {
-            // Appium expects an IPv6 address without square brackets
-            ipAddress = stripBrackets(ipAddress);
         }
         argList.add("--address");
         argList.add(ipAddress);
@@ -395,18 +392,6 @@ public final class AppiumServiceBuilder {
         }
 
         return Collections.unmodifiableList(argList);
-    }
-
-    /**
-     * Removes the square brackets around an IPv6 literal.
-     *
-     * @param address an IP address or host name, with or without square brackets
-     * @return the address without enclosing square brackets
-     */
-    private static String stripBrackets(String address) {
-        return address.length() > 1 && address.startsWith("[") && address.endsWith("]")
-                ? address.substring(1, address.length() - 1)
-                : address;
     }
 
     /**
