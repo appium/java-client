@@ -54,15 +54,22 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     private static final String JSON_UTF_8 = "application/json; charset=utf-8";
 
     private final Optional<AppiumDriverLocalService> serviceOptional;
-    @Getter
-    private final AppiumClientConfig appiumClientConfig;
-    private final @Nullable URL remoteServer;
     private final Map<String, AppiumCommandInfo> additionalCommands;
     @Getter
     private final Factory httpClientFactory;
-    private HttpClient client;
+    private volatile ClientState clientState;
     private @Nullable CommandCodec commandCodec;
     private @Nullable ResponseCodec responseCodec;
+
+    private static final class ClientState {
+        private final AppiumClientConfig config;
+        private final HttpClient client;
+
+        private ClientState(AppiumClientConfig config, HttpClient client) {
+            this.config = config;
+            this.client = client;
+        }
+    }
 
     /**
      * Create an AppiumCommandExecutor instance.
@@ -78,10 +85,15 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             @Nullable Factory httpClientFactory,
             AppiumClientConfig appiumClientConfig) {
         this.additionalCommands = new HashMap<>(requireNonNull(additionalCommands, "Additional commands"));
-        this.appiumClientConfig = requireNonNull(appiumClientConfig, "HTTP client configuration");
+        AppiumClientConfig effectiveConfig = requireNonNull(appiumClientConfig, "HTTP client configuration");
+        if (service != null && effectiveConfig.baseUri() == null) {
+            effectiveConfig = effectiveConfig.baseUrl(service.getUrl());
+        }
         this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(Factory::createDefault);
-        this.client = this.httpClientFactory.createClient(appiumClientConfig);
-        this.remoteServer = appiumClientConfig.baseUrl();
+        this.clientState = new ClientState(
+                effectiveConfig,
+                this.httpClientFactory.createClient(effectiveConfig)
+        );
         this.serviceOptional = ofNullable(service);
     }
 
@@ -163,11 +175,12 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      * Creates an executor that talks to a local Appium service using the given client configuration.
      *
      * @param additionalCommands the map of Appium commands
-     * @param service the local Appium service to send the commands to
+     * @param service the local Appium service to send the commands to, or {@code null} if none
      * @param appiumClientConfig the HTTP client configuration
      */
     public AppiumCommandExecutor(Map<String, AppiumCommandInfo> additionalCommands,
-                                 AppiumDriverLocalService service, AppiumClientConfig appiumClientConfig) {
+                                 @Nullable AppiumDriverLocalService service,
+                                 AppiumClientConfig appiumClientConfig) {
         this(additionalCommands, service, Factory.createDefault(), appiumClientConfig);
     }
 
@@ -181,13 +194,22 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     }
 
     /**
+     * Returns the HTTP client configuration used by this executor.
+     *
+     * @return the HTTP client configuration
+     */
+    public AppiumClientConfig getAppiumClientConfig() {
+        return clientState.config;
+    }
+
+    /**
      * The address of the server the commands are sent to.
      *
      * @return the base URL of the client configuration
      */
     @Nullable
     public URL getAddressOfRemoteServer() {
-        return remoteServer;
+        return clientState.config.baseUrl();
     }
 
     /**
@@ -224,7 +246,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      * @return the HTTP client
      */
     public HttpClient getClient() {
-        return this.client;
+        return clientState.client;
     }
 
     /**
@@ -239,12 +261,13 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      *                  carrier-grade NAT ({@code 100.64.0.0/10}), IPv6 unique-local ({@code fc00::/7}),
      *                  and other non-special addresses are not rejected by this check.
      */
-    protected void overrideServerUrl(URL serverUrl) {
-        DirectConnectUrlSafety.requireSafeOverrideTarget(serverUrl);
-        HttpClient newClient = getHttpClientFactory().createClient(appiumClientConfig.baseUrl(serverUrl));
-        HttpClient oldClient = this.client;
-        this.client = newClient;
-        oldClient.close();
+    protected synchronized void overrideServerUrl(URL serverUrl) {
+        DirectConnectUrlSafety.requireSafeOverrideTarget(requireNonNull(serverUrl, "Server URL"));
+        ClientState previousState = this.clientState;
+        AppiumClientConfig updatedConfig = previousState.config.baseUrl(serverUrl);
+        HttpClient newClient = getHttpClientFactory().createClient(updatedConfig);
+        this.clientState = new ClientState(updatedConfig, newClient);
+        previousState.client.close();
     }
 
     private Response createSession(Command command) {
@@ -257,7 +280,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         refreshAdditionalCommands();
         setResponseCodec(new AppiumW3CHttpResponseCodec());
         Response response = result.createResponse();
-        if (appiumClientConfig.isDirectConnectEnabled()) {
+        if (getAppiumClientConfig().isDirectConnectEnabled()) {
             setDirectConnect(response);
         }
 
@@ -292,7 +315,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             return;
         }
 
-        if (!directConnect.getProtocol().equals("https")) {
+        if (!"https".equalsIgnoreCase(directConnect.getProtocol())) {
             throw new SessionNotCreatedException(
                     String.format("The given protocol '%s' as the direct connection url returned by "
                             + "the remote server is not accurate. Only 'https' is supported.",
@@ -363,8 +386,9 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             httpRequest.addHeader("Content-Type", JSON_UTF_8);
         }
 
+        HttpClient activeClient = getClient();
         try {
-            HttpResponse httpResponse = client.execute(httpRequest);
+            HttpResponse httpResponse = activeClient.execute(httpRequest);
 
             Response response = responseCodec.decode(httpResponse);
             if (response.getSessionId() == null) {
@@ -372,7 +396,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
                 response.setSessionId(command.getSessionId().toString());
             }
             if (DriverCommand.QUIT.equals(command.getName())) {
-                client.close();
+                activeClient.close();
             }
             return response;
         } catch (UnsupportedCommandException e) {
@@ -394,6 +418,6 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
 
     @Override
     public void close() {
-        client.close();
+        getClient().close();
     }
 }

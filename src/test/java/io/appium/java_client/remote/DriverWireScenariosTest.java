@@ -56,6 +56,8 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Pins the HTTP requests a driver sends for each WebDriver/Appium API call, and what it returns
  * for scripted server responses. Set GOLDEN_UPDATE=1 to regenerate the golden file.
@@ -593,6 +595,9 @@ class DriverWireScenariosTest {
             Map<String, Object> described = new LinkedHashMap<>();
             try {
                 var driver = newDriver(transport, AppiumClientConfig.defaultConfig().directConnect(true));
+                if ("valid".equals(name)) {
+                    assertEquals("https://203.0.113.1:4443/wd/hub", driver.getRemoteAddress().toString());
+                }
                 transport.requests.clear();
                 driver.getTitle();
             } catch (Throwable t) {

@@ -16,6 +16,7 @@
 
 package io.appium.java_client.remote;
 
+import io.appium.java_client.internal.Strings;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
@@ -78,15 +79,32 @@ public class DirectConnect {
      * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
-        String newUrlCandidate = String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path);
+        if (!isValid() || Stream.of(this.protocol, this.host, this.port).anyMatch(String::isBlank)) {
+            throw createMalformedUrlException(
+                    String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path)
+            );
+        }
 
+        String newUrlCandidate = String.format("%s://%s:%s%s",
+                this.protocol, Strings.formatHost(this.host), this.port, normalizePath(this.path));
         try {
             return new URL(newUrlCandidate);
         } catch (MalformedURLException e) {
-            throw new MalformedURLException(
-                    String.format("The remote server returned an invalid value to build the direct connect URL: %s",
-                            newUrlCandidate)
-            );
+            throw createMalformedUrlException(newUrlCandidate);
         }
+    }
+
+    private static String normalizePath(String path) {
+        if (path.isEmpty() || path.startsWith("/")) {
+            return path;
+        }
+        return "/" + path;
+    }
+
+    private static MalformedURLException createMalformedUrlException(String candidate) {
+        return new MalformedURLException(
+                String.format("The remote server returned an invalid value to build the direct connect URL: %s",
+                        candidate)
+        );
     }
 }

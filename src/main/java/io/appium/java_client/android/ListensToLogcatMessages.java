@@ -18,13 +18,9 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.remote.AppiumCommandExecutor;
-import io.appium.java_client.remote.AppiumRemoteWebDriver;
-import io.appium.java_client.remote.SessionId;
+import io.appium.java_client.internal.LogBroadcastEndpoints;
 import io.appium.java_client.ws.StringWebSocketClient;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
@@ -64,13 +60,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startLogcatBroadcast(String host, int port) {
-        var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
-        var scheme = "https".equals(serverUrl.getProtocol()) ? "wss" : "ws";
-        CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
-        SessionId sessionId = remoteWebDriver.getSessionId();
-        var endpoint = String.format("%s://%s:%s/ws/session/%s/appium/device/logcat", scheme, host, port, sessionId);
-        getLogcatClient().connect(URI.create(endpoint));
+        LogBroadcastEndpoints.startBroadcast(this, getLogcatClient(), host, port, "logcat");
     }
 
     /**
