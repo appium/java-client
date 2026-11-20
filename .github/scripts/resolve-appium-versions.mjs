@@ -1,9 +1,10 @@
 // Resolves the versions of the Appium server and of a driver to install in e2e jobs.
-// Usage: node resolve-appium-versions.mjs [--stable] <server package> <driver package>
+// Usage: node resolve-appium-versions.mjs [--stable] [--skip-if-unsupported] <server package> <driver package>
 // The beta server is used if it is newer than the latest stable one and some driver version supports it,
 // otherwise the latest stable server is used. The driver is the newest version whose `appium` peer range
 // accepts the chosen server (stable only, unless a beta server is used). With --stable the stable server is forced.
-// The result is written to the step outputs `server` and `driver`.
+// If no driver version supports the server, the script fails, unless --skip-if-unsupported is set: then it
+// only reports `supported=false`. The result is written to the step outputs `server`, `driver` and `supported`.
 import {execFile} from 'node:child_process';
 import {appendFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
@@ -44,9 +45,12 @@ function pickDriver(driverVersions, server, includePrereleases) {
 
 async function main(args) {
   const stableOnly = args.includes('--stable');
-  const [serverPackage, driverPackage] = args.filter((arg) => arg !== '--stable');
+  const skipIfUnsupported = args.includes('--skip-if-unsupported');
+  const [serverPackage, driverPackage] = args.filter((arg) => !arg.startsWith('--'));
   if (!serverPackage || !driverPackage) {
-    throw new Error('Usage: resolve-appium-versions.mjs [--stable] <server package> <driver package>');
+    throw new Error(
+      'Usage: resolve-appium-versions.mjs [--stable] [--skip-if-unsupported] <server package> <driver package>',
+    );
   }
 
   const [{latest, beta}, driverTags, driverVersions] = await Promise.all([
@@ -61,7 +65,18 @@ async function main(args) {
   const server = betaDriver ? beta : latest;
   const driver = betaDriver ?? pickDriver(driverVersions, latest, false);
   if (!driver) {
-    throw new Error(`No ${driverPackage} version supports ${serverPackage}@${server}`);
+    const message = `No ${driverPackage} version supports ${serverPackage}@${server}`;
+    if (!skipIfUnsupported) {
+      throw new Error(message);
+    }
+    console.log(`::warning::${message}, the dependent steps are skipped`);
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      await appendFile(process.env.GITHUB_STEP_SUMMARY, `${message}, the dependent steps are skipped\n`);
+    }
+    if (process.env.GITHUB_OUTPUT) {
+      await appendFile(process.env.GITHUB_OUTPUT, `server=${server}\nsupported=false\n`);
+    }
+    return;
   }
 
   const summary = [
@@ -74,7 +89,7 @@ async function main(args) {
     await appendFile(process.env.GITHUB_STEP_SUMMARY, `${summary}\n`);
   }
   if (process.env.GITHUB_OUTPUT) {
-    await appendFile(process.env.GITHUB_OUTPUT, `server=${server}\ndriver=${driver}\n`);
+    await appendFile(process.env.GITHUB_OUTPUT, `server=${server}\ndriver=${driver}\nsupported=true\n`);
   }
 }
 
