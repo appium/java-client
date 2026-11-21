@@ -23,7 +23,13 @@ import java.util.function.Consumer;
  * Supports handlers of the web socket messages.
  *
  * @param <T> the message type
+ * @deprecated The logs broadcasting web socket of the Appium drivers is deprecated and will be removed
+ *     together with this API. Subscribe to the BiDi {@code log.entryAdded} event instead, see the
+ *     <a href="https://github.com/appium/java-client/blob/master/docs/selenium-bridge.md#bidi">Selenium
+ *     bridge documentation</a>.
  */
+@Deprecated(since = "11.1.0", forRemoval = true)
+@SuppressWarnings("removal")
 public interface CanHandleMessages<T> {
     /**
      * Returns a list of all registered web socket messages handlers.

@@ -51,6 +51,8 @@ import java.util.Map;
 /**
  * iOS driver implementation.
  */
+// The deprecated logs broadcasting API is removed in the next major release
+@SuppressWarnings("removal")
 public class IOSDriver extends AppiumDriver implements
         SupportsContextSwitching,
         SupportsRotation,
@@ -252,6 +254,7 @@ public class IOSDriver extends AppiumDriver implements
     }
 
     @Override
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public synchronized StringWebSocketClient getSyslogClient() {
         if (syslogClient == null) {
             syslogClient = new StringWebSocketClient(getHttpClient());

@@ -31,7 +31,14 @@ import java.util.function.Consumer;
 
 /**
  * A web socket client that handles text messages.
+ *
+ * @deprecated The logs broadcasting web socket of the Appium drivers is deprecated and will be removed
+ *     together with this API. Subscribe to the BiDi {@code log.entryAdded} event instead, see the
+ *     <a href="https://github.com/appium/java-client/blob/master/docs/selenium-bridge.md#bidi">Selenium
+ *     bridge documentation</a>.
  */
+@Deprecated(since = "11.1.0", forRemoval = true)
+@SuppressWarnings("removal")
 public class StringWebSocketClient implements WebSocket.Listener,
         CanHandleMessages<String>, CanHandleErrors, CanHandleConnects, CanHandleDisconnects {
     private final List<Consumer<String>> messageHandlers = new CopyOnWriteArrayList<>();
