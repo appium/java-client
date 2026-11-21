@@ -1,6 +1,5 @@
 package io.appium.java_client.ios;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -26,8 +25,8 @@ public class IOSSyslogListenerTest extends AppIOSTest {
             // This is needed for pushing some internal log messages
             driver.runAppInBackground(Duration.ofSeconds(1));
             assertTrue(messageSemaphore.tryAcquire(timeout.toMillis(), TimeUnit.MILLISECONDS),
-                    String.format("Didn't receive any log message after %s timeout",
-                    DurationFormatUtils.formatDuration(timeout.toMillis(), "H:mm:ss", true)));
+                    String.format("Didn't receive any log message after %d:%02d:%02d timeout",
+                    timeout.toHours(), timeout.toMinutesPart(), timeout.toSecondsPart()));
         } catch (InterruptedException e) {
             throw new IllegalStateException(e);
         } finally {

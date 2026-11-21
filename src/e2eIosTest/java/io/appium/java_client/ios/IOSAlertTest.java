@@ -16,7 +16,6 @@
 
 package io.appium.java_client.ios;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -70,7 +69,7 @@ public class IOSAlertTest extends AppIOSTest {
     @Test
     public void getAlertTextTest() {
         ensureAlertPresence();
-        assertFalse(StringUtils.isBlank(driver.switchTo().alert().getText()));
+        assertFalse(driver.switchTo().alert().getText().isBlank());
     }
 
     private void ensureAlertPresence() {
