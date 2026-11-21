@@ -66,12 +66,17 @@ connection of the session, so there is no need to know the host and the port of 
 var driver = new AndroidDriver(serverUrl, options.enableBiDi());
 var selenium = SeleniumBridge.asRemoteWebDriver(driver);
 try (var logInspector = new LogInspector(selenium)) {
-    logInspector.onGenericLog(entry -> System.out.println(entry.getText()));
+    logInspector.onGenericLog(entry -> {
+        if ("syslog".equals(entry.getType())) {
+            System.out.println(entry.getText());
+        }
+    });
     // ...
 } finally {
     selenium.closeBiDi();
 }
 ```
 
-The `type` of a log entry tells the source of the log, for example `syslog` (used for both the Android logcat
-and the iOS syslog), and its level is one of `debug`, `info`, `warn` and `error`.
+The `type` of a log entry tells the source of the log. Filter by `syslog` (used for both the Android logcat
+and the iOS syslog) to get the device log, as other types, like `crashlog`, are delivered to the same listener.
+The level is one of `debug`, `info`, `warn` and `error`.
