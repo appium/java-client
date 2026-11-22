@@ -21,6 +21,7 @@ import com.sun.net.httpserver.HttpServer;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -275,11 +276,13 @@ class SeleniumBridgeTest {
                 .directConnect(true);
         var appiumDriver = new AndroidDriver(clientConfig,
                 new UiAutomator2Options().setDeviceName("Android Emulator"));
-
         var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
-
-        assertEquals(URI.create("https://203.0.113.1:4443/wd/hub"),
-                seleniumDriver.getClientConfig().baseUri());
-        seleniumDriver.closeBiDi();
+        try {
+            assertEquals(URI.create("https://203.0.113.1:4443/wd/hub"),
+                    seleniumDriver.getClientConfig().baseUri());
+        } finally {
+            seleniumDriver.closeBiDi();
+            ((AppiumCommandExecutor) appiumDriver.getCommandExecutor()).close();
+        }
     }
 }

@@ -60,7 +60,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startLogcatBroadcast(String host, int port) {
-        LogBroadcastEndpoints.startBroadcast(this, getLogcatClient(), host, port, "logcat");
+        LogBroadcastEndpoints.startBroadcast(this, this::getLogcatClient, host, port, "logcat");
     }
 
     /**

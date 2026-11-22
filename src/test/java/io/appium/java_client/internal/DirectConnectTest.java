@@ -132,5 +132,32 @@ class DirectConnectTest {
         ));
         assertTrue(blankPort.isValid());
         assertThrowsExactly(MalformedURLException.class, blankPort::getUrl);
+
+        DirectConnect blankProtocol = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "   ",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(blankProtocol.isValid());
+        assertThrowsExactly(MalformedURLException.class, blankProtocol::getUrl);
+
+        DirectConnect whitespacePath = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "   "
+        ));
+        assertTrue(whitespacePath.isValid());
+        assertThrowsExactly(MalformedURLException.class, whitespacePath::getUrl);
+
+        DirectConnect spaceInPath = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", " wd/hub"
+        ));
+        assertTrue(spaceInPath.isValid());
+        assertThrowsExactly(MalformedURLException.class, spaceInPath::getUrl);
     }
 }

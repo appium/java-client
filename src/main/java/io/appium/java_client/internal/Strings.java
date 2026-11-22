@@ -42,8 +42,11 @@ public final class Strings {
      * @return the URL-safe host representation
      */
     public static String formatHost(String host) {
-        if (!host.startsWith("[") && host.indexOf(':') != host.lastIndexOf(':')) {
-            return "[" + host + "]";
+        if (!host.startsWith("[")) {
+            int firstColon = host.indexOf(':');
+            if (firstColon >= 0 && host.indexOf(':', firstColon + 1) >= 0) {
+                return "[" + host + "]";
+            }
         }
         return host;
     }

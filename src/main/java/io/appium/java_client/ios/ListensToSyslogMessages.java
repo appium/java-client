@@ -61,7 +61,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
      * @param port the port of the host where Appium server is running
      */
     default void startSyslogBroadcast(String host, int port) {
-        LogBroadcastEndpoints.startBroadcast(this, getSyslogClient(), host, port, "syslog");
+        LogBroadcastEndpoints.startBroadcast(this, this::getSyslogClient, host, port, "syslog");
     }
 
     /**

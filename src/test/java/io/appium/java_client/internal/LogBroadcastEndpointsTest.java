@@ -45,5 +45,10 @@ class LogBroadcastEndpointsTest {
                 new URL("https://direct.example.com:4443"), "2001:db8::1", 4443, sessionId, "syslog"
         );
         assertEquals("wss://[2001:db8::1]:4443/ws/session/s1/appium/device/syslog", httpsServer.toString());
+
+        URI uppercaseHttpsServer = LogBroadcastEndpoints.buildBroadcastUri(
+                new URL("HTTPS://direct.example.com:4443"), "[2001:db8::1]", 4443, sessionId, "logcat"
+        );
+        assertEquals("wss://[2001:db8::1]:4443/ws/session/s1/appium/device/logcat", uppercaseHttpsServer.toString());
     }
 }

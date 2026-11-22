@@ -27,27 +27,31 @@ import org.jspecify.annotations.Nullable;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.function.Supplier;
 
 /**
  * Shared endpoint resolution and WebSocket startup helpers for device log broadcast listeners.
  */
 @NullMarked
+@SuppressWarnings("removal")
 public final class LogBroadcastEndpoints {
     private LogBroadcastEndpoints() {
     }
 
     /**
      * Starts server-side log streaming and connects the WebSocket client to the broadcast endpoint.
+     * The WebSocket scheme ({@code ws} or {@code wss}) is derived from the executor's initial server URL
+     * before any {@code directConnect} or server URL override so existing callers keep their original scheme.
      *
      * @param driver the driver executing {@code mobile: startLogsBroadcast}
-     * @param client the target WebSocket client
+     * @param clientSupplier supplier for the target WebSocket client, invoked after starting server streaming
      * @param host the target WebSocket host
      * @param port the target WebSocket port
      * @param deviceLogType the log endpoint suffix (such as {@code logcat} or {@code syslog})
      */
     public static void startBroadcast(
             ExecutesMethod driver,
-            StringWebSocketClient client,
+            Supplier<StringWebSocketClient> clientSupplier,
             String host,
             int port,
             String deviceLogType
@@ -56,20 +60,20 @@ public final class LogBroadcastEndpoints {
         var executor = (AppiumCommandExecutor) remoteWebDriver.getCommandExecutor();
         CommandExecutionHelper.executeScript(driver, "mobile: startLogsBroadcast");
         URI endpoint = buildBroadcastUri(
-                executor.getAddressOfRemoteServer(),
+                CommandExecutorInternals.getInitialServerUrl(executor),
                 host,
                 port,
                 remoteWebDriver.getSessionId(),
                 deviceLogType
         );
-        client.connect(endpoint);
+        clientSupplier.get().connect(endpoint);
     }
 
     /**
      * Builds a device log broadcast WebSocket URI using {@code wss} when {@code serverUrl} uses
      * {@code https}, or {@code ws} otherwise.
      *
-     * @param serverUrl the active remote server URL, or {@code null} if unknown
+     * @param serverUrl the server URL used to choose the WebSocket scheme, or {@code null} if unknown
      * @param host the target WebSocket host
      * @param port the target WebSocket port
      * @param sessionId the active session identifier
@@ -84,10 +88,8 @@ public final class LogBroadcastEndpoints {
             String deviceLogType
     ) {
         String scheme = serverUrl != null && "https".equalsIgnoreCase(serverUrl.getProtocol()) ? "wss" : "ws";
-        String endpoint = String.format(
-                "%s://%s:%s/ws/session/%s/appium/device/%s",
-                scheme, Strings.formatHost(host), port, sessionId, deviceLogType
-        );
+        String endpoint = scheme + "://" + Strings.formatHost(host) + ":" + port
+                + "/ws/session/" + sessionId + "/appium/device/" + deviceLogType;
         return URI.create(endpoint);
     }
 }

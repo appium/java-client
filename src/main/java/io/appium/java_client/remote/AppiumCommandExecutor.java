@@ -22,6 +22,7 @@ import io.appium.java_client.http.HttpClient;
 import io.appium.java_client.http.HttpClient.Factory;
 import io.appium.java_client.http.HttpRequest;
 import io.appium.java_client.http.HttpResponse;
+import io.appium.java_client.internal.CommandExecutorInternals;
 import io.appium.java_client.internal.DirectConnectUrlSafety;
 import io.appium.java_client.internal.webdriver.ProtocolHandshake;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -34,6 +35,7 @@ import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
 
 import java.io.Closeable;
+import java.lang.invoke.MethodHandles;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -57,17 +59,35 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     private final Map<String, AppiumCommandInfo> additionalCommands;
     @Getter
     private final Factory httpClientFactory;
+    private final Object clientStateLock = new Object();
+    private final @Nullable URL initialServerUrl;
     private volatile ClientState clientState;
     private @Nullable CommandCodec commandCodec;
     private @Nullable ResponseCodec responseCodec;
 
+    static {
+        CommandExecutorInternals.registerInitialServerUrlResolver(
+                MethodHandles.lookup(),
+                AppiumCommandExecutor::resolveInitialServerUrl
+        );
+    }
+
     private static final class ClientState {
         private final AppiumClientConfig config;
         private final HttpClient client;
+        private final @Nullable URL remoteServer;
+        private final boolean serverUrlOverridden;
 
-        private ClientState(AppiumClientConfig config, HttpClient client) {
+        private ClientState(
+                AppiumClientConfig config,
+                HttpClient client,
+                @Nullable URL remoteServer,
+                boolean serverUrlOverridden
+        ) {
             this.config = config;
             this.client = client;
+            this.remoteServer = remoteServer;
+            this.serverUrlOverridden = serverUrlOverridden;
         }
     }
 
@@ -89,10 +109,14 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         if (service != null && effectiveConfig.baseUri() == null) {
             effectiveConfig = effectiveConfig.baseUrl(service.getUrl());
         }
+        URL initialUrl = effectiveConfig.baseUrl();
+        this.initialServerUrl = initialUrl;
         this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(Factory::createDefault);
         this.clientState = new ClientState(
                 effectiveConfig,
-                this.httpClientFactory.createClient(effectiveConfig)
+                this.httpClientFactory.createClient(effectiveConfig),
+                initialUrl,
+                false
         );
         this.serviceOptional = ofNullable(service);
     }
@@ -209,7 +233,20 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      */
     @Nullable
     public URL getAddressOfRemoteServer() {
-        return clientState.config.baseUrl();
+        return clientState.remoteServer;
+    }
+
+    @Nullable
+    private static URL resolveInitialServerUrl(AppiumCommandExecutor executor) {
+        ClientState state = executor.clientState;
+        if (state == null) {
+            return executor.getAddressOfRemoteServer();
+        }
+        if (state.serverUrlOverridden || executor.getClass() == AppiumCommandExecutor.class) {
+            return executor.initialServerUrl;
+        }
+        URL current = executor.getAddressOfRemoteServer();
+        return executor.clientState.serverUrlOverridden ? executor.initialServerUrl : current;
     }
 
     /**
@@ -261,12 +298,16 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
      *                  carrier-grade NAT ({@code 100.64.0.0/10}), IPv6 unique-local ({@code fc00::/7}),
      *                  and other non-special addresses are not rejected by this check.
      */
-    protected synchronized void overrideServerUrl(URL serverUrl) {
+    protected void overrideServerUrl(URL serverUrl) {
         DirectConnectUrlSafety.requireSafeOverrideTarget(requireNonNull(serverUrl, "Server URL"));
-        ClientState previousState = this.clientState;
-        AppiumClientConfig updatedConfig = previousState.config.baseUrl(serverUrl);
-        HttpClient newClient = getHttpClientFactory().createClient(updatedConfig);
-        this.clientState = new ClientState(updatedConfig, newClient);
+        ClientState previousState;
+        synchronized (clientStateLock) {
+            previousState = this.clientState;
+            AppiumClientConfig updatedConfig = previousState.config.baseUrl(serverUrl);
+            URL updatedServerUrl = updatedConfig.baseUrl();
+            HttpClient newClient = getHttpClientFactory().createClient(updatedConfig);
+            this.clientState = new ClientState(updatedConfig, newClient, updatedServerUrl, true);
+        }
         previousState.client.close();
     }
 

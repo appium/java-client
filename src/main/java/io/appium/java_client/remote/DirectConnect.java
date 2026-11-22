@@ -22,6 +22,7 @@ import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
@@ -79,17 +80,23 @@ public class DirectConnect {
      * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
-        if (!isValid() || Stream.of(this.protocol, this.host, this.port).anyMatch(String::isBlank)) {
+        if (!isValid()
+                || this.protocol.isBlank()
+                || this.host.isBlank()
+                || this.port.isBlank()
+                || !this.path.isEmpty() && this.path.isBlank()) {
             throw createMalformedUrlException(
-                    String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path)
+                    this.protocol + "://" + this.host + ":" + this.port + this.path
             );
         }
 
-        String newUrlCandidate = String.format("%s://%s:%s%s",
-                this.protocol, Strings.formatHost(this.host), this.port, normalizePath(this.path));
+        String newUrlCandidate = this.protocol + "://" + Strings.formatHost(this.host)
+                + ":" + this.port + normalizePath(this.path);
         try {
-            return new URL(newUrlCandidate);
-        } catch (MalformedURLException e) {
+            URL url = new URL(newUrlCandidate);
+            url.toURI();
+            return url;
+        } catch (MalformedURLException | URISyntaxException e) {
             throw createMalformedUrlException(newUrlCandidate);
         }
     }
