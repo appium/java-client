@@ -1,0 +1,66 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.appium.java_client.android.options.app;
+
+import io.appium.java_client.remote.options.BaseOptions;
+import io.appium.java_client.remote.options.CanSetCapability;
+import org.openqa.selenium.Capabilities;
+
+import java.util.Optional;
+
+import static io.appium.java_client.internal.CapabilityHelpers.toSafeBoolean;
+
+/**
+ * Provides getters and setters for the {@code forceAppLaunch} capability.
+ *
+ * @param <T> options type, used for chaining.
+ */
+public interface SupportsForceAppLaunchOption<T extends BaseOptions<T>> extends
+        Capabilities, CanSetCapability<T> {
+    /**
+     * Name of the {@code forceAppLaunch} capability.
+     */
+    String FORCE_APP_LAUNCH_OPTION = "forceAppLaunch";
+
+    /**
+     * Relaunches the app upon session startup even when {@code noReset} is enabled.
+     *
+     * @return self instance for chaining.
+     */
+    default T forceAppLaunch() {
+        return amend(FORCE_APP_LAUNCH_OPTION, true);
+    }
+
+    /**
+     * Whether to relaunch the app upon session startup even if {@code noReset} is set.
+     *
+     * @param value True to enforce app relaunch on session startup.
+     * @return self instance for chaining.
+     */
+    default T setForceAppLaunch(boolean value) {
+        return amend(FORCE_APP_LAUNCH_OPTION, value);
+    }
+
+    /**
+     * Get whether app relaunch on session startup is enforced.
+     *
+     * @return True or false.
+     */
+    default Optional<Boolean> doesForceAppLaunch() {
+        return Optional.ofNullable(toSafeBoolean(getCapability(FORCE_APP_LAUNCH_OPTION)));
+    }
+}
