@@ -52,10 +52,8 @@ public interface ClientConfig {
     Duration readTimeout();
 
     /**
-     * The maximum time to wait for a WebSocket connection to be established.
-     * {@link io.appium.java_client.internal.http.JdkHttpClient} uses this as the
-     * WebSocket handshake timeout. Zero or negative values cause a fallback to
-     * {@link #readTimeout()}.
+     * The maximum time to wait for a WebSocket handshake to complete.
+     * Zero or negative values cause a fallback to {@link #readTimeout()}.
      *
      * @return the WebSocket timeout
      */

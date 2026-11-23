@@ -93,7 +93,10 @@ public class JdkHttpClient implements HttpClient {
         this.messages = new JdkHttpMessages(config);
         this.readTimeout = config.readTimeout();
         this.connectTimeout = config.connectionTimeout();
-        this.wsTimeout = config.wsTimeout();
+        Duration configuredWsTimeout = config.wsTimeout();
+        this.wsTimeout = configuredWsTimeout != null && configuredWsTimeout.compareTo(Duration.ZERO) > 0
+                ? configuredWsTimeout
+                : this.readTimeout;
         this.handler = config.filter().andFinally(this::execute0);
 
         String poolName = "JdkHttpClient-" + POOL_COUNTER.getAndIncrement();
@@ -158,12 +161,9 @@ public class JdkHttpClient implements HttpClient {
         CompletableFuture<java.net.http.WebSocket> socketFuture = builder
                 .buildAsync(uri, new JdkListener(listener, closed));
 
-        Duration handshakeTimeout = wsTimeout.compareTo(Duration.ZERO) > 0
-                ? wsTimeout
-                : readTimeout;
         java.net.http.WebSocket underlyingSocket;
         try {
-            underlyingSocket = socketFuture.get(handshakeTimeout.toNanos(), TimeUnit.NANOSECONDS);
+            underlyingSocket = socketFuture.get(wsTimeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (CancellationException e) {
             throw new ConnectionFailedException("JdkWebSocket initial request canceled", e);
         } catch (ExecutionException e) {

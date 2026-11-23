@@ -234,11 +234,10 @@ public class AppiumClientConfig implements ClientConfig {
     }
 
     /**
-     * Sets the web socket timeout used to bound WebSocket handshake establishment
-     * in {@link io.appium.java_client.internal.http.JdkHttpClient}. Zero or negative
-     * values cause a fallback to {@link #readTimeout()}.
+     * Sets the WebSocket handshake timeout. Zero or negative values cause
+     * a fallback to {@link #readTimeout()}.
      *
-     * @param timeout the maximum time to wait for a WebSocket connection to be established
+     * @param timeout the maximum time to wait for a WebSocket handshake to complete
      * @return A new instance of AppiumClientConfig
      */
     public AppiumClientConfig wsTimeout(Duration timeout) {
