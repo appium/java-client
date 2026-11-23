@@ -254,10 +254,13 @@ class JdkWebSocketTest {
                         Duration.ofSeconds(10)));
 
                 long startNanos = System.nanoTime();
-                assertThrows(ConnectionFailedException.class, () -> client.openSocket(
-                        new HttpRequest(HttpMethod.GET, "/ws"), new WebSocket.Listener() { }));
+                ConnectionFailedException ex = assertThrows(ConnectionFailedException.class,
+                        () -> client.openSocket(
+                                new HttpRequest(HttpMethod.GET, "/ws"), new WebSocket.Listener() { }));
                 long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
 
+                assertTrue(ex.getMessage().contains("initial request timeout"),
+                        "Expected deterministic timeout message, got: " + ex.getMessage());
                 assertTrue(elapsedMillis >= 150,
                         "Should wait for wsTimeout (at least 150ms), took " + elapsedMillis + "ms");
                 assertTrue(elapsedMillis < 3000,
@@ -270,29 +273,78 @@ class JdkWebSocketTest {
     }
 
     @Test
-    void connectsWithZeroWebSocketTimeoutWithoutThrowing() throws Exception {
-        BlockingQueue<String> received = new LinkedBlockingQueue<>();
-        CompletableFuture<Integer> closeCode = new CompletableFuture<>();
-        client = new JdkHttpClient(config(Duration.ZERO, Duration.ofSeconds(5), Duration.ofSeconds(5)));
+    void fallsBackToReadTimeoutWhenWsTimeoutIsZero() throws Exception {
+        try (ServerSocket stallServer = new ServerSocket(0, 1, InetAddress.getLoopbackAddress())) {
+            Thread thread = new Thread(() -> {
+                try (Socket ignored = stallServer.accept()) {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                } catch (IOException ignored) {
+                    // Closed when stallServer closes
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
 
-        var listener = new WebSocket.Listener() {
-            @Override
-            public void onText(CharSequence data) {
-                received.add(data.toString());
+            try {
+                client = new JdkHttpClient(config(
+                        URI.create("http://127.0.0.1:" + stallServer.getLocalPort()),
+                        Duration.ZERO,
+                        Duration.ofMillis(200),
+                        Duration.ofSeconds(10)));
+
+                long startNanos = System.nanoTime();
+                assertThrows(ConnectionFailedException.class, () -> client.openSocket(
+                        new HttpRequest(HttpMethod.GET, "/ws"), new WebSocket.Listener() { }));
+                long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+
+                assertTrue(elapsedMillis >= 150,
+                        "Should wait for readTimeout fallback (at least 150ms), took " + elapsedMillis + "ms");
+                assertTrue(elapsedMillis < 3000,
+                        "Should time out close to readTimeout (200ms), not wait forever, took "
+                                + elapsedMillis + "ms");
+            } finally {
+                thread.interrupt();
             }
+        }
+    }
 
-            @Override
-            public void onClose(int code, String reason) {
-                closeCode.complete(code);
+    @Test
+    void fallsBackToReadTimeoutWhenWsTimeoutIsNegative() throws Exception {
+        try (ServerSocket stallServer = new ServerSocket(0, 1, InetAddress.getLoopbackAddress())) {
+            Thread thread = new Thread(() -> {
+                try (Socket ignored = stallServer.accept()) {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                } catch (IOException ignored) {
+                    // Closed when stallServer closes
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
+
+            try {
+                client = new JdkHttpClient(config(
+                        URI.create("http://127.0.0.1:" + stallServer.getLocalPort()),
+                        Duration.ofMillis(-100),
+                        Duration.ofMillis(200),
+                        Duration.ofSeconds(10)));
+
+                long startNanos = System.nanoTime();
+                assertThrows(ConnectionFailedException.class, () -> client.openSocket(
+                        new HttpRequest(HttpMethod.GET, "/ws"), new WebSocket.Listener() { }));
+                long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+
+                assertTrue(elapsedMillis >= 150,
+                        "Should wait for readTimeout fallback (at least 150ms), took " + elapsedMillis + "ms");
+                assertTrue(elapsedMillis < 3000,
+                        "Should time out close to readTimeout (200ms), not fail immediately, took "
+                                + elapsedMillis + "ms");
+            } finally {
+                thread.interrupt();
             }
-        };
-
-        WebSocket socket = client.openSocket(
-                new HttpRequest(HttpMethod.GET, "/ws/zero"), listener);
-        socket.sendText("hello with zero timeout");
-
-        assertEquals("hello from server", received.poll(5, TimeUnit.SECONDS));
-        assertEquals("hello with zero timeout", clientFrame.get(5, TimeUnit.SECONDS));
-        assertEquals(1000, closeCode.get(5, TimeUnit.SECONDS));
+        }
     }
 }

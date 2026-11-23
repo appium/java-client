@@ -154,18 +154,16 @@ public class JdkHttpClient implements HttpClient {
 
         var builder = client.newWebSocketBuilder();
         request.getHeaderNames().forEach(name -> builder.header(name, request.getHeader(name)));
-        if (!wsTimeout.isZero() && !wsTimeout.isNegative()) {
-            builder.connectTimeout(wsTimeout);
-        }
         CompletableFuture<Integer> closed = new CompletableFuture<>();
         CompletableFuture<java.net.http.WebSocket> socketFuture = builder
                 .buildAsync(uri, new JdkListener(listener, closed));
 
+        Duration handshakeTimeout = wsTimeout.compareTo(Duration.ZERO) > 0
+                ? wsTimeout
+                : readTimeout;
         java.net.http.WebSocket underlyingSocket;
         try {
-            underlyingSocket = wsTimeout.isZero()
-                    ? socketFuture.get()
-                    : socketFuture.get(wsTimeout.toNanos(), TimeUnit.NANOSECONDS);
+            underlyingSocket = socketFuture.get(handshakeTimeout.toNanos(), TimeUnit.NANOSECONDS);
         } catch (CancellationException e) {
             throw new ConnectionFailedException("JdkWebSocket initial request canceled", e);
         } catch (ExecutionException e) {
