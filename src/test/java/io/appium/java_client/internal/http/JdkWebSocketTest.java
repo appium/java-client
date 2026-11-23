@@ -133,25 +133,34 @@ class JdkWebSocketTest {
     }
 
     private ClientConfig config() {
+        return config(Duration.ofSeconds(5), Duration.ofSeconds(5), Duration.ofSeconds(5));
+    }
+
+    private ClientConfig config(Duration wsTimeout, Duration readTimeout, Duration connectionTimeout) {
+        return config(URI.create("http://127.0.0.1:" + serverSocket.getLocalPort()),
+                wsTimeout, readTimeout, connectionTimeout);
+    }
+
+    private ClientConfig config(URI uri, Duration wsTimeout, Duration readTimeout, Duration connectionTimeout) {
         return new ClientConfig() {
             @Override
             public URI baseUri() {
-                return URI.create("http://127.0.0.1:" + serverSocket.getLocalPort());
+                return uri;
             }
 
             @Override
             public Duration connectionTimeout() {
-                return Duration.ofSeconds(5);
+                return connectionTimeout;
             }
 
             @Override
             public Duration readTimeout() {
-                return Duration.ofSeconds(5);
+                return readTimeout;
             }
 
             @Override
             public Duration wsTimeout() {
-                return Duration.ofSeconds(5);
+                return wsTimeout;
             }
 
             @Override
@@ -220,5 +229,70 @@ class JdkWebSocketTest {
         assertThrows(ConnectionFailedException.class,
                 () -> client.openSocket(new HttpRequest(HttpMethod.GET, "http://127.0.0.1:" + port + "/ws"),
                         new WebSocket.Listener() { }));
+    }
+
+    @Test
+    void timesOutWhenWebSocketHandshakeDoesNotComplete() throws Exception {
+        try (ServerSocket stallServer = new ServerSocket(0, 1, InetAddress.getLoopbackAddress())) {
+            Thread thread = new Thread(() -> {
+                try (Socket ignored = stallServer.accept()) {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                } catch (IOException ignored) {
+                    // Closed when stallServer closes
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
+
+            try {
+                client = new JdkHttpClient(config(
+                        URI.create("http://127.0.0.1:" + stallServer.getLocalPort()),
+                        Duration.ofMillis(200),
+                        Duration.ofMinutes(5),
+                        Duration.ofSeconds(10)));
+
+                long startNanos = System.nanoTime();
+                assertThrows(ConnectionFailedException.class, () -> client.openSocket(
+                        new HttpRequest(HttpMethod.GET, "/ws"), new WebSocket.Listener() { }));
+                long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+
+                assertTrue(elapsedMillis >= 150,
+                        "Should wait for wsTimeout (at least 150ms), took " + elapsedMillis + "ms");
+                assertTrue(elapsedMillis < 3000,
+                        "Should time out close to wsTimeout rather than readTimeout or connectionTimeout, took "
+                                + elapsedMillis + "ms");
+            } finally {
+                thread.interrupt();
+            }
+        }
+    }
+
+    @Test
+    void connectsWithZeroWebSocketTimeoutWithoutThrowing() throws Exception {
+        BlockingQueue<String> received = new LinkedBlockingQueue<>();
+        CompletableFuture<Integer> closeCode = new CompletableFuture<>();
+        client = new JdkHttpClient(config(Duration.ZERO, Duration.ofSeconds(5), Duration.ofSeconds(5)));
+
+        var listener = new WebSocket.Listener() {
+            @Override
+            public void onText(CharSequence data) {
+                received.add(data.toString());
+            }
+
+            @Override
+            public void onClose(int code, String reason) {
+                closeCode.complete(code);
+            }
+        };
+
+        WebSocket socket = client.openSocket(
+                new HttpRequest(HttpMethod.GET, "/ws/zero"), listener);
+        socket.sendText("hello with zero timeout");
+
+        assertEquals("hello from server", received.poll(5, TimeUnit.SECONDS));
+        assertEquals("hello with zero timeout", clientFrame.get(5, TimeUnit.SECONDS));
+        assertEquals(1000, closeCode.get(5, TimeUnit.SECONDS));
     }
 }
