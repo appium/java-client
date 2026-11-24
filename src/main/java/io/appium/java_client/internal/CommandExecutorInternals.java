@@ -29,8 +29,15 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Internal bridge exposing private command executor state without widening public API.
+ *
+ * @deprecated The logs broadcasting web socket of the Appium drivers is deprecated and will be removed
+ *     together with this API. Subscribe to the BiDi {@code log.entryAdded} event instead, see the
+ *     <a href="https://github.com/appium/java-client/blob/master/docs/selenium-bridge.md#bidi">Selenium
+ *     bridge documentation</a>.
  */
 @NullMarked
+@Deprecated(since = "11.1.0", forRemoval = true)
+@SuppressWarnings("removal")
 public final class CommandExecutorInternals {
     private static final AtomicReference<@Nullable Function<AppiumCommandExecutor, @Nullable URL>>
             INITIAL_SERVER_URL_RESOLVER = new AtomicReference<>();
@@ -45,6 +52,7 @@ public final class CommandExecutorInternals {
      * @param resolver the function returning the initial server URL for an executor
      * @throws SecurityException if {@code lookup} does not have private access to {@link AppiumCommandExecutor}
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public static void registerInitialServerUrlResolver(
             MethodHandles.Lookup lookup,
             Function<AppiumCommandExecutor, @Nullable URL> resolver
@@ -68,6 +76,7 @@ public final class CommandExecutorInternals {
      * @return the initial server URL, or {@code null} if none was configured
      */
     @Nullable
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public static URL getInitialServerUrl(AppiumCommandExecutor executor) {
         requireNonNull(executor, "Command executor");
         Function<AppiumCommandExecutor, @Nullable URL> resolver = INITIAL_SERVER_URL_RESOLVER.get();

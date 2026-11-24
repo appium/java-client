@@ -34,8 +34,14 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Shared endpoint resolution and WebSocket startup helpers for device log broadcast listeners.
+ *
+ * @deprecated The logs broadcasting web socket of the Appium drivers is deprecated and will be removed
+ *     together with this API. Subscribe to the BiDi {@code log.entryAdded} event instead, see the
+ *     <a href="https://github.com/appium/java-client/blob/master/docs/selenium-bridge.md#bidi">Selenium
+ *     bridge documentation</a>.
  */
 @NullMarked
+@Deprecated(since = "11.1.0", forRemoval = true)
 @SuppressWarnings("removal")
 public final class LogBroadcastEndpoints {
     private LogBroadcastEndpoints() {
@@ -49,6 +55,7 @@ public final class LogBroadcastEndpoints {
      * @param clientSupplier supplier for the target WebSocket client, invoked after starting server streaming
      * @param deviceLogType the log endpoint suffix (such as {@code logcat} or {@code syslog})
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public static void startBroadcast(
             ExecutesMethod driver,
             Supplier<StringWebSocketClient> clientSupplier,
@@ -82,6 +89,7 @@ public final class LogBroadcastEndpoints {
      * @param port the target WebSocket port, or a negative value to omit the port
      * @param deviceLogType the log endpoint suffix (such as {@code logcat} or {@code syslog})
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public static void startBroadcast(
             ExecutesMethod driver,
             Supplier<StringWebSocketClient> clientSupplier,
@@ -133,6 +141,7 @@ public final class LogBroadcastEndpoints {
      * @param deviceLogType the log endpoint suffix (such as {@code logcat} or {@code syslog})
      * @return the WebSocket endpoint URI
      */
+    @Deprecated(since = "11.1.0", forRemoval = true)
     public static URI buildBroadcastUri(
             @Nullable URL serverUrl,
             String host,

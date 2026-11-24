@@ -60,12 +60,24 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     @Getter
     private final Factory httpClientFactory;
     private final Object clientStateLock = new Object();
+    @Deprecated(since = "11.1.0", forRemoval = true)
     private final @Nullable URL initialServerUrl;
     private volatile ClientState clientState;
     private @Nullable CommandCodec commandCodec;
     private @Nullable ResponseCodec responseCodec;
 
     static {
+        registerInitialServerUrlResolver();
+    }
+
+    /**
+     * Registers the internal initial-URL resolver used by the deprecated logs broadcasting web socket API.
+     *
+     * @deprecated Only used by the deprecated logs broadcasting web socket API and will be removed together with it.
+     */
+    @Deprecated(since = "11.1.0", forRemoval = true)
+    @SuppressWarnings("removal")
+    private static void registerInitialServerUrlResolver() {
         CommandExecutorInternals.registerInitialServerUrlResolver(
                 MethodHandles.lookup(),
                 AppiumCommandExecutor::resolveInitialServerUrl
@@ -76,8 +88,10 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         private final AppiumClientConfig config;
         private final HttpClient client;
         private final @Nullable URL remoteServer;
+        @Deprecated(since = "11.1.0", forRemoval = true)
         private final boolean serverUrlOverridden;
 
+        @SuppressWarnings("removal")
         private ClientState(
                 AppiumClientConfig config,
                 HttpClient client,
@@ -237,6 +251,8 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     }
 
     @Nullable
+    @Deprecated(since = "11.1.0", forRemoval = true)
+    @SuppressWarnings("removal")
     private static URL resolveInitialServerUrl(AppiumCommandExecutor executor) {
         ClientState state = executor.clientState;
         if (state == null) {

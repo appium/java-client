@@ -486,6 +486,7 @@ class AppiumCommandExecutorTest {
     }
 
     @Test
+    @SuppressWarnings("removal")
     void initialServerUrlPreservesOriginalValueAcrossOverridesAndNullBaseUri() throws MalformedURLException {
         HttpClient.Factory factory = cfg -> new RecordingHttpClient(cfg, "{\"platformName\":\"Android\"}");
         URL initialUrl = new URL("http://hub.example.com:4723");
