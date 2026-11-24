@@ -17,7 +17,6 @@
 package io.appium.java_client.remote;
 
 import org.jspecify.annotations.Nullable;
-import org.openqa.selenium.WrapsElement;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import static io.appium.java_client.internal.ElementHelpers.unwrapElement;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -41,9 +41,7 @@ class WebElementToJsonConverter implements Function<@Nullable Object, @Nullable 
             return arg;
         }
 
-        while (arg instanceof WrapsElement) {
-            arg = ((WrapsElement) arg).getWrappedElement();
-        }
+        arg = unwrapElement(arg);
 
         if (arg instanceof AppiumWebElement) {
             return Map.of(AppiumWebElement.ELEMENT_KEY, ((AppiumWebElement) arg).getId());

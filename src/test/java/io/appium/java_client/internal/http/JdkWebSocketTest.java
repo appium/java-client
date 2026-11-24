@@ -25,6 +25,9 @@ import io.appium.java_client.http.WebSocket;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.Credentials;
 
 import javax.net.ssl.SSLContext;
@@ -48,6 +51,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -133,25 +137,34 @@ class JdkWebSocketTest {
     }
 
     private ClientConfig config() {
+        return config(Duration.ofSeconds(5), Duration.ofSeconds(5), Duration.ofSeconds(5));
+    }
+
+    private ClientConfig config(Duration wsTimeout, Duration readTimeout, Duration connectionTimeout) {
+        return config(URI.create("http://127.0.0.1:" + serverSocket.getLocalPort()),
+                wsTimeout, readTimeout, connectionTimeout);
+    }
+
+    private ClientConfig config(URI uri, Duration wsTimeout, Duration readTimeout, Duration connectionTimeout) {
         return new ClientConfig() {
             @Override
             public URI baseUri() {
-                return URI.create("http://127.0.0.1:" + serverSocket.getLocalPort());
+                return uri;
             }
 
             @Override
             public Duration connectionTimeout() {
-                return Duration.ofSeconds(5);
+                return connectionTimeout;
             }
 
             @Override
             public Duration readTimeout() {
-                return Duration.ofSeconds(5);
+                return readTimeout;
             }
 
             @Override
             public Duration wsTimeout() {
-                return Duration.ofSeconds(5);
+                return wsTimeout;
             }
 
             @Override
@@ -220,5 +233,56 @@ class JdkWebSocketTest {
         assertThrows(ConnectionFailedException.class,
                 () -> client.openSocket(new HttpRequest(HttpMethod.GET, "http://127.0.0.1:" + port + "/ws"),
                         new WebSocket.Listener() { }));
+    }
+
+    static Stream<Arguments> handshakeTimeoutCases() {
+        return Stream.of(
+                Arguments.of("positive wsTimeout",
+                        Duration.ofMillis(200), Duration.ofMinutes(5)),
+                Arguments.of("zero wsTimeout falls back to readTimeout",
+                        Duration.ZERO, Duration.ofMillis(200)),
+                Arguments.of("negative wsTimeout falls back to readTimeout",
+                        Duration.ofMillis(-100), Duration.ofMillis(200))
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("handshakeTimeoutCases")
+    void timesOutWhenHandshakeDoesNotComplete(String description, Duration wsTimeout,
+                                              Duration readTimeout) throws Exception {
+        try (ServerSocket stallServer = new ServerSocket(0, 1, InetAddress.getLoopbackAddress())) {
+            Thread thread = new Thread(() -> {
+                try (Socket ignored = stallServer.accept()) {
+                    Thread.sleep(10_000);
+                } catch (InterruptedException ignored) {
+                    Thread.currentThread().interrupt();
+                } catch (IOException ignored) {
+                    // Closed when stallServer closes
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
+
+            try {
+                client = new JdkHttpClient(config(
+                        URI.create("http://127.0.0.1:" + stallServer.getLocalPort()),
+                        wsTimeout, readTimeout, Duration.ofSeconds(10)));
+
+                long startNanos = System.nanoTime();
+                ConnectionFailedException ex = assertThrows(ConnectionFailedException.class,
+                        () -> client.openSocket(
+                                new HttpRequest(HttpMethod.GET, "/ws"), new WebSocket.Listener() { }));
+                long elapsedMillis = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNanos);
+
+                assertTrue(ex.getMessage().contains("initial request timeout"),
+                        "Expected timeout message, got: " + ex.getMessage());
+                assertTrue(elapsedMillis >= 150,
+                        "Should wait at least 150ms, took " + elapsedMillis + "ms");
+                assertTrue(elapsedMillis < 3000,
+                        "Should time out near the effective timeout, took " + elapsedMillis + "ms");
+            } finally {
+                thread.interrupt();
+            }
+        }
     }
 }

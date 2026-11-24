@@ -17,8 +17,10 @@
 package io.appium.java_client.android.options;
 
 import io.appium.java_client.android.options.adb.SupportsAdbExecTimeoutOption;
+import io.appium.java_client.android.options.adb.SupportsAdbListenAllNetworkOption;
 import io.appium.java_client.android.options.adb.SupportsAdbPortOption;
 import io.appium.java_client.android.options.adb.SupportsAllowDelayAdbOption;
+import io.appium.java_client.android.options.adb.SupportsAllowOfflineDevicesOption;
 import io.appium.java_client.android.options.adb.SupportsBuildToolsVersionOption;
 import io.appium.java_client.android.options.adb.SupportsClearDeviceLogsOnStartOption;
 import io.appium.java_client.android.options.adb.SupportsIgnoreHiddenApiPolicyErrorOption;
@@ -37,11 +39,14 @@ import io.appium.java_client.android.options.app.SupportsAppWaitDurationOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitForLaunchOption;
 import io.appium.java_client.android.options.app.SupportsAppWaitPackageOption;
 import io.appium.java_client.android.options.app.SupportsAutoGrantPermissionsOption;
+import io.appium.java_client.android.options.app.SupportsDontStopAppOnResetOption;
+import io.appium.java_client.android.options.app.SupportsForceAppLaunchOption;
 import io.appium.java_client.android.options.app.SupportsIntentActionOption;
 import io.appium.java_client.android.options.app.SupportsIntentCategoryOption;
 import io.appium.java_client.android.options.app.SupportsIntentFlagsOption;
 import io.appium.java_client.android.options.app.SupportsOptionalIntentArgumentsOption;
 import io.appium.java_client.android.options.app.SupportsRemoteAppsCacheLimitOption;
+import io.appium.java_client.android.options.app.SupportsShouldTerminateAppOption;
 import io.appium.java_client.android.options.app.SupportsUninstallOtherPackagesOption;
 import io.appium.java_client.android.options.avd.SupportsAvdArgsOption;
 import io.appium.java_client.android.options.avd.SupportsAvdEnvOption;
@@ -50,6 +55,7 @@ import io.appium.java_client.android.options.avd.SupportsAvdOption;
 import io.appium.java_client.android.options.avd.SupportsAvdReadyTimeoutOption;
 import io.appium.java_client.android.options.avd.SupportsGpsEnabledOption;
 import io.appium.java_client.android.options.avd.SupportsNetworkSpeedOption;
+import io.appium.java_client.android.options.context.SupportsAutoWebviewNameOption;
 import io.appium.java_client.android.options.context.SupportsAutoWebviewTimeoutOption;
 import io.appium.java_client.android.options.context.SupportsChromeLoggingPrefsOption;
 import io.appium.java_client.android.options.context.SupportsChromeOptionsOption;
@@ -58,9 +64,12 @@ import io.appium.java_client.android.options.context.SupportsChromedriverChromeM
 import io.appium.java_client.android.options.context.SupportsChromedriverDisableBuildCheckOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableDirOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverExecutableOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverForwardBiDiOption;
+import io.appium.java_client.android.options.context.SupportsChromedriverGrantPermissionsOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverPortOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverPortsOption;
 import io.appium.java_client.android.options.context.SupportsChromedriverUseSystemExecutableOption;
+import io.appium.java_client.android.options.context.SupportsEnableWebviewDetailsCollectionOption;
 import io.appium.java_client.android.options.context.SupportsEnsureWebviewsHavePagesOption;
 import io.appium.java_client.android.options.context.SupportsExtractChromeAndroidPackageFromContextNameOption;
 import io.appium.java_client.android.options.context.SupportsNativeWebScreenshotOption;
@@ -68,6 +77,7 @@ import io.appium.java_client.android.options.context.SupportsRecreateChromeDrive
 import io.appium.java_client.android.options.context.SupportsShowChromedriverLogOption;
 import io.appium.java_client.android.options.context.SupportsWebviewDevtoolsPortOption;
 import io.appium.java_client.android.options.localization.SupportsLocaleScriptOption;
+import io.appium.java_client.android.options.localization.SupportsTimeZoneOption;
 import io.appium.java_client.android.options.locking.SupportsSkipUnlockOption;
 import io.appium.java_client.android.options.locking.SupportsUnlockKeyOption;
 import io.appium.java_client.android.options.locking.SupportsUnlockStrategyOption;
@@ -76,10 +86,12 @@ import io.appium.java_client.android.options.locking.SupportsUnlockTypeOption;
 import io.appium.java_client.android.options.mjpeg.SupportsMjpegScreenshotUrlOption;
 import io.appium.java_client.android.options.mjpeg.SupportsMjpegServerPortOption;
 import io.appium.java_client.android.options.other.SupportsDisableSuppressAccessibilityServiceOption;
+import io.appium.java_client.android.options.other.SupportsEnableAccessibilityEventsServiceOption;
 import io.appium.java_client.android.options.other.SupportsUserProfileOption;
 import io.appium.java_client.android.options.server.SupportsDisableWindowAnimationOption;
 import io.appium.java_client.android.options.server.SupportsSkipDeviceInitializationOption;
 import io.appium.java_client.android.options.server.SupportsSkipServerInstallationOption;
+import io.appium.java_client.android.options.server.SupportsSkipSettingsAppReinstallOption;
 import io.appium.java_client.android.options.server.SupportsSystemPortOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerInstallTimeoutOption;
 import io.appium.java_client.android.options.server.SupportsUiautomator2ServerLaunchTimeoutOption;
@@ -118,16 +130,19 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsDeviceNameOption<UiAutomator2Options>,
         SupportsUdidOption<UiAutomator2Options>,
         SupportsSkipDeviceInitializationOption<UiAutomator2Options>,
+        SupportsSkipSettingsAppReinstallOption<UiAutomator2Options>,
         SupportsSkipLogcatCaptureOption<UiAutomator2Options>,
         SupportsClearDeviceLogsOnStartOption<UiAutomator2Options>,
         SupportsLogcatFormatOption<UiAutomator2Options>,
         SupportsLogcatFilterSpecsOption<UiAutomator2Options>,
         SupportsIgnoreHiddenApiPolicyErrorOption<UiAutomator2Options>,
         SupportsDisableSuppressAccessibilityServiceOption<UiAutomator2Options>,
+        SupportsEnableAccessibilityEventsServiceOption<UiAutomator2Options>,
         SupportsDisableWindowAnimationOption<UiAutomator2Options>,
         SupportsLanguageOption<UiAutomator2Options>,
         SupportsLocaleOption<UiAutomator2Options>,
         SupportsLocaleScriptOption<UiAutomator2Options>,
+        SupportsTimeZoneOption<UiAutomator2Options>,
         SupportsOrientationOption<UiAutomator2Options>,
         SupportsGpsEnabledOption<UiAutomator2Options>,
         SupportsMockLocationAppOption<UiAutomator2Options>,
@@ -150,7 +165,9 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsRemoteAdbHostOption<UiAutomator2Options>,
         SupportsAdbExecTimeoutOption<UiAutomator2Options>,
         SupportsBuildToolsVersionOption<UiAutomator2Options>,
+        SupportsAllowOfflineDevicesOption<UiAutomator2Options>,
         SupportsSuppressKillServerOption<UiAutomator2Options>,
+        SupportsAdbListenAllNetworkOption<UiAutomator2Options>,
         // UIA2 Server options: https://appium.github.io/appium-uiautomator2-driver/latest/reference/capabilities/#uiautomator2-server
         SupportsSystemPortOption<UiAutomator2Options>,
         SupportsUiautomator2ServerInstallTimeoutOption<UiAutomator2Options>,
@@ -173,6 +190,9 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsOptionalIntentArgumentsOption<UiAutomator2Options>,
         SupportsAndroidInstallTimeoutOption<UiAutomator2Options>,
         SupportsEnforceAppInstallOption<UiAutomator2Options>,
+        SupportsDontStopAppOnResetOption<UiAutomator2Options>,
+        SupportsForceAppLaunchOption<UiAutomator2Options>,
+        SupportsShouldTerminateAppOption<UiAutomator2Options>,
         SupportsAutoGrantPermissionsOption<UiAutomator2Options>,
         SupportsUserProfileOption<UiAutomator2Options>,
         SupportsOtherAppsOption<UiAutomator2Options>,
@@ -184,9 +204,11 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsNoSignOption<UiAutomator2Options>,        
         // Web Context options: https://appium.github.io/appium-uiautomator2-driver/latest/reference/capabilities/#web-context
         SupportsAutoWebViewOption<UiAutomator2Options>,
+        SupportsAutoWebviewNameOption<UiAutomator2Options>,
         SupportsAutoWebviewTimeoutOption<UiAutomator2Options>,
         SupportsWebviewDevtoolsPortOption<UiAutomator2Options>,
         SupportsEnsureWebviewsHavePagesOption<UiAutomator2Options>,
+        SupportsEnableWebviewDetailsCollectionOption<UiAutomator2Options>,
         SupportsChromeOptionsOption<UiAutomator2Options>,
         SupportsChromeLoggingPrefsOption<UiAutomator2Options>,
         SupportsChromedriverPortOption<UiAutomator2Options>,
@@ -197,6 +219,8 @@ public class UiAutomator2Options extends BaseOptions<UiAutomator2Options> implem
         SupportsChromedriverChromeMappingFileOption<UiAutomator2Options>,
         SupportsChromedriverUseSystemExecutableOption<UiAutomator2Options>,
         SupportsChromedriverDisableBuildCheckOption<UiAutomator2Options>,
+        SupportsChromedriverForwardBiDiOption<UiAutomator2Options>,
+        SupportsChromedriverGrantPermissionsOption<UiAutomator2Options>,
         SupportsRecreateChromeDriverSessionsOption<UiAutomator2Options>,
         SupportsNativeWebScreenshotOption<UiAutomator2Options>,
         SupportsExtractChromeAndroidPackageFromContextNameOption<UiAutomator2Options>,

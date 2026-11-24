@@ -16,6 +16,7 @@ import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.SessionNotCreatedException;
@@ -226,7 +227,7 @@ class AppiumCommandExecutorTest {
 
     @Test
     @SuppressWarnings("removal")
-    void broadcastListenersRetainOriginalWsSchemeAfterDirectConnectToHttps()
+    void logBroadcastsUseConnectedServerForDefaultLogcatAndInitialWsSchemeForOverloads()
             throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
@@ -234,18 +235,8 @@ class AppiumCommandExecutorTest {
                 + "\"appium:directConnectPort\":4443,"
                 + "\"appium:directConnectPath\":\"/wd/hub\"}";
         List<RecordingHttpClient> androidClients = new ArrayList<>();
-        HttpClient.Factory androidFactory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, androidCaps);
-            androidClients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor androidExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                androidFactory,
-                AppiumClientConfig.defaultConfig()
-                        .baseUrl(new URL("http://hub.example.com:4723"))
-                        .directConnect(true)
+        AppiumCommandExecutor androidExecutor = newDirectConnectExecutor(
+                new URL("http://hub.example.com:4723"), androidCaps, androidClients
         );
 
         AndroidDriver androidDriver = new AndroidDriver(
@@ -260,7 +251,7 @@ class AppiumCommandExecutorTest {
 
             assertEquals(
                     List.of(
-                            "ws://127.0.0.1:4723/ws/session/s1/appium/device/logcat",
+                            "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
                             "ws://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
                             "ws://hub.example.com:4723/ws/session/s1/appium/device/logcat"
                     ),
@@ -276,18 +267,8 @@ class AppiumCommandExecutorTest {
                 + "\"appium:directConnectPort\":4443,"
                 + "\"appium:directConnectPath\":\"/wd/hub\"}";
         List<RecordingHttpClient> iosClients = new ArrayList<>();
-        HttpClient.Factory iosFactory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, iosCaps);
-            iosClients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor iosExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                iosFactory,
-                AppiumClientConfig.defaultConfig()
-                        .baseUrl(new URL("http://hub.example.com:4723"))
-                        .directConnect(true)
+        AppiumCommandExecutor iosExecutor = newDirectConnectExecutor(
+                new URL("http://hub.example.com:4723"), iosCaps, iosClients
         );
 
         IOSDriver iosDriver = new IOSDriver(
@@ -317,25 +298,15 @@ class AppiumCommandExecutorTest {
 
     @Test
     @SuppressWarnings("removal")
-    void broadcastListenersRetainWssSchemeWhenInitialServerIsHttps() throws MalformedURLException {
+    void logBroadcastsUseConnectedServerAndInitialWssSchemeWhenInitialServerIsHttps() throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
                 + "\"appium:directConnectHost\":\"203.0.113.1\","
                 + "\"appium:directConnectPort\":4443,"
                 + "\"appium:directConnectPath\":\"/wd/hub\"}";
         List<RecordingHttpClient> androidClients = new ArrayList<>();
-        HttpClient.Factory androidFactory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, androidCaps);
-            androidClients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor androidExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                androidFactory,
-                AppiumClientConfig.defaultConfig()
-                        .baseUrl(new URL("https://grid.example.com"))
-                        .directConnect(true)
+        AppiumCommandExecutor androidExecutor = newDirectConnectExecutor(
+                new URL("https://grid.example.com"), androidCaps, androidClients
         );
 
         AndroidDriver androidDriver = new AndroidDriver(
@@ -349,7 +320,7 @@ class AppiumCommandExecutorTest {
 
             assertEquals(
                     List.of(
-                            "wss://127.0.0.1:4723/ws/session/s1/appium/device/logcat",
+                            "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
                             "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
                             "wss://10.0.0.5:443/ws/session/s1/appium/device/logcat"
                     ),
@@ -365,18 +336,8 @@ class AppiumCommandExecutorTest {
                 + "\"appium:directConnectPort\":4443,"
                 + "\"appium:directConnectPath\":\"/wd/hub\"}";
         List<RecordingHttpClient> iosClients = new ArrayList<>();
-        HttpClient.Factory iosFactory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, iosCaps);
-            iosClients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor iosExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                iosFactory,
-                AppiumClientConfig.defaultConfig()
-                        .baseUrl(new URL("https://grid.example.com"))
-                        .directConnect(true)
+        AppiumCommandExecutor iosExecutor = newDirectConnectExecutor(
+                new URL("https://grid.example.com"), iosCaps, iosClients
         );
 
         IOSDriver iosDriver = new IOSDriver(
@@ -397,7 +358,7 @@ class AppiumCommandExecutorTest {
 
     @Test
     @SuppressWarnings("removal")
-    void broadcastListenersRetainWsSchemeWhenInitialBaseUrlIsNullAndDirectConnectOverridesToHttps()
+    void logBroadcastsHandleNullInitialBaseUrlForDefaultLogcatAndExplicitOverloads()
             throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
@@ -405,17 +366,7 @@ class AppiumCommandExecutorTest {
                 + "\"appium:directConnectPort\":4443,"
                 + "\"appium:directConnectPath\":\"/wd/hub\"}";
         List<RecordingHttpClient> clients = new ArrayList<>();
-        HttpClient.Factory factory = cfg -> {
-            RecordingHttpClient client = new RecordingHttpClient(cfg, androidCaps);
-            clients.add(client);
-            return client;
-        };
-        AppiumCommandExecutor executor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                factory,
-                AppiumClientConfig.defaultConfig().directConnect(true)
-        );
+        AppiumCommandExecutor executor = newDirectConnectExecutor(null, androidCaps, clients);
 
         AndroidDriver driver = new AndroidDriver(
                 executor,
@@ -424,14 +375,114 @@ class AppiumCommandExecutorTest {
         try {
             assertEquals(new URL("https://203.0.113.1:4443/wd/hub"), driver.getRemoteAddress());
             driver.startLogcatBroadcast();
-
+            driver.startLogcatBroadcast("10.0.0.5", 4723);
             assertEquals(
-                    List.of("ws://127.0.0.1:4723/ws/session/s1/appium/device/logcat"),
+                    List.of(
+                            "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
+                            "ws://10.0.0.5:4723/ws/session/s1/appium/device/logcat"
+                    ),
                     clients.get(1).socketUris
             );
         } finally {
             driver.quit();
         }
+
+        List<RecordingHttpClient> overriddenClients = new ArrayList<>();
+        AppiumCommandExecutor overriddenExecutor = newDirectConnectExecutor(null, androidCaps, overriddenClients);
+        AndroidDriver overriddenDriver = new AndroidDriver(
+                overriddenExecutor,
+                new UiAutomator2Options().setDeviceName("emu")
+        );
+        try {
+            overriddenExecutor.overrideServerUrl(new URL("https://203.0.113.2/wd/hub"));
+            overriddenDriver.startLogcatBroadcast();
+
+            assertEquals(
+                    List.of("wss://203.0.113.2/ws/session/s1/appium/device/logcat"),
+                    overriddenClients.get(2).socketUris
+            );
+        } finally {
+            overriddenDriver.quit();
+        }
+
+        String iosCaps = "{\"platformName\":\"iOS\",\"appium:automationName\":\"XCUITest\","
+                + "\"appium:directConnectProtocol\":\"https\","
+                + "\"appium:directConnectHost\":\"2001:db8::1\","
+                + "\"appium:directConnectPort\":4443,"
+                + "\"appium:directConnectPath\":\"/wd/hub\"}";
+        List<RecordingHttpClient> iosClients = new ArrayList<>();
+        AppiumCommandExecutor iosExecutor = newDirectConnectExecutor(null, iosCaps, iosClients);
+
+        IOSDriver iosDriver = new IOSDriver(
+                iosExecutor,
+                new XCUITestOptions().setDeviceName("iPhone 16")
+        );
+        try {
+            iosDriver.startSyslogBroadcast();
+            iosDriver.startSyslogBroadcast("10.0.0.5", 4723);
+
+            assertEquals(
+                    List.of(
+                            "ws://localhost:4723/ws/session/s1/appium/device/syslog",
+                            "ws://10.0.0.5:4723/ws/session/s1/appium/device/syslog"
+                    ),
+                    iosClients.get(1).socketUris
+            );
+        } finally {
+            iosDriver.quit();
+        }
+    }
+
+    @Test
+    @SuppressWarnings("removal")
+    void startLogcatBroadcastThrowsWhenRemoteServerAddressIsNull() throws MalformedURLException {
+        RecordingHttpClient client = new RecordingHttpClient(
+                AppiumClientConfig.defaultConfig(),
+                "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\"}"
+        );
+        AppiumCommandExecutor executor = new AppiumCommandExecutor(
+                MobileCommand.commandRepository,
+                null,
+                cfg -> client,
+                AppiumClientConfig.defaultConfig().baseUrl(new URL(APPIUM_URL))
+        ) {
+            @Override
+            public @Nullable URL getAddressOfRemoteServer() {
+                return null;
+            }
+        };
+
+        AndroidDriver driver = new AndroidDriver(
+                executor,
+                new UiAutomator2Options().setDeviceName("emu")
+        );
+        try {
+            IllegalArgumentException exception = assertThrows(
+                    IllegalArgumentException.class,
+                    driver::startLogcatBroadcast
+            );
+            assertEquals("The Appium server address is not set", exception.getMessage());
+            assertTrue(client.socketUris.isEmpty());
+        } finally {
+            driver.quit();
+        }
+    }
+
+    private static AppiumCommandExecutor newDirectConnectExecutor(
+            @Nullable URL initialBaseUrl,
+            String caps,
+            List<RecordingHttpClient> clients
+    ) {
+        HttpClient.Factory factory = cfg -> {
+            RecordingHttpClient client = new RecordingHttpClient(cfg, caps);
+            clients.add(client);
+            return client;
+        };
+        AppiumClientConfig config = AppiumClientConfig.defaultConfig().directConnect(true);
+        if (initialBaseUrl != null) {
+            config = config.baseUrl(initialBaseUrl);
+        }
+        return new AppiumCommandExecutor(MobileCommand.commandRepository, null, factory, config);
     }
 
     @Test

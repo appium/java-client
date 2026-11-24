@@ -22,8 +22,10 @@ import org.junit.jupiter.api.Test;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LogBroadcastEndpointsTest {
 
@@ -50,5 +52,22 @@ class LogBroadcastEndpointsTest {
                 new URL("HTTPS://direct.example.com:4443"), "[2001:db8::1]", 4443, sessionId, "logcat"
         );
         assertEquals("wss://[2001:db8::1]:4443/ws/session/s1/appium/device/logcat", uppercaseHttpsServer.toString());
+
+        URI omittedPort = LogBroadcastEndpoints.buildBroadcastUri(
+                new URL("https://direct.example.com/wd/hub"), "direct.example.com", -1, sessionId, "logcat"
+        );
+        assertEquals("wss://direct.example.com/ws/session/s1/appium/device/logcat", omittedPort.toString());
+    }
+
+    @Test
+    void rejectsBlankOrMalformedHosts() {
+        SessionId sessionId = new SessionId("s1");
+        for (String invalidHost : List.of(
+                "", "   ", "evil.com:9000", "user@host", "host/path", "host?q", "host#frag")) {
+            assertThrows(IllegalArgumentException.class,
+                    () -> LogBroadcastEndpoints.buildBroadcastUri(null, invalidHost, 4723, sessionId, "logcat"));
+            assertThrows(IllegalArgumentException.class,
+                    () -> LogBroadcastEndpoints.buildBroadcastUri(null, invalidHost, -1, sessionId, "logcat"));
+        }
     }
 }
