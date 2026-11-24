@@ -85,6 +85,7 @@ public class JdkHttpClient implements HttpClient {
     private final ExecutorService executorService;
     private final Duration readTimeout;
     private final Duration connectTimeout;
+    private final Duration wsTimeout;
     private java.net.http.HttpClient client;
 
     JdkHttpClient(ClientConfig config) {
@@ -92,6 +93,10 @@ public class JdkHttpClient implements HttpClient {
         this.messages = new JdkHttpMessages(config);
         this.readTimeout = config.readTimeout();
         this.connectTimeout = config.connectionTimeout();
+        Duration configuredWsTimeout = config.wsTimeout();
+        this.wsTimeout = configuredWsTimeout != null && configuredWsTimeout.compareTo(Duration.ZERO) > 0
+                ? configuredWsTimeout
+                : this.readTimeout;
         this.handler = config.filter().andFinally(this::execute0);
 
         String poolName = "JdkHttpClient-" + POOL_COUNTER.getAndIncrement();
@@ -154,12 +159,11 @@ public class JdkHttpClient implements HttpClient {
         request.getHeaderNames().forEach(name -> builder.header(name, request.getHeader(name)));
         CompletableFuture<Integer> closed = new CompletableFuture<>();
         CompletableFuture<java.net.http.WebSocket> socketFuture = builder
-                .connectTimeout(connectTimeout)
                 .buildAsync(uri, new JdkListener(listener, closed));
 
         java.net.http.WebSocket underlyingSocket;
         try {
-            underlyingSocket = socketFuture.get(readTimeout.toMillis(), TimeUnit.MILLISECONDS);
+            underlyingSocket = socketFuture.get(wsTimeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (CancellationException e) {
             throw new ConnectionFailedException("JdkWebSocket initial request canceled", e);
         } catch (ExecutionException e) {
