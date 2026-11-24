@@ -40,8 +40,27 @@ public @interface AndroidFindBy {
      * Refer to https://developer.android.com/training/testing/ui-automator
      *
      * @return an Android UIAutomator string
+     * @deprecated Google is going to remove {@code UiSelector} and {@code UiScrollable} from the UiAutomator
+     *     framework. Use {@link #androidPredicate()} or {@link #androidClassChain()} instead.
      */
+    @Deprecated
     String uiAutomator() default "";
+
+    /**
+     * It is an Android class chain locator, available since appium-uiautomator2-driver 10.1.0.
+     * Refer to https://appium.github.io/appium-uiautomator2-driver/latest/guides/android-class-chain/
+     *
+     * @return an Android class chain string
+     */
+    String androidClassChain() default "";
+
+    /**
+     * It is an Android predicate string locator, available since appium-uiautomator2-driver 10.2.0.
+     * Refer to https://appium.github.io/appium-uiautomator2-driver/latest/guides/android-class-chain/#predicate-string-strategy
+     *
+     * @return an Android predicate string
+     */
+    String androidPredicate() default "";
 
     /**
      * It an UI automation accessibility Id which is a convenient to Android.

@@ -101,9 +101,42 @@ public abstract class AppiumBy extends By implements Remotable {
      *
      * @param uiautomatorText is Android UIAutomator string
      * @return an instance of {@link ByAndroidUIAutomator}
+     * @deprecated Google is going to remove {@code UiSelector} and {@code UiScrollable} from the UiAutomator
+     *     framework, so this strategy is going to stop working. Use {@link #androidPredicateString(String)} or
+     *     {@link #androidClassChain(String)} to find elements, and {@code mobile: scroll} or
+     *     {@code mobile: scrollGesture} to scroll. See
+     *     <a href="https://appium.github.io/appium-uiautomator2-driver/latest/guides/migrating-from-uiscrollable/">
+     *     Migrating from UiScrollable and UiSelector</a>.
      */
+    @Deprecated
     public static By androidUIAutomator(final String uiautomatorText) {
         return new ByAndroidUIAutomator(uiautomatorText);
+    }
+
+    /**
+     * This locator strategy is available in UiAutomator2 Driver mode since driver version 10.1.0.
+     *
+     * @param androidClassChainString is a valid class chain locator string.
+     *                                See <a href="https://appium.github.io/appium-uiautomator2-driver/latest/guides/android-class-chain/">
+     *                                the documentation</a> for more details
+     * @return an instance of {@link AppiumBy.ByAndroidClassChain}
+     */
+    public static By androidClassChain(final String androidClassChainString) {
+        return new ByAndroidClassChain(androidClassChainString);
+    }
+
+    /**
+     * This locator strategy is available in UiAutomator2 Driver mode since driver version 10.2.0.
+     * It finds all elements below the search root that satisfy the predicate, for example
+     * {@code text == 'Gallery' AND clickable == true}.
+     *
+     * @param androidPredicateString is a valid predicate string.
+     *                               See <a href="https://appium.github.io/appium-uiautomator2-driver/latest/guides/android-class-chain/#predicate-string-strategy">
+     *                               the documentation</a> for more details
+     * @return an instance of {@link AppiumBy.ByAndroidPredicateString}
+     */
+    public static By androidPredicateString(final String androidPredicateString) {
+        return new ByAndroidPredicateString(androidPredicateString);
     }
 
     /**
@@ -344,7 +377,11 @@ public abstract class AppiumBy extends By implements Remotable {
 
     /**
      * Locates elements by an Android UIAutomator expression.
+     *
+     * @deprecated Google is going to remove {@code UiSelector} and {@code UiScrollable} from the UiAutomator
+     *     framework. Use {@link ByAndroidPredicateString} or {@link ByAndroidClassChain} instead.
      */
+    @Deprecated
     public static class ByAndroidUIAutomator extends AppiumBy implements Serializable {
         /**
          * Creates a new instance for the given locator.
@@ -353,6 +390,34 @@ public abstract class AppiumBy extends By implements Remotable {
          */
         public ByAndroidUIAutomator(String uiautomatorText) {
             super("-android uiautomator", uiautomatorText, "androidUIAutomator");
+        }
+    }
+
+    /**
+     * Locates elements by an Android class chain (UiAutomator2 driver only).
+     */
+    public static class ByAndroidClassChain extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
+        protected ByAndroidClassChain(String locatorString) {
+            super("-android class chain", locatorString, "androidClassChain");
+        }
+    }
+
+    /**
+     * Locates elements by an Android predicate string (UiAutomator2 driver only).
+     */
+    public static class ByAndroidPredicateString extends AppiumBy implements Serializable {
+        /**
+         * Creates a new instance for the given locator.
+         *
+         * @param locatorString the locator string
+         */
+        protected ByAndroidPredicateString(String locatorString) {
+            super("-android predicate string", locatorString, "androidPredicateString");
         }
     }
 

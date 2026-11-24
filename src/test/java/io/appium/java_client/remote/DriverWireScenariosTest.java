@@ -234,6 +234,7 @@ class DriverWireScenariosTest {
         for (var by : new By[]{By.id("a"), By.name("n"), By.className("c"), By.cssSelector(".x > y"),
                 By.xpath("//a[@b='c']"), By.linkText("l"), By.partialLinkText("p"), By.tagName("t"),
                 AppiumBy.accessibilityId("acc"), AppiumBy.androidUIAutomator("new UiSelector()"),
+                AppiumBy.androidClassChain("**/*[`text == 'a'`]"), AppiumBy.androidPredicateString("text == 'a'"),
                 AppiumBy.iOSClassChain("**/XCUIElementTypeButton"), AppiumBy.id("appium-id"),
                 AppiumBy.image("aGVsbG8="), AppiumBy.className("cn")}) {
             SCENARIOS.put("findElement " + by, c -> c.driver.findElement(by));
