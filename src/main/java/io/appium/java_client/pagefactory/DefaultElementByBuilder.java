@@ -111,7 +111,7 @@ public class DefaultElementByBuilder extends AppiumByBuilder {
     protected By buildDefaultBy() {
         AnnotatedElement annotatedElement = annotatedElementContainer.getAnnotated();
         return annotatedElement != null
-                ? PageFactoryFinderSupport.buildBy(annotatedElement, annotatedElement instanceof Field)
+                ? PageFactoryFinderSupport.buildBy(annotatedElement, false)
                 : null;
     }
 
