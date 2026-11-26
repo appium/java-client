@@ -18,6 +18,7 @@ package io.appium.java_client.selenium;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +26,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.bidi.BiDiException;
 import org.openqa.selenium.bidi.HasBiDi;
 import org.openqa.selenium.bidi.log.GenericLogEntry;
@@ -33,21 +36,26 @@ import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.remote.http.ClientConfig;
+import org.openqa.selenium.remote.http.HttpClient;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -60,6 +68,7 @@ class SeleniumBridgeTest {
     private final List<String> requests = new CopyOnWriteArrayList<>();
     private String webSocketUrl;
     private String extraCapabilities = "";
+    private boolean failQuit;
 
     @BeforeEach
     void startServers() throws IOException {
@@ -102,6 +111,14 @@ class SeleniumBridgeTest {
                 break;
             case "GET /session/s1/element/el1/text":
                 body = "{\"value\":\"element text\"}";
+                break;
+            case "DELETE /session/s1":
+                if (failQuit) {
+                    status = 500;
+                    body = "{\"value\":{\"error\":\"unknown error\",\"message\":\"quit failed\",\"stacktrace\":\"\"}}";
+                } else {
+                    body = "{\"value\":null}";
+                }
                 break;
             default:
                 body = "{\"value\":null}";
@@ -157,12 +174,69 @@ class SeleniumBridgeTest {
 
     @Test
     void quitsTheSessionOfTheAppiumDriver() throws IOException {
-        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(newAppiumDriver());
+        var appiumDriver = newAppiumDriver();
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
         requests.clear();
 
         seleniumDriver.quit();
+        appiumDriver.quit();
 
+        assertSessionClosed(appiumDriver, seleniumDriver);
+        assertEquals(1, biDiServer.connections());
+    }
+
+    @Test
+    void doesNotSendDuplicateDeleteWhenDelegateQuitFirst() throws IOException {
+        var appiumDriver = newAppiumDriver();
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        requests.clear();
+
+        appiumDriver.quit();
+        seleniumDriver.quit();
+
+        assertSessionClosed(appiumDriver, seleniumDriver);
+    }
+
+    @Test
+    void clearsSessionAndEvictsBridgeWhenQuitFails() throws Exception {
+        var appiumDriver = newAppiumDriver();
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        failQuit = true;
+        requests.clear();
+
+        assertThrows(WebDriverException.class, seleniumDriver::quit);
+
+        assertSessionClosed(appiumDriver, seleniumDriver);
+        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
+    }
+
+    private void assertSessionClosed(AndroidDriver appiumDriver, BridgedRemoteWebDriver seleniumDriver) {
         assertEquals(List.of("DELETE /session/s1"), requests);
+        assertNull(seleniumDriver.getSessionId());
+        assertNull(appiumDriver.getSessionId());
+        assertThrows(SessionNotCreatedException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver));
+    }
+
+    @Test
+    void forwardsHttpVersionConfigurationToSeleniumClientConfig() throws IOException {
+        var config = AppiumClientConfig.defaultConfig()
+                .baseUri(URI.create("http://127.0.0.1:" + server.getAddress().getPort()))
+                .version("HTTP_2");
+        var appiumDriver = new AndroidDriver(config,
+                new UiAutomator2Options().setDeviceName("Android Emulator"));
+        var capturedConfig = new AtomicReference<ClientConfig>();
+        var defaultFactory = HttpClient.Factory.createDefault();
+
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver, clientConfig -> {
+            capturedConfig.set(clientConfig);
+            return defaultFactory.createClient(clientConfig);
+        });
+        try {
+            assertNotNull(capturedConfig.get());
+            assertEquals("HTTP_2", capturedConfig.get().version());
+        } finally {
+            seleniumDriver.quit();
+        }
     }
 
     @Test

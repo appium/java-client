@@ -56,10 +56,14 @@ final class SeleniumCommandExecutor implements CommandExecutor {
         if (DriverCommand.NEW_SESSION.equals(command.getName())) {
             return existingSession();
         }
-        if (DriverCommand.QUIT.equals(command.getName()) && !quitEnabled) {
-            var ignored = new Response();
-            ignored.setState("success");
-            return ignored;
+        if (DriverCommand.QUIT.equals(command.getName())) {
+            if (quitEnabled) {
+                delegate.quit();
+            }
+            var response = command.getSessionId() == null
+                    ? new Response() : new Response(command.getSessionId());
+            response.setState("success");
+            return response;
         }
         var sessionId = command.getSessionId() == null
                 ? null : new io.appium.java_client.remote.SessionId(command.getSessionId().toString());

@@ -76,4 +76,10 @@ public final class SeleniumBridge {
         return new BridgedRemoteWebDriver(requireNonNull(driver, "Appium driver"),
                 requireNonNull(webSocketClientFactory, "WebSocket client factory"));
     }
+
+    static void remove(AppiumRemoteWebDriver driver) {
+        synchronized (BRIDGES) {
+            BRIDGES.remove(driver);
+        }
+    }
 }

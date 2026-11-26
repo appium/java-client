@@ -84,7 +84,13 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
         try {
             super.quit();
         } finally {
-            closeBiDi();
+            // Fields can still be null if super(...) fails and RemoteWebDriver invokes quit() during cleanup
+            if (webSocketClients != null) {
+                closeBiDi();
+            }
+            if (delegate != null) {
+                SeleniumBridge.remove(delegate);
+            }
         }
     }
 
@@ -106,6 +112,9 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
         }
         if (source.sslContext() != null) {
             config = config.sslContext(source.sslContext());
+        }
+        if (source.version() != null) {
+            config = config.version(source.version());
         }
         return config;
     }
