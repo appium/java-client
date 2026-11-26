@@ -85,11 +85,14 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
             super.quit();
         } finally {
             // Fields can still be null if super(...) fails and RemoteWebDriver invokes quit() during cleanup
-            if (webSocketClients != null) {
-                closeBiDi();
-            }
-            if (delegate != null) {
-                SeleniumBridge.remove(delegate);
+            try {
+                if (webSocketClients != null) {
+                    closeBiDi();
+                }
+            } finally {
+                if (delegate != null) {
+                    SeleniumBridge.remove(delegate);
+                }
             }
         }
     }

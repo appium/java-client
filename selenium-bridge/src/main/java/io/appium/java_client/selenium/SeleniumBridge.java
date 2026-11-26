@@ -17,6 +17,7 @@
 package io.appium.java_client.selenium;
 
 import io.appium.java_client.remote.AppiumRemoteWebDriver;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.HttpClient;
 
@@ -40,26 +41,42 @@ public final class SeleniumBridge {
 
     /**
      * Adapts an Appium driver to a {@link RemoteWebDriver} that works in the same session. The WebSocket
-     * connection of BiDi is made by the default Selenium HTTP client. As long as the result is referenced and
-     * its BiDi connection is not closed, the same instance is returned for the same driver, so repeated calls
-     * do not open more connections.
+     * connection of BiDi is made by the default Selenium HTTP client. As long as the result is referenced, its BiDi
+     * connection is not closed, and the driver still has a session, the same instance is returned for the same
+     * driver, so repeated calls do not open more connections. If the session has been quit, a subsequent call closes
+     * and evicts any remaining cached bridge and throws {@link SessionNotCreatedException}.
      *
      * @param driver the Appium driver, which must have a session
      * @return the Selenium driver, which also implements {@code HasBiDi}
+     * @throws SessionNotCreatedException if the Appium driver has no active session
      * @see BridgedRemoteWebDriver
      */
     public static BridgedRemoteWebDriver asRemoteWebDriver(AppiumRemoteWebDriver driver) {
         requireNonNull(driver, "Appium driver");
+        BridgedRemoteWebDriver stale;
         synchronized (BRIDGES) {
             var reference = BRIDGES.get(driver);
             var existing = reference == null ? null : reference.get();
-            if (existing != null && !existing.isBiDiClosed()) {
-                return existing;
+            if (driver.getSessionId() != null) {
+                if (existing != null && !existing.isBiDiClosed()) {
+                    return existing;
+                }
+                var bridge = new BridgedRemoteWebDriver(driver, HttpClient.Factory.createDefault());
+                BRIDGES.put(driver, new WeakReference<>(bridge));
+                return bridge;
             }
-            var bridge = new BridgedRemoteWebDriver(driver, HttpClient.Factory.createDefault());
-            BRIDGES.put(driver, new WeakReference<>(bridge));
-            return bridge;
+            BRIDGES.remove(driver);
+            stale = existing;
         }
+        var error = new SessionNotCreatedException("The Appium driver does not have a session");
+        if (stale != null && !stale.isBiDiClosed()) {
+            try {
+                stale.closeBiDi();
+            } catch (RuntimeException e) {
+                error.addSuppressed(e);
+            }
+        }
+        throw error;
     }
 
     /**
@@ -69,12 +86,17 @@ public final class SeleniumBridge {
      * @param driver the Appium driver, which must have a session
      * @param webSocketClientFactory the factory of the HTTP clients that open the BiDi WebSocket connection
      * @return the Selenium driver, which also implements {@code HasBiDi}
+     * @throws SessionNotCreatedException if the Appium driver has no active session
      * @see BridgedRemoteWebDriver
      */
     public static BridgedRemoteWebDriver asRemoteWebDriver(AppiumRemoteWebDriver driver,
                                                            HttpClient.Factory webSocketClientFactory) {
-        return new BridgedRemoteWebDriver(requireNonNull(driver, "Appium driver"),
-                requireNonNull(webSocketClientFactory, "WebSocket client factory"));
+        requireNonNull(driver, "Appium driver");
+        requireNonNull(webSocketClientFactory, "WebSocket client factory");
+        if (driver.getSessionId() == null) {
+            throw new SessionNotCreatedException("The Appium driver does not have a session");
+        }
+        return new BridgedRemoteWebDriver(driver, webSocketClientFactory);
     }
 
     static void remove(AppiumRemoteWebDriver driver) {

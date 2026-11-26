@@ -38,6 +38,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.remote.http.HttpClient;
+import org.openqa.selenium.remote.http.HttpRequest;
+import org.openqa.selenium.remote.http.HttpResponse;
+import org.openqa.selenium.remote.http.WebSocket;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -195,6 +198,63 @@ class SeleniumBridgeTest {
         seleniumDriver.quit();
 
         assertSessionClosed(appiumDriver, seleniumDriver);
+    }
+
+    @Test
+    void failsFastAndClosesCachedBiDiAfterDelegateQuit() throws Exception {
+        var appiumDriver = newAppiumDriver();
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        assertFalse(seleniumDriver.isBiDiClosed());
+        requests.clear();
+
+        appiumDriver.quit();
+
+        assertThrows(SessionNotCreatedException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver));
+        assertEquals(List.of("DELETE /session/s1"), requests);
+        assertNull(appiumDriver.getSessionId());
+        assertTrue(seleniumDriver.isBiDiClosed());
+        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
+        assertEquals(1, biDiServer.connections());
+    }
+
+    @Test
+    void evictsCachedBridgeWhenCloseBiDiThrowsOnQuit() throws IOException {
+        var appiumDriver = newAppiumDriver();
+        var cached = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        var defaultFactory = HttpClient.Factory.createDefault();
+        var failing = SeleniumBridge.asRemoteWebDriver(appiumDriver, clientConfig -> {
+            var delegateClient = defaultFactory.createClient(clientConfig);
+            return new HttpClient() {
+                @Override
+                public WebSocket openSocket(HttpRequest request, WebSocket.Listener listener) {
+                    return delegateClient.openSocket(request, listener);
+                }
+
+                @Override
+                public HttpResponse execute(HttpRequest req) {
+                    return delegateClient.execute(req);
+                }
+
+                @Override
+                public void close() {
+                    delegateClient.close();
+                    // Fail only during closeBiDi() after DELETE /session/s1, not during RemoteWebDriver's BiDi::close
+                    if (requests.contains("DELETE /session/s1")) {
+                        throw new IllegalStateException("close failed");
+                    }
+                }
+            };
+        });
+        requests.clear();
+        try {
+            assertThrows(IllegalStateException.class, failing::quit);
+
+            assertSessionClosed(appiumDriver, failing);
+            // If cached was still in BRIDGES when asRemoteWebDriver ran above, it would have been closed there
+            assertFalse(cached.isBiDiClosed());
+        } finally {
+            cached.closeBiDi();
+        }
     }
 
     @Test
