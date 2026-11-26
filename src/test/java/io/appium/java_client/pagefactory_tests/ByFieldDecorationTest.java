@@ -201,6 +201,14 @@ public class ByFieldDecorationTest {
         @iOSXCUITFindBy(accessibility = "appium_ios")
         private AppiumBy somethingAppiumBy;
 
+        @AndroidFindBy(androidClassChain = "**/*[`text == 'chain_android'`]")
+        @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeButton")
+        private AppiumBy classChainAppiumBy;
+
+        @AndroidFindBy(androidPredicate = "text == 'predicate_android'")
+        @iOSXCUITFindBy(iOSNsPredicate = "name == 'predicate_ios'")
+        private AppiumBy predicateAppiumBy;
+
         @FindBy(id = "web_only")
         @AndroidFindBy(id = "native_android")
         @iOSXCUITFindBy(accessibility = "native_ios")
@@ -321,6 +329,8 @@ public class ByFieldDecorationTest {
         assertInstanceOf(ContentMappedBy.class, page.cachedAndTimedBy);
 
         assertEquals(AppiumBy.id("appium_android"), page.somethingAppiumBy);
+        assertEquals(AppiumBy.androidClassChain("**/*[`text == 'chain_android'`]"), page.classChainAppiumBy);
+        assertEquals(AppiumBy.androidPredicateString("text == 'predicate_android'"), page.predicateAppiumBy);
         assertInstanceOf(ByChained.class, page.multiLocatorBy);
         assertInstanceOf(ByAll.class, page.allPossibleBy);
         assertInstanceOf(ByChained.class, page.findBysField);

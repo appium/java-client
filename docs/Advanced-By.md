@@ -105,7 +105,36 @@ to learn more about the general concept.
 @iOSXCUITFindBy(iOSClassChain = "**/XCUIElementTypeCell[`name == 'Foo'`][-1]")
 ```
 
-## Android's uiAutomator String
+## Android's Predicate String and Class Chain Queries
+
+Available when using [AndroidBy](AndroidBy) and [AndroidFindBy](AndroidFindBy) with
+[appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver) 10.1.0 (class chain)
+and 10.2.0 (predicate string) or newer. They are evaluated directly on the accessibility tree, are about as fast as
+`UiSelector` and faster than XPath, and replace the deprecated [uiAutomator](#androids-uiautomator-string) strategy.
+Read the [Class Chain Locator Strategy](https://appium.github.io/appium-uiautomator2-driver/latest/guides/android-class-chain/)
+guide for the syntax.
+
+```java
+// A predicate string finds the elements that satisfy it:
+@AndroidFindBy(androidPredicate = "text == 'Hello World'")
+@AndroidFindBy(androidPredicate = "class == 'android.widget.Button' AND enabled == true")
+@AndroidFindBy(androidPredicate = "text CONTAINS[c] 'hello' OR content-desc BEGINSWITH 'menu'")
+
+// A class chain can also address the parent, the descendants and the position of the elements:
+@AndroidFindBy(androidClassChain = "**/android.widget.TextView[`text == 'Hello World'`]")
+@AndroidFindBy(androidClassChain = "**/android.widget.ListView/android.widget.TextView[2]")
+@AndroidFindBy(androidClassChain = "**/android.widget.LinearLayout[$text == 'Settings'$]")
+```
+
+The same locators are available as `AppiumBy.androidPredicateString` and `AppiumBy.androidClassChain`.
+
+## Android's uiAutomator String (deprecated)
+
+**Deprecated:** Google is going to remove `UiSelector` and `UiScrollable` from the UiAutomator framework, so
+this strategy is going to stop working. Use the predicate string and class chain queries above to find elements, and
+`mobile: scroll` or `mobile: scrollGesture` to scroll. See
+[Migrating from UiScrollable and UiSelector](https://appium.github.io/appium-uiautomator2-driver/latest/guides/migrating-from-uiscrollable/)
+for the equivalents.
 
 Available when using [AndroidBy](AndroidBy) and [AndroidFindBy](AndroidFindBy) with
 [appium-uiautomator2-server](https://github.com/appium/appium-uiautomator2-server). This

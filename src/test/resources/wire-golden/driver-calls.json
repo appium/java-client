@@ -901,6 +901,164 @@
       }
     ]
   },
+  "findElement AppiumBy.androidClassChain: **/*[`text == 'a'`]": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-android class chain",
+          "value": "**/*[`text == 'a'`]"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.androidClassChain: **/*[`text == 'a'`]": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-android class chain",
+          "value": "**/*[`text == 'a'`]"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.androidClassChain: **/*[`text == 'a'`]": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-android class chain",
+          "value": "**/*[`text == 'a'`]"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.androidClassChain: **/*[`text == 'a'`]": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-android class chain",
+          "value": "**/*[`text == 'a'`]"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElement AppiumBy.androidPredicateString: text == 'a'": {
+    "result": "element:el1",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-android predicate string",
+          "value": "text == 'a'"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findElements AppiumBy.androidPredicateString: text == 'a'": {
+    "result": [
+      "element:el1",
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "using": "-android predicate string",
+          "value": "text == 'a'"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElement AppiumBy.androidPredicateString: text == 'a'": {
+    "result": "element:el2",
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/element",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-android predicate string",
+          "value": "text == 'a'"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
+  "findChildElements AppiumBy.androidPredicateString: text == 'a'": {
+    "result": [
+      "element:el2"
+    ],
+    "requests": [
+      {
+        "method": "POST",
+        "uri": "/wd/hub/session/s1/element/el1/elements",
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "user-agent": "appium/x.y.z (selenium/x.y.z (java os))"
+        },
+        "body": {
+          "id": "el1",
+          "using": "-android predicate string",
+          "value": "text == 'a'"
+        },
+        "client": "https://appium.example.com:4723"
+      }
+    ]
+  },
   "findElement AppiumBy.iOSClassChain: **/XCUIElementTypeButton": {
     "result": "element:el1",
     "requests": [

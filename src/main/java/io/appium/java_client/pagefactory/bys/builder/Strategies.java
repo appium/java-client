@@ -30,7 +30,9 @@ import java.util.stream.Stream;
 
 enum Strategies {
     BYUIAUTOMATOR("uiAutomator") {
-        @Override By getBy(Annotation annotation) {
+        @Override
+        @SuppressWarnings("deprecation")
+        By getBy(Annotation annotation) {
             String value = getValue(annotation, this);
             if (annotation.annotationType().equals(AndroidFindBy.class)
                     || annotation.annotationType().equals(AndroidBy.class)) {
@@ -98,6 +100,18 @@ enum Strategies {
         @Override By getBy(Annotation annotation) {
             return AppiumBy
                 .androidViewMatcher(getValue(annotation, this));
+        }
+    },
+    BY_ANDROID_CLASS_CHAIN("androidClassChain") {
+        @Override By getBy(Annotation annotation) {
+            return AppiumBy
+                    .androidClassChain(getValue(annotation, this));
+        }
+    },
+    BY_ANDROID_PREDICATE("androidPredicate") {
+        @Override By getBy(Annotation annotation) {
+            return AppiumBy
+                    .androidPredicateString(getValue(annotation, this));
         }
     },
     BY_NS_PREDICATE("iOSNsPredicate") {
