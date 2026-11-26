@@ -40,17 +40,23 @@ public final class SeleniumBridge {
 
     /**
      * Adapts an Appium driver to a {@link RemoteWebDriver} that works in the same session. The WebSocket
-     * connection of BiDi is made by the default Selenium HTTP client. As long as the result is referenced and
-     * its BiDi connection is not closed, the same instance is returned for the same driver, so repeated calls
-     * do not open more connections.
+     * connection of BiDi is made by the default Selenium HTTP client. As long as the result is referenced, its BiDi
+     * connection is not closed, and the driver still has a session, the same instance is returned for the same
+     * driver, so repeated calls do not open more connections. If the driver no longer has a session, a subsequent call
+     * evicts any remaining cached bridge and throws {@link IllegalStateException}.
      *
      * @param driver the Appium driver, which must have a session
      * @return the Selenium driver, which also implements {@code HasBiDi}
+     * @throws IllegalStateException if the Appium driver has no active session
      * @see BridgedRemoteWebDriver
      */
     public static BridgedRemoteWebDriver asRemoteWebDriver(AppiumRemoteWebDriver driver) {
         requireNonNull(driver, "Appium driver");
         synchronized (BRIDGES) {
+            if (driver.getSessionId() == null) {
+                BRIDGES.remove(driver);
+                throw new IllegalStateException("The Appium driver does not have a session");
+            }
             var reference = BRIDGES.get(driver);
             var existing = reference == null ? null : reference.get();
             if (existing != null && !existing.isBiDiClosed()) {
@@ -69,11 +75,16 @@ public final class SeleniumBridge {
      * @param driver the Appium driver, which must have a session
      * @param webSocketClientFactory the factory of the HTTP clients that open the BiDi WebSocket connection
      * @return the Selenium driver, which also implements {@code HasBiDi}
+     * @throws IllegalStateException if the Appium driver has no active session
      * @see BridgedRemoteWebDriver
      */
     public static BridgedRemoteWebDriver asRemoteWebDriver(AppiumRemoteWebDriver driver,
                                                            HttpClient.Factory webSocketClientFactory) {
-        return new BridgedRemoteWebDriver(requireNonNull(driver, "Appium driver"),
-                requireNonNull(webSocketClientFactory, "WebSocket client factory"));
+        requireNonNull(driver, "Appium driver");
+        requireNonNull(webSocketClientFactory, "WebSocket client factory");
+        if (driver.getSessionId() == null) {
+            throw new IllegalStateException("The Appium driver does not have a session");
+        }
+        return new BridgedRemoteWebDriver(driver, webSocketClientFactory);
     }
 }

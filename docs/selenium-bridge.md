@@ -16,8 +16,9 @@ dependencies {
 
 `SeleniumBridge.asRemoteWebDriver` returns a Selenium `RemoteWebDriver` that works in the session of the Appium
 driver. Both share the same session and the same HTTP client, so commands can be mixed freely. As long as the
-result is referenced, the same instance is returned for the same Appium driver. Quitting the Selenium driver
-quits the session.
+driver still has a session, the result is referenced, and its BiDi connection is not closed, the same instance is
+returned for the same Appium driver. Quitting either driver ends the session; a subsequent `asRemoteWebDriver`
+call evicts any remaining cached bridge and throws `IllegalStateException`.
 
 ```java
 var driver = new AndroidDriver(serverUrl, options);
@@ -34,7 +35,7 @@ The commands of Selenium that Appium does not serve, like downloads, are not ava
 
 Create the session with the `webSocketUrl` capability (`options.enableBiDi()`), then pass the Selenium driver
 to a BiDi module. Selenium opens the WebSocket connection when the bridge is created, with the timeouts, proxy,
-credentials and SSL context of the `AppiumClientConfig` of the driver. If the connection cannot be made, the
+credentials, SSL context and HTTP version of the `AppiumClientConfig` of the driver. If the connection cannot be made, the
 BiDi modules fail with a `BiDiException`.
 
 ```java

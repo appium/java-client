@@ -18,6 +18,7 @@ package io.appium.java_client.selenium;
 
 import io.appium.java_client.remote.AppiumCommandExecutor;
 import io.appium.java_client.remote.AppiumRemoteWebDriver;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
@@ -81,10 +82,31 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
      */
     @Override
     public void quit() {
+        Throwable quitFailure = null;
         try {
             super.quit();
+        } catch (RuntimeException | Error e) {
+            quitFailure = e;
+            throw e;
         } finally {
+            closeBiDiAfterQuit(quitFailure);
+        }
+    }
+
+    private void closeBiDiAfterQuit(@Nullable Throwable quitFailure) {
+        // Fields can still be null if super(...) fails and RemoteWebDriver invokes quit() during cleanup
+        if (webSocketClients == null) {
+            return;
+        }
+        try {
             closeBiDi();
+        } catch (RuntimeException | Error closeFailure) {
+            if (quitFailure == null) {
+                throw closeFailure;
+            }
+            if (closeFailure != quitFailure) {
+                quitFailure.addSuppressed(closeFailure);
+            }
         }
     }
 
@@ -106,6 +128,9 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
         }
         if (source.sslContext() != null) {
             config = config.sslContext(source.sslContext());
+        }
+        if (source.version() != null) {
+            config = config.version(source.version());
         }
         return config;
     }
