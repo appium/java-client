@@ -81,17 +81,24 @@ public class BridgedRemoteWebDriver extends RemoteWebDriver implements WrapsDriv
      */
     @Override
     public void quit() {
+        Throwable quitFailure = null;
         try {
             super.quit();
+        } catch (RuntimeException | Error e) {
+            quitFailure = e;
+            throw e;
         } finally {
             // Fields can still be null if super(...) fails and RemoteWebDriver invokes quit() during cleanup
-            try {
-                if (webSocketClients != null) {
+            if (webSocketClients != null) {
+                try {
                     closeBiDi();
-                }
-            } finally {
-                if (delegate != null) {
-                    SeleniumBridge.remove(delegate);
+                } catch (RuntimeException | Error closeFailure) {
+                    if (quitFailure == null) {
+                        throw closeFailure;
+                    }
+                    if (closeFailure != quitFailure) {
+                        quitFailure.addSuppressed(closeFailure);
+                    }
                 }
             }
         }

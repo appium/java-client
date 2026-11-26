@@ -26,7 +26,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.bidi.BiDiException;
 import org.openqa.selenium.bidi.HasBiDi;
@@ -71,7 +70,7 @@ class SeleniumBridgeTest {
     private final List<String> requests = new CopyOnWriteArrayList<>();
     private String webSocketUrl;
     private String extraCapabilities = "";
-    private boolean failQuit;
+    private volatile boolean failQuit;
 
     @BeforeEach
     void startServers() throws IOException {
@@ -201,28 +200,58 @@ class SeleniumBridgeTest {
     }
 
     @Test
-    void failsFastAndClosesCachedBiDiAfterDelegateQuit() throws Exception {
+    void failsFastAndEvictsCachedBridgeAfterDelegateQuit() throws IOException {
         var appiumDriver = newAppiumDriver();
         var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
         assertFalse(seleniumDriver.isBiDiClosed());
         requests.clear();
+        try {
+            appiumDriver.quit();
 
-        appiumDriver.quit();
-
-        assertThrows(SessionNotCreatedException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver));
-        assertEquals(List.of("DELETE /session/s1"), requests);
-        assertNull(appiumDriver.getSessionId());
-        assertTrue(seleniumDriver.isBiDiClosed());
-        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
-        assertEquals(1, biDiServer.connections());
+            assertThrows(IllegalStateException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver));
+            assertThrows(IllegalStateException.class, () -> SeleniumBridge.asRemoteWebDriver(
+                    appiumDriver, HttpClient.Factory.createDefault()));
+            assertEquals(List.of("DELETE /session/s1"), requests);
+            assertNull(appiumDriver.getSessionId());
+            assertFalse(seleniumDriver.isBiDiClosed());
+            assertEquals(1, biDiServer.connections());
+        } finally {
+            seleniumDriver.closeBiDi();
+        }
     }
 
     @Test
-    void evictsCachedBridgeWhenCloseBiDiThrowsOnQuit() throws IOException {
+    void propagatesCloseBiDiFailureWhenQuitSucceeds() throws Exception {
         var appiumDriver = newAppiumDriver();
-        var cached = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver, failingBiDiCloseFactory());
+        requests.clear();
+
+        var error = assertThrows(IllegalStateException.class, seleniumDriver::quit);
+
+        assertEquals("close failed", error.getMessage());
+        assertSessionClosed(appiumDriver, seleniumDriver);
+        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
+    }
+
+    @Test
+    void preservesQuitFailureWhenCloseBiDiThrowsOnQuit() throws Exception {
+        var appiumDriver = newAppiumDriver();
+        failQuit = true;
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver, failingBiDiCloseFactory());
+        requests.clear();
+
+        var error = assertThrows(WebDriverException.class, seleniumDriver::quit);
+
+        assertEquals(1, error.getSuppressed().length);
+        assertInstanceOf(IllegalStateException.class, error.getSuppressed()[0]);
+        assertEquals("close failed", error.getSuppressed()[0].getMessage());
+        assertSessionClosed(appiumDriver, seleniumDriver);
+        assertTrue(biDiServer.awaitClosedConnections(1, 5, TimeUnit.SECONDS));
+    }
+
+    private HttpClient.Factory failingBiDiCloseFactory() {
         var defaultFactory = HttpClient.Factory.createDefault();
-        var failing = SeleniumBridge.asRemoteWebDriver(appiumDriver, clientConfig -> {
+        return clientConfig -> {
             var delegateClient = defaultFactory.createClient(clientConfig);
             return new HttpClient() {
                 @Override
@@ -238,30 +267,20 @@ class SeleniumBridgeTest {
                 @Override
                 public void close() {
                     delegateClient.close();
-                    // Fail only during closeBiDi() after DELETE /session/s1, not during RemoteWebDriver's BiDi::close
+                    // Fail in closeBiDi() after DELETE /session/s1, not during RemoteWebDriver's BiDi::close
                     if (requests.contains("DELETE /session/s1")) {
                         throw new IllegalStateException("close failed");
                     }
                 }
             };
-        });
-        requests.clear();
-        try {
-            assertThrows(IllegalStateException.class, failing::quit);
-
-            assertSessionClosed(appiumDriver, failing);
-            // If cached was still in BRIDGES when asRemoteWebDriver ran above, it would have been closed there
-            assertFalse(cached.isBiDiClosed());
-        } finally {
-            cached.closeBiDi();
-        }
+        };
     }
 
     @Test
     void clearsSessionAndEvictsBridgeWhenQuitFails() throws Exception {
         var appiumDriver = newAppiumDriver();
-        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
         failQuit = true;
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
         requests.clear();
 
         assertThrows(WebDriverException.class, seleniumDriver::quit);
@@ -274,7 +293,7 @@ class SeleniumBridgeTest {
         assertEquals(List.of("DELETE /session/s1"), requests);
         assertNull(seleniumDriver.getSessionId());
         assertNull(appiumDriver.getSessionId());
-        assertThrows(SessionNotCreatedException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver));
+        assertThrows(IllegalStateException.class, () -> SeleniumBridge.asRemoteWebDriver(appiumDriver));
     }
 
     @Test

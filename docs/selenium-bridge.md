@@ -18,7 +18,7 @@ dependencies {
 driver. Both share the same session and the same HTTP client, so commands can be mixed freely. As long as the
 driver still has a session, the result is referenced, and its BiDi connection is not closed, the same instance is
 returned for the same Appium driver. Quitting either driver ends the session; a subsequent `asRemoteWebDriver`
-call closes and evicts any remaining cached bridge and throws `SessionNotCreatedException`.
+call evicts any remaining cached bridge and throws `IllegalStateException`.
 
 ```java
 var driver = new AndroidDriver(serverUrl, options);
