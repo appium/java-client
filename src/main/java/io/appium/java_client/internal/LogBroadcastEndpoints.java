@@ -103,7 +103,7 @@ public final class LogBroadcastEndpoints {
                 remoteWebDriver,
                 driver,
                 clientSupplier,
-                CommandExecutorInternals.getInitialServerUrl(executor),
+                executor.getInitialServerUrl(),
                 host,
                 port,
                 deviceLogType

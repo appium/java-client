@@ -160,4 +160,50 @@ class DirectConnectTest {
         assertTrue(spaceInPath.isValid());
         assertThrowsExactly(MalformedURLException.class, spaceInPath::getUrl);
     }
+
+    @Test
+    void rejectsAuthorityMismatchAndOutOfRangePort() {
+        for (Map<String, String> responseValue : java.util.List.of(
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "evil.com/x",
+                        "appium:directConnectPort", "4443",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "4443/foo",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "user@evil.com",
+                        "appium:directConnectPort", "4443",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "65536",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "+4443",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "-0",
+                        "appium:directConnectPath", "/wd/hub"
+                )
+        )) {
+            DirectConnect directConnect = new DirectConnect(responseValue);
+            assertTrue(directConnect.isValid());
+            assertThrowsExactly(MalformedURLException.class, directConnect::getUrl);
+        }
+    }
 }

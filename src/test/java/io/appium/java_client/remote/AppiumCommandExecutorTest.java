@@ -11,7 +11,6 @@ import io.appium.java_client.http.HttpRequest;
 import io.appium.java_client.http.HttpResponse;
 import io.appium.java_client.http.Message;
 import io.appium.java_client.http.WebSocket;
-import io.appium.java_client.internal.CommandExecutorInternals;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -23,7 +22,6 @@ import org.openqa.selenium.SessionNotCreatedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -496,14 +494,14 @@ class AppiumCommandExecutorTest {
                 factory,
                 AppiumClientConfig.defaultConfig().baseUrl(initialUrl)
         );
-        assertEquals(initialUrl, CommandExecutorInternals.getInitialServerUrl(executor));
+        assertEquals(initialUrl, executor.getInitialServerUrl());
 
         URL firstOverride = new URL("https://203.0.113.1:4443/wd/hub");
         URL secondOverride = new URL("https://203.0.113.2:4443/wd/hub");
         executor.overrideServerUrl(firstOverride);
         executor.overrideServerUrl(secondOverride);
         assertEquals(secondOverride, executor.getAddressOfRemoteServer());
-        assertEquals(initialUrl, CommandExecutorInternals.getInitialServerUrl(executor));
+        assertEquals(initialUrl, executor.getInitialServerUrl());
 
         AppiumCommandExecutor nullBaseExecutor = new AppiumCommandExecutor(
                 MobileCommand.commandRepository,
@@ -511,32 +509,10 @@ class AppiumCommandExecutorTest {
                 factory,
                 AppiumClientConfig.defaultConfig()
         );
-        assertNull(CommandExecutorInternals.getInitialServerUrl(nullBaseExecutor));
+        assertNull(nullBaseExecutor.getInitialServerUrl());
         nullBaseExecutor.overrideServerUrl(firstOverride);
         assertEquals(firstOverride, nullBaseExecutor.getAddressOfRemoteServer());
-        assertNull(CommandExecutorInternals.getInitialServerUrl(nullBaseExecutor));
-
-        URL customUrl = new URL("https://custom.example.com:8443");
-        AppiumCommandExecutor subclassExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                factory,
-                AppiumClientConfig.defaultConfig().baseUrl(initialUrl)
-        ) {
-            @Override
-            public URL getAddressOfRemoteServer() {
-                return customUrl;
-            }
-        };
-        assertEquals(customUrl, CommandExecutorInternals.getInitialServerUrl(subclassExecutor));
-
-        assertThrows(
-                SecurityException.class,
-                () -> CommandExecutorInternals.registerInitialServerUrlResolver(
-                        MethodHandles.lookup(),
-                        AppiumCommandExecutor::getAddressOfRemoteServer
-                )
-        );
+        assertNull(nullBaseExecutor.getInitialServerUrl());
     }
 
     @Test

@@ -22,7 +22,6 @@ import io.appium.java_client.http.HttpClient;
 import io.appium.java_client.http.HttpClient.Factory;
 import io.appium.java_client.http.HttpRequest;
 import io.appium.java_client.http.HttpResponse;
-import io.appium.java_client.internal.CommandExecutorInternals;
 import io.appium.java_client.internal.DirectConnectUrlSafety;
 import io.appium.java_client.internal.webdriver.ProtocolHandshake;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -35,7 +34,6 @@ import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriverException;
 
 import java.io.Closeable;
-import java.lang.invoke.MethodHandles;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -66,42 +64,19 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     private @Nullable CommandCodec commandCodec;
     private @Nullable ResponseCodec responseCodec;
 
-    static {
-        registerInitialServerUrlResolver();
-    }
-
-    /**
-     * Registers the internal initial-URL resolver used by the deprecated logs broadcasting web socket API.
-     *
-     * @deprecated Only used by the deprecated logs broadcasting web socket API and will be removed together with it.
-     */
-    @Deprecated(since = "11.1.0", forRemoval = true)
-    @SuppressWarnings("removal")
-    private static void registerInitialServerUrlResolver() {
-        CommandExecutorInternals.registerInitialServerUrlResolver(
-                MethodHandles.lookup(),
-                AppiumCommandExecutor::resolveInitialServerUrl
-        );
-    }
-
     private static final class ClientState {
         private final AppiumClientConfig config;
         private final HttpClient client;
         private final @Nullable URL remoteServer;
-        @Deprecated(since = "11.1.0", forRemoval = true)
-        private final boolean serverUrlOverridden;
 
-        @SuppressWarnings("removal")
         private ClientState(
                 AppiumClientConfig config,
                 HttpClient client,
-                @Nullable URL remoteServer,
-                boolean serverUrlOverridden
+                @Nullable URL remoteServer
         ) {
             this.config = config;
             this.client = client;
             this.remoteServer = remoteServer;
-            this.serverUrlOverridden = serverUrlOverridden;
         }
     }
 
@@ -129,8 +104,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         this.clientState = new ClientState(
                 effectiveConfig,
                 this.httpClientFactory.createClient(effectiveConfig),
-                initialUrl,
-                false
+                initialUrl
         );
         this.serviceOptional = ofNullable(service);
     }
@@ -250,19 +224,17 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
         return clientState.remoteServer;
     }
 
+    /**
+     * Returns the server URL configured on this executor before any {@code directConnect} or
+     * {@code overrideServerUrl} override took effect.
+     *
+     * @return the initial server URL, or {@code null} if none was configured
+     * @deprecated Only used by the deprecated logs broadcasting web socket API and will be removed together with it.
+     */
     @Nullable
     @Deprecated(since = "11.1.0", forRemoval = true)
-    @SuppressWarnings("removal")
-    private static URL resolveInitialServerUrl(AppiumCommandExecutor executor) {
-        ClientState state = executor.clientState;
-        if (state == null) {
-            return executor.getAddressOfRemoteServer();
-        }
-        if (state.serverUrlOverridden || executor.getClass() == AppiumCommandExecutor.class) {
-            return executor.initialServerUrl;
-        }
-        URL current = executor.getAddressOfRemoteServer();
-        return executor.clientState.serverUrlOverridden ? executor.initialServerUrl : current;
+    public URL getInitialServerUrl() {
+        return initialServerUrl;
     }
 
     /**
@@ -322,7 +294,7 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             AppiumClientConfig updatedConfig = previousState.config.baseUrl(serverUrl);
             URL updatedServerUrl = updatedConfig.baseUrl();
             HttpClient newClient = getHttpClientFactory().createClient(updatedConfig);
-            this.clientState = new ClientState(updatedConfig, newClient, updatedServerUrl, true);
+            this.clientState = new ClientState(updatedConfig, newClient, updatedServerUrl);
         }
         previousState.client.close();
     }

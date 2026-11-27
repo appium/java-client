@@ -22,6 +22,7 @@ import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
@@ -90,14 +91,42 @@ public class DirectConnect {
             );
         }
 
-        String newUrlCandidate = this.protocol + "://" + Strings.formatHost(this.host)
+        String expectedHost = Strings.formatHost(this.host);
+        String newUrlCandidate = this.protocol + "://" + expectedHost
                 + ":" + this.port + normalizePath(this.path);
+        int expectedPort = parsePort(this.port, newUrlCandidate);
         try {
             URL url = new URL(newUrlCandidate);
-            url.toURI();
+            URI uri = url.toURI().parseServerAuthority();
+            if (!expectedHost.equals(url.getHost())
+                    || !expectedHost.equals(uri.getHost())
+                    || url.getPort() != expectedPort
+                    || uri.getPort() != expectedPort
+                    || url.getUserInfo() != null
+                    || uri.getRawUserInfo() != null) {
+                throw createMalformedUrlException(newUrlCandidate);
+            }
             return url;
         } catch (MalformedURLException | URISyntaxException e) {
             throw createMalformedUrlException(newUrlCandidate);
+        }
+    }
+
+    private static int parsePort(String portValue, String candidate) throws MalformedURLException {
+        for (int i = 0; i < portValue.length(); i++) {
+            char c = portValue.charAt(i);
+            if (c < '0' || c > '9') {
+                throw createMalformedUrlException(candidate);
+            }
+        }
+        try {
+            int parsed = Integer.parseInt(portValue);
+            if (parsed < 0 || parsed > 65535) {
+                throw createMalformedUrlException(candidate);
+            }
+            return parsed;
+        } catch (NumberFormatException e) {
+            throw createMalformedUrlException(candidate);
         }
     }
 
