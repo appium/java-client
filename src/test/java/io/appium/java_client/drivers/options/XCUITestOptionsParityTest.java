@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class XCUITestOptionsParityTest {
 
@@ -199,5 +200,29 @@ class XCUITestOptionsParityTest {
         assertEquals(Optional.of(8200), fromCaps.getWdaRemotePort());
         assertEquals(Optional.of(false), fromCaps.doesPrebuildWda());
         assertEquals(Optional.of(Duration.ofSeconds(15)), fromCaps.getWebviewAtomWaitTimeout());
+    }
+
+    @Test
+    void ignoredWebviewBundleIdsParsesJsonArrayStringsAndRejectsInvalidValues() {
+        var jsonOptions = new XCUITestOptions(Map.of(
+                "appium:ignoredWebviewBundleIds",
+                "[\"com.apple.amsengagementd\", \"com.apple.WebKit\"]"
+        ));
+        assertEquals(
+                Optional.of(List.of("com.apple.amsengagementd", "com.apple.WebKit")),
+                jsonOptions.getIgnoredWebviewBundleIds()
+        );
+
+        var emptyJsonOptions = new XCUITestOptions(Map.of("ignoredWebviewBundleIds", "[]"));
+        assertEquals(Optional.of(List.of()), emptyJsonOptions.getIgnoredWebviewBundleIds());
+
+        var objectJsonOptions = new XCUITestOptions(Map.of("appium:ignoredWebviewBundleIds", "{}"));
+        assertThrows(IllegalArgumentException.class, objectJsonOptions::getIgnoredWebviewBundleIds);
+
+        var numericArrayOptions = new XCUITestOptions(Map.of("appium:ignoredWebviewBundleIds", "[123]"));
+        assertThrows(IllegalArgumentException.class, numericArrayOptions::getIgnoredWebviewBundleIds);
+
+        var malformedJsonOptions = new XCUITestOptions(Map.of("appium:ignoredWebviewBundleIds", "not-json"));
+        assertThrows(IllegalArgumentException.class, malformedJsonOptions::getIgnoredWebviewBundleIds);
     }
 }
