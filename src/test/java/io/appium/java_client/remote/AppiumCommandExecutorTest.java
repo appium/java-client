@@ -36,7 +36,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -225,7 +224,7 @@ class AppiumCommandExecutorTest {
 
     @Test
     @SuppressWarnings("removal")
-    void logBroadcastsUseConnectedServerForDefaultLogcatAndInitialWsSchemeForOverloads()
+    void logBroadcastsFollowConnectedServerSchemeAcrossOverloads()
             throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
@@ -250,8 +249,8 @@ class AppiumCommandExecutorTest {
             assertEquals(
                     List.of(
                             "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
-                            "ws://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
-                            "ws://hub.example.com:4723/ws/session/s1/appium/device/logcat"
+                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
+                            "wss://hub.example.com:4723/ws/session/s1/appium/device/logcat"
                     ),
                     androidClients.get(1).socketUris
             );
@@ -282,10 +281,10 @@ class AppiumCommandExecutorTest {
 
             assertEquals(
                     List.of(
-                            "ws://localhost:4723/ws/session/s1/appium/device/syslog",
-                            "ws://log.internal:4723/ws/session/s1/appium/device/syslog",
-                            "ws://hub.example.com:4723/ws/session/s1/appium/device/syslog",
-                            "ws://[2001:db8::1]:4443/ws/session/s1/appium/device/syslog"
+                            "wss://localhost:4723/ws/session/s1/appium/device/syslog",
+                            "wss://log.internal:4723/ws/session/s1/appium/device/syslog",
+                            "wss://hub.example.com:4723/ws/session/s1/appium/device/syslog",
+                            "wss://[2001:db8::1]:4443/ws/session/s1/appium/device/syslog"
                     ),
                     iosClients.get(1).socketUris
             );
@@ -296,7 +295,7 @@ class AppiumCommandExecutorTest {
 
     @Test
     @SuppressWarnings("removal")
-    void logBroadcastsUseConnectedServerAndInitialWssSchemeWhenInitialServerIsHttps() throws MalformedURLException {
+    void logBroadcastsSwitchToWsWhenOverriddenToPlainHttp() throws MalformedURLException {
         String androidCaps = "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\","
                 + "\"appium:directConnectProtocol\":\"https\","
                 + "\"appium:directConnectHost\":\"203.0.113.1\","
@@ -315,12 +314,25 @@ class AppiumCommandExecutorTest {
             androidDriver.startLogcatBroadcast();
             androidDriver.startLogcatBroadcast("10.0.0.5");
             androidDriver.startLogcatBroadcast("10.0.0.5", 443);
-
             assertEquals(
                     List.of(
                             "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
                             "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
                             "wss://10.0.0.5:443/ws/session/s1/appium/device/logcat"
+                    ),
+                    androidClients.get(1).socketUris
+            );
+
+            androidExecutor.overrideServerUrl(new URL("http://203.0.113.2:4723/wd/hub"));
+            androidDriver.startLogcatBroadcast();
+            androidDriver.startLogcatBroadcast("10.0.0.5", 4723);
+            assertEquals(
+                    List.of(
+                            "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
+                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat",
+                            "wss://10.0.0.5:443/ws/session/s1/appium/device/logcat",
+                            "ws://203.0.113.2:4723/ws/session/s1/appium/device/logcat",
+                            "ws://10.0.0.5:4723/ws/session/s1/appium/device/logcat"
                     ),
                     androidClients.get(1).socketUris
             );
@@ -377,7 +389,7 @@ class AppiumCommandExecutorTest {
             assertEquals(
                     List.of(
                             "wss://203.0.113.1:4443/ws/session/s1/appium/device/logcat",
-                            "ws://10.0.0.5:4723/ws/session/s1/appium/device/logcat"
+                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/logcat"
                     ),
                     clients.get(1).socketUris
             );
@@ -421,8 +433,8 @@ class AppiumCommandExecutorTest {
 
             assertEquals(
                     List.of(
-                            "ws://localhost:4723/ws/session/s1/appium/device/syslog",
-                            "ws://10.0.0.5:4723/ws/session/s1/appium/device/syslog"
+                            "wss://localhost:4723/ws/session/s1/appium/device/syslog",
+                            "wss://10.0.0.5:4723/ws/session/s1/appium/device/syslog"
                     ),
                     iosClients.get(1).socketUris
             );
@@ -433,7 +445,7 @@ class AppiumCommandExecutorTest {
 
     @Test
     @SuppressWarnings("removal")
-    void startLogcatBroadcastThrowsWhenRemoteServerAddressIsNull() throws MalformedURLException {
+    void logBroadcastDefaultsToWsAndThrowsOnZeroArgWhenRemoteServerAddressIsNull() throws MalformedURLException {
         RecordingHttpClient client = new RecordingHttpClient(
                 AppiumClientConfig.defaultConfig(),
                 "{\"platformName\":\"Android\",\"appium:automationName\":\"UiAutomator2\"}"
@@ -461,6 +473,12 @@ class AppiumCommandExecutorTest {
             );
             assertEquals("The Appium server address is not set", exception.getMessage());
             assertTrue(client.socketUris.isEmpty());
+
+            driver.startLogcatBroadcast("10.0.0.5", 4723);
+            assertEquals(
+                    List.of("ws://10.0.0.5:4723/ws/session/s1/appium/device/logcat"),
+                    client.socketUris
+            );
         } finally {
             driver.quit();
         }
@@ -481,38 +499,6 @@ class AppiumCommandExecutorTest {
             config = config.baseUrl(initialBaseUrl);
         }
         return new AppiumCommandExecutor(MobileCommand.commandRepository, null, factory, config);
-    }
-
-    @Test
-    @SuppressWarnings("removal")
-    void initialServerUrlPreservesOriginalValueAcrossOverridesAndNullBaseUri() throws MalformedURLException {
-        HttpClient.Factory factory = cfg -> new RecordingHttpClient(cfg, "{\"platformName\":\"Android\"}");
-        URL initialUrl = new URL("http://hub.example.com:4723");
-        AppiumCommandExecutor executor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                factory,
-                AppiumClientConfig.defaultConfig().baseUrl(initialUrl)
-        );
-        assertEquals(initialUrl, executor.getInitialServerUrl());
-
-        URL firstOverride = new URL("https://203.0.113.1:4443/wd/hub");
-        URL secondOverride = new URL("https://203.0.113.2:4443/wd/hub");
-        executor.overrideServerUrl(firstOverride);
-        executor.overrideServerUrl(secondOverride);
-        assertEquals(secondOverride, executor.getAddressOfRemoteServer());
-        assertEquals(initialUrl, executor.getInitialServerUrl());
-
-        AppiumCommandExecutor nullBaseExecutor = new AppiumCommandExecutor(
-                MobileCommand.commandRepository,
-                null,
-                factory,
-                AppiumClientConfig.defaultConfig()
-        );
-        assertNull(nullBaseExecutor.getInitialServerUrl());
-        nullBaseExecutor.overrideServerUrl(firstOverride);
-        assertEquals(firstOverride, nullBaseExecutor.getAddressOfRemoteServer());
-        assertNull(nullBaseExecutor.getInitialServerUrl());
     }
 
     @Test

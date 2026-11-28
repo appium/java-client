@@ -22,8 +22,6 @@ import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
@@ -81,6 +79,22 @@ public class DirectConnect {
      * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
+        requireNonBlankFields();
+
+        String expectedHost = Strings.formatHost(this.host);
+        String newUrlCandidate = this.protocol + "://" + expectedHost
+                + ":" + this.port + normalizePath(this.path);
+        int expectedPort = parsePort(this.port, newUrlCandidate);
+        try {
+            URL url = new URL(newUrlCandidate);
+            requireAuthorityMatches(url, expectedHost, expectedPort, newUrlCandidate);
+            return url;
+        } catch (MalformedURLException e) {
+            throw createMalformedUrlException(newUrlCandidate);
+        }
+    }
+
+    private void requireNonBlankFields() throws MalformedURLException {
         if (!isValid()
                 || this.protocol.isBlank()
                 || this.host.isBlank()
@@ -90,34 +104,24 @@ public class DirectConnect {
                     this.protocol + "://" + this.host + ":" + this.port + this.path
             );
         }
+    }
 
-        String expectedHost = Strings.formatHost(this.host);
-        String newUrlCandidate = this.protocol + "://" + expectedHost
-                + ":" + this.port + normalizePath(this.path);
-        int expectedPort = parsePort(this.port, newUrlCandidate);
-        try {
-            URL url = new URL(newUrlCandidate);
-            URI uri = url.toURI().parseServerAuthority();
-            if (!expectedHost.equals(url.getHost())
-                    || !expectedHost.equals(uri.getHost())
-                    || url.getPort() != expectedPort
-                    || uri.getPort() != expectedPort
-                    || url.getUserInfo() != null
-                    || uri.getRawUserInfo() != null) {
-                throw createMalformedUrlException(newUrlCandidate);
-            }
-            return url;
-        } catch (MalformedURLException | URISyntaxException e) {
-            throw createMalformedUrlException(newUrlCandidate);
+    private static void requireAuthorityMatches(
+            URL url,
+            String expectedHost,
+            int expectedPort,
+            String candidate
+    ) throws MalformedURLException {
+        if (!expectedHost.equals(url.getHost())
+                || url.getPort() != expectedPort
+                || url.getUserInfo() != null) {
+            throw createMalformedUrlException(candidate);
         }
     }
 
     private static int parsePort(String portValue, String candidate) throws MalformedURLException {
-        for (int i = 0; i < portValue.length(); i++) {
-            char c = portValue.charAt(i);
-            if (c < '0' || c > '9') {
-                throw createMalformedUrlException(candidate);
-            }
+        if (!portValue.chars().allMatch(c -> c >= '0' && c <= '9')) {
+            throw createMalformedUrlException(candidate);
         }
         try {
             int parsed = Integer.parseInt(portValue);

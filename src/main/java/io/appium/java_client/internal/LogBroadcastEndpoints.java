@@ -80,8 +80,8 @@ public final class LogBroadcastEndpoints {
 
     /**
      * Starts server-side log streaming and connects the WebSocket client to the broadcast endpoint.
-     * The WebSocket scheme ({@code ws} or {@code wss}) is derived from the executor's initial server URL
-     * before any {@code directConnect} or server URL override so existing callers keep their original scheme.
+     * The WebSocket scheme ({@code ws} or {@code wss}) is derived from the Appium server this driver
+     * is currently connected to, defaulting to {@code ws} if unset.
      *
      * @param driver the driver executing {@code mobile: startLogsBroadcast}
      * @param clientSupplier supplier for the target WebSocket client, invoked after starting server streaming
@@ -103,7 +103,7 @@ public final class LogBroadcastEndpoints {
                 remoteWebDriver,
                 driver,
                 clientSupplier,
-                executor.getInitialServerUrl(),
+                executor.getAddressOfRemoteServer(),
                 host,
                 port,
                 deviceLogType
@@ -142,7 +142,7 @@ public final class LogBroadcastEndpoints {
      * @return the WebSocket endpoint URI
      */
     @Deprecated(since = "11.1.0", forRemoval = true)
-    public static URI buildBroadcastUri(
+    static URI buildBroadcastUri(
             @Nullable URL serverUrl,
             String host,
             int port,

@@ -58,7 +58,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
     /**
      * Start syslog messages broadcast via web socket.
      * This method assumes that Appium server is assigned to the default port (4723).
-     * The scheme follows the initial Appium server URL configured on the executor,
+     * The scheme follows the Appium server this driver is connected to,
      * defaulting to {@code ws} if unset.
      *
      * @param host the name of the host where Appium server is running
@@ -70,7 +70,7 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
 
     /**
      * Start syslog messages broadcast via web socket.
-     * The scheme follows the initial Appium server URL configured on the executor,
+     * The scheme follows the Appium server this driver is connected to,
      * defaulting to {@code ws} if unset.
      *
      * @param host the name of the host where Appium server is running

@@ -58,8 +58,6 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     @Getter
     private final Factory httpClientFactory;
     private final Object clientStateLock = new Object();
-    @Deprecated(since = "11.1.0", forRemoval = true)
-    private final @Nullable URL initialServerUrl;
     private volatile ClientState clientState;
     private @Nullable CommandCodec commandCodec;
     private @Nullable ResponseCodec responseCodec;
@@ -99,7 +97,6 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
             effectiveConfig = effectiveConfig.baseUrl(service.getUrl());
         }
         URL initialUrl = effectiveConfig.baseUrl();
-        this.initialServerUrl = initialUrl;
         this.httpClientFactory = ofNullable(httpClientFactory).orElseGet(Factory::createDefault);
         this.clientState = new ClientState(
                 effectiveConfig,
@@ -222,19 +219,6 @@ public class AppiumCommandExecutor implements CommandExecutor, Closeable {
     @Nullable
     public URL getAddressOfRemoteServer() {
         return clientState.remoteServer;
-    }
-
-    /**
-     * Returns the server URL configured on this executor before any {@code directConnect} or
-     * {@code overrideServerUrl} override took effect.
-     *
-     * @return the initial server URL, or {@code null} if none was configured
-     * @deprecated Only used by the deprecated logs broadcasting web socket API and will be removed together with it.
-     */
-    @Nullable
-    @Deprecated(since = "11.1.0", forRemoval = true)
-    public URL getInitialServerUrl() {
-        return initialServerUrl;
     }
 
     /**

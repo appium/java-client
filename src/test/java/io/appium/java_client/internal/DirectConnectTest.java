@@ -105,6 +105,27 @@ class DirectConnectTest {
     }
 
     @Test
+    void acceptsUnderscoreHostnameAndPathWithSpace() throws MalformedURLException {
+        DirectConnect underscoreHost = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "my_host",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(underscoreHost.isValid());
+        assertEquals("https://my_host:4443/wd/hub", underscoreHost.getUrl().toString());
+
+        DirectConnect pathWithSpace = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "example.com",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/my hub"
+        ));
+        assertTrue(pathWithSpace.isValid());
+        assertEquals("https://example.com:4443/wd/my hub", pathWithSpace.getUrl().toString());
+    }
+
+    @Test
     void rejectsSingleColonHostAndBlankFields() {
         DirectConnect embeddedPortHost = new DirectConnect(Map.of(
                 "appium:directConnectProtocol", "https",
@@ -150,15 +171,6 @@ class DirectConnectTest {
         ));
         assertTrue(whitespacePath.isValid());
         assertThrowsExactly(MalformedURLException.class, whitespacePath::getUrl);
-
-        DirectConnect spaceInPath = new DirectConnect(Map.of(
-                "appium:directConnectProtocol", "https",
-                "appium:directConnectHost", "203.0.113.1",
-                "appium:directConnectPort", "4443",
-                "appium:directConnectPath", " wd/hub"
-        ));
-        assertTrue(spaceInPath.isValid());
-        assertThrowsExactly(MalformedURLException.class, spaceInPath::getUrl);
     }
 
     @Test
