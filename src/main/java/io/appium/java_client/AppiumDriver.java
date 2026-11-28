@@ -31,7 +31,7 @@ import io.appium.java_client.remote.Response;
 import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import lombok.Getter;
+import org.jspecify.annotations.Nullable;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.OutputType;
@@ -64,8 +64,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
 
     private static final ErrorHandler ERROR_HANDLER = new ErrorHandler(new ErrorCodesMobile());
     // frequently used command parameters
-    @Getter
-    private final URL remoteAddress;
     private final ExecuteMethod executeMethod;
 
     /**
@@ -80,7 +78,6 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         super(executor, capabilities);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
     }
 
     /**
@@ -216,9 +213,18 @@ public class AppiumDriver extends AppiumRemoteWebDriver implements
         setCommandExecutor(executor);
         this.executeMethod = new AppiumExecutionMethod(this);
         super.setErrorHandler(ERROR_HANDLER);
-        this.remoteAddress = executor.getAddressOfRemoteServer();
 
         setSessionId(sessionAddress.getId());
+    }
+
+    /**
+     * Gets the remote server address to which commands are sent.
+     *
+     * @return the remote server URL, or {@code null} if not configured
+     */
+    @Nullable
+    public URL getRemoteAddress() {
+        return ((AppiumCommandExecutor) getCommandExecutor()).getAddressOfRemoteServer();
     }
 
     @Override

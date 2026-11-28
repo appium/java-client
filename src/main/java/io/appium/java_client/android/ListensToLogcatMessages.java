@@ -18,17 +18,12 @@ package io.appium.java_client.android;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.remote.AppiumCommandExecutor;
-import io.appium.java_client.remote.AppiumRemoteWebDriver;
+import io.appium.java_client.internal.LogBroadcastEndpoints;
 import io.appium.java_client.ws.StringWebSocketClient;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
-import static java.util.Objects.requireNonNull;
 
 /**
  * Provides listening to logcat messages broadcast via web socket.
@@ -60,14 +55,14 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      */
     @Deprecated(since = "11.1.0", forRemoval = true)
     default void startLogcatBroadcast() {
-        URL serverUrl = getRemoteServerUrl();
-        startLogcatBroadcast(serverUrl.getHost(), serverUrl.getPort());
+        LogBroadcastEndpoints.startBroadcast(this, this::getLogcatClient, "logcat");
     }
 
     /**
      * Start logcat messages broadcast via web socket.
      * This method assumes that Appium server is assigned to the default port (4723).
-     * The scheme still follows the server this driver is connected to.
+     * The scheme follows the Appium server this driver is connected to,
+     * defaulting to {@code ws} if unset.
      *
      * @param host the name of the host where Appium server is running
      */
@@ -78,7 +73,8 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
 
     /**
      * Start logcat messages broadcast via web socket.
-     * The scheme follows the server this driver is connected to.
+     * The scheme follows the Appium server this driver is connected to,
+     * defaulting to {@code ws} if unset.
      * The socket path is the server-root logcat route; an HTTP base path is not added.
      *
      * @param host the name of the host where Appium server is running
@@ -87,48 +83,7 @@ public interface ListensToLogcatMessages extends ExecutesMethod {
      */
     @Deprecated(since = "11.1.0", forRemoval = true)
     default void startLogcatBroadcast(String host, int port) {
-        var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URI endpoint = buildLogcatEndpoint(getRemoteServerUrl(), host, port,
-                String.valueOf(remoteWebDriver.getSessionId()));
-        CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
-        getLogcatClient().connect(endpoint);
-    }
-
-    /**
-     * Returns the Appium server URL commands are sent to.
-     *
-     * @return the remote server URL
-     */
-    private URL getRemoteServerUrl() {
-        var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
-        if (serverUrl == null) {
-            throw new IllegalArgumentException("The Appium server address is not set");
-        }
-        return serverUrl;
-    }
-
-    /**
-     * Builds the logcat web socket URI.
-     * The socket is registered at the server root, so {@code serverUrl}'s HTTP base path is not included.
-     *
-     * @param serverUrl the Appium server the driver is connected to. Only its scheme is used.
-     * @param host the socket host
-     * @param port the socket port, or a negative value to omit the port
-     * @param sessionId the current session id
-     * @return the absolute web socket URI
-     */
-    private static URI buildLogcatEndpoint(URL serverUrl, String host, int port, String sessionId) {
-        try {
-            return new URI(getWebsocketScheme(serverUrl.getProtocol()), null, requireNonNull(host, "Host"), port,
-                    "/ws/session/" + sessionId + "/appium/device/logcat", null, null);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("Cannot build the logcat web socket endpoint", e);
-        }
-    }
-
-    private static String getWebsocketScheme(String protocol) {
-        return "https".equalsIgnoreCase(protocol) || "wss".equalsIgnoreCase(protocol) ? "wss" : "ws";
+        LogBroadcastEndpoints.startBroadcast(this, this::getLogcatClient, host, port, "logcat");
     }
 
     /**

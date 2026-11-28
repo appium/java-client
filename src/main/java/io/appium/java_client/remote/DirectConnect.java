@@ -16,6 +16,7 @@
 
 package io.appium.java_client.remote;
 
+import io.appium.java_client.internal.Strings;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jspecify.annotations.Nullable;
@@ -78,15 +79,72 @@ public class DirectConnect {
      * @throws MalformedURLException if the built url was invalid
      */
     public URL getUrl() throws MalformedURLException {
-        String newUrlCandidate = String.format("%s://%s:%s%s", this.protocol, this.host, this.port, this.path);
+        requireNonBlankFields();
 
+        String expectedHost = Strings.formatHost(this.host);
+        String newUrlCandidate = this.protocol + "://" + expectedHost
+                + ":" + this.port + normalizePath(this.path);
+        int expectedPort = parsePort(this.port, newUrlCandidate);
         try {
-            return new URL(newUrlCandidate);
+            URL url = new URL(newUrlCandidate);
+            requireAuthorityMatches(url, expectedHost, expectedPort, newUrlCandidate);
+            return url;
         } catch (MalformedURLException e) {
-            throw new MalformedURLException(
-                    String.format("The remote server returned an invalid value to build the direct connect URL: %s",
-                            newUrlCandidate)
+            throw createMalformedUrlException(newUrlCandidate);
+        }
+    }
+
+    private void requireNonBlankFields() throws MalformedURLException {
+        if (!isValid()
+                || this.protocol.isBlank()
+                || this.host.isBlank()
+                || this.port.isBlank()
+                || !this.path.isEmpty() && this.path.isBlank()) {
+            throw createMalformedUrlException(
+                    this.protocol + "://" + this.host + ":" + this.port + this.path
             );
         }
+    }
+
+    private static void requireAuthorityMatches(
+            URL url,
+            String expectedHost,
+            int expectedPort,
+            String candidate
+    ) throws MalformedURLException {
+        if (!expectedHost.equals(url.getHost())
+                || url.getPort() != expectedPort
+                || url.getUserInfo() != null) {
+            throw createMalformedUrlException(candidate);
+        }
+    }
+
+    private static int parsePort(String portValue, String candidate) throws MalformedURLException {
+        if (!portValue.chars().allMatch(c -> c >= '0' && c <= '9')) {
+            throw createMalformedUrlException(candidate);
+        }
+        try {
+            int parsed = Integer.parseInt(portValue);
+            if (parsed < 0 || parsed > 65535) {
+                throw createMalformedUrlException(candidate);
+            }
+            return parsed;
+        } catch (NumberFormatException e) {
+            throw createMalformedUrlException(candidate);
+        }
+    }
+
+    private static String normalizePath(String path) {
+        if (path.isEmpty() || path.startsWith("/")) {
+            return path;
+        }
+        return "/" + path;
+    }
+
+    private static MalformedURLException createMalformedUrlException(String candidate) {
+        return new MalformedURLException(
+                String.format("The remote server returned an invalid value to build the direct connect URL: %s",
+                        candidate)
+        );
     }
 }

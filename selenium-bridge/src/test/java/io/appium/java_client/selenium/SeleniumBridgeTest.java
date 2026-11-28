@@ -21,6 +21,7 @@ import com.sun.net.httpserver.HttpServer;
 import io.appium.java_client.AppiumClientConfig;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.remote.AppiumCommandExecutor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -413,5 +414,26 @@ class SeleniumBridgeTest {
         var seleniumDriver = SeleniumBridge.asRemoteWebDriver(newAppiumDriver());
 
         assertThrows(BiDiException.class, seleniumDriver::getHandle);
+    }
+
+    @Test
+    void propagatesDirectConnectServerUrlToSeleniumClientConfig() throws IOException {
+        extraCapabilities = "\"appium:directConnectProtocol\":\"https\","
+                + "\"appium:directConnectHost\":\"203.0.113.1\","
+                + "\"appium:directConnectPort\":4443,"
+                + "\"appium:directConnectPath\":\"/wd/hub\",";
+        var clientConfig = AppiumClientConfig.defaultConfig()
+                .baseUri(URI.create("http://127.0.0.1:" + server.getAddress().getPort()))
+                .directConnect(true);
+        var appiumDriver = new AndroidDriver(clientConfig,
+                new UiAutomator2Options().setDeviceName("Android Emulator"));
+        var seleniumDriver = SeleniumBridge.asRemoteWebDriver(appiumDriver);
+        try {
+            assertEquals(URI.create("https://203.0.113.1:4443/wd/hub"),
+                    seleniumDriver.getClientConfig().baseUri());
+        } finally {
+            seleniumDriver.closeBiDi();
+            ((AppiumCommandExecutor) appiumDriver.getCommandExecutor()).close();
+        }
     }
 }

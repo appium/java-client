@@ -18,13 +18,9 @@ package io.appium.java_client.ios;
 
 import io.appium.java_client.CommandExecutionHelper;
 import io.appium.java_client.ExecutesMethod;
-import io.appium.java_client.remote.AppiumCommandExecutor;
-import io.appium.java_client.remote.AppiumRemoteWebDriver;
-import io.appium.java_client.remote.SessionId;
+import io.appium.java_client.internal.LogBroadcastEndpoints;
 import io.appium.java_client.ws.StringWebSocketClient;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.function.Consumer;
 
 import static io.appium.java_client.service.local.AppiumServiceBuilder.DEFAULT_APPIUM_PORT;
@@ -62,6 +58,8 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
     /**
      * Start syslog messages broadcast via web socket.
      * This method assumes that Appium server is assigned to the default port (4723).
+     * The scheme follows the Appium server this driver is connected to,
+     * defaulting to {@code ws} if unset.
      *
      * @param host the name of the host where Appium server is running
      */
@@ -72,19 +70,16 @@ public interface ListensToSyslogMessages extends ExecutesMethod {
 
     /**
      * Start syslog messages broadcast via web socket.
+     * The scheme follows the Appium server this driver is connected to,
+     * defaulting to {@code ws} if unset.
      *
      * @param host the name of the host where Appium server is running
-     * @param port the port of the host where Appium server is running
+     * @param port the port of the host where Appium server is running.
+     *             A negative port means the scheme default and is omitted from the URI.
      */
     @Deprecated(since = "11.1.0", forRemoval = true)
     default void startSyslogBroadcast(String host, int port) {
-        var remoteWebDriver = (AppiumRemoteWebDriver) this;
-        URL serverUrl = ((AppiumCommandExecutor) remoteWebDriver.getCommandExecutor()).getAddressOfRemoteServer();
-        var scheme = "https".equals(serverUrl.getProtocol()) ? "wss" : "ws";
-        CommandExecutionHelper.executeScript(this, "mobile: startLogsBroadcast");
-        SessionId sessionId = remoteWebDriver.getSessionId();
-        var endpoint = String.format("%s://%s:%s/ws/session/%s/appium/device/syslog", scheme, host, port, sessionId);
-        getSyslogClient().connect(URI.create(endpoint));
+        LogBroadcastEndpoints.startBroadcast(this, this::getSyslogClient, host, port, "syslog");
     }
 
     /**

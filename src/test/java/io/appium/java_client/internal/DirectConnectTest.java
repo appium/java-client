@@ -55,5 +55,167 @@ class DirectConnectTest {
         Map<String, String> responseValue = new HashMap<>();
         DirectConnect directConnect = new DirectConnect(responseValue);
         assertFalse(directConnect.isValid());
+        assertThrowsExactly(MalformedURLException.class, directConnect::getUrl);
+    }
+
+    @Test
+    void formatsBareIpv6HostAndPreservesBracketedIpv6Host() throws MalformedURLException {
+        Map<String, String> bareIpv6 = Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "2001:db8::1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        );
+        DirectConnect bare = new DirectConnect(bareIpv6);
+        assertTrue(bare.isValid());
+        assertEquals("https://[2001:db8::1]:4443/wd/hub", bare.getUrl().toString());
+
+        Map<String, String> bracketedIpv6 = Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "[2001:db8::1]",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        );
+        DirectConnect bracketed = new DirectConnect(bracketedIpv6);
+        assertTrue(bracketed.isValid());
+        assertEquals("https://[2001:db8::1]:4443/wd/hub", bracketed.getUrl().toString());
+        assertEquals("[2001:db8::1]", Strings.formatHost("2001:db8::1"));
+        assertEquals("[2001:db8::1]", Strings.formatHost("[2001:db8::1]"));
+    }
+
+    @Test
+    void normalizesEmptyAndRelativeDirectConnectPath() throws MalformedURLException {
+        DirectConnect emptyPath = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", ""
+        ));
+        assertTrue(emptyPath.isValid());
+        assertEquals("https://203.0.113.1:4443", emptyPath.getUrl().toString());
+
+        DirectConnect relativePath = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "wd/hub"
+        ));
+        assertTrue(relativePath.isValid());
+        assertEquals("https://203.0.113.1:4443/wd/hub", relativePath.getUrl().toString());
+    }
+
+    @Test
+    void acceptsUnderscoreHostnameAndPathWithSpace() throws MalformedURLException {
+        DirectConnect underscoreHost = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "my_host",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(underscoreHost.isValid());
+        assertEquals("https://my_host:4443/wd/hub", underscoreHost.getUrl().toString());
+
+        DirectConnect pathWithSpace = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "example.com",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/my hub"
+        ));
+        assertTrue(pathWithSpace.isValid());
+        assertEquals("https://example.com:4443/wd/my hub", pathWithSpace.getUrl().toString());
+    }
+
+    @Test
+    void rejectsSingleColonHostAndBlankFields() {
+        DirectConnect embeddedPortHost = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "evil.example.com:8443",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(embeddedPortHost.isValid());
+        assertThrowsExactly(MalformedURLException.class, embeddedPortHost::getUrl);
+
+        DirectConnect blankHost = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "   ",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", ""
+        ));
+        assertTrue(blankHost.isValid());
+        assertThrowsExactly(MalformedURLException.class, blankHost::getUrl);
+
+        DirectConnect blankPort = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "x",
+                "appium:directConnectPort", "",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(blankPort.isValid());
+        assertThrowsExactly(MalformedURLException.class, blankPort::getUrl);
+
+        DirectConnect blankProtocol = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "   ",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "/wd/hub"
+        ));
+        assertTrue(blankProtocol.isValid());
+        assertThrowsExactly(MalformedURLException.class, blankProtocol::getUrl);
+
+        DirectConnect whitespacePath = new DirectConnect(Map.of(
+                "appium:directConnectProtocol", "https",
+                "appium:directConnectHost", "203.0.113.1",
+                "appium:directConnectPort", "4443",
+                "appium:directConnectPath", "   "
+        ));
+        assertTrue(whitespacePath.isValid());
+        assertThrowsExactly(MalformedURLException.class, whitespacePath::getUrl);
+    }
+
+    @Test
+    void rejectsAuthorityMismatchAndOutOfRangePort() {
+        for (Map<String, String> responseValue : java.util.List.of(
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "evil.com/x",
+                        "appium:directConnectPort", "4443",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "4443/foo",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "user@evil.com",
+                        "appium:directConnectPort", "4443",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "65536",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "+4443",
+                        "appium:directConnectPath", "/wd/hub"
+                ),
+                Map.of(
+                        "appium:directConnectProtocol", "https",
+                        "appium:directConnectHost", "example.com",
+                        "appium:directConnectPort", "-0",
+                        "appium:directConnectPath", "/wd/hub"
+                )
+        )) {
+            DirectConnect directConnect = new DirectConnect(responseValue);
+            assertTrue(directConnect.isValid());
+            assertThrowsExactly(MalformedURLException.class, directConnect::getUrl);
+        }
     }
 }
